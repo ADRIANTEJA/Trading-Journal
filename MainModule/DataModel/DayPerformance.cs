@@ -1,10 +1,9 @@
-﻿
-namespace MainModule.DataModel;
+﻿namespace MainModule.DataModel;
 
-internal class DayPerformance
+public class DayPerformance
 {
     /// <summary>
-    /// the DayPerformance primary key and foreign key associated to an account
+    /// the DayPerformance primary and foreign key associated to an account
     /// </summary>
     public int AccountId { get; set; }
     /// <summary>

@@ -6,7 +6,28 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <StartupObject>UI.App</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DataBase.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DataBase.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Resources\Assets\" />
+    <Folder Include="Common\Resources\Dictionaries\" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MainModule\MainModule.csproj" />

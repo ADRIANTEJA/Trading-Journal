@@ -1,14 +1,10 @@
 ﻿
 namespace MainModule.DataModel;
 
-internal class Trade
+public class Trade
 {
     /// <summary>
-    /// the Trade primary key
-    /// </summary>
-    public int Id { get; set; }
-    /// <summary>
-    /// the trade foreign key associated to an account
+    /// the Trade primary and foreign key associated to an account
     /// </summary>
     public int AccountId { get; set; }
     /// <summary>
@@ -22,7 +18,7 @@ internal class Trade
     /// <summary>
     /// represents the date and hour the position(trade) was closed
     /// </summary>
-    public DateTime CloseDate { get; set; }
+    public DateTime? CloseDate { get; set; }
     /// <summary>
     /// represents on what side of the market the position(trade) was opened; long or short
     /// </summary>
@@ -42,7 +38,7 @@ internal class Trade
     /// <summary>
     /// represents the price the traded symbol had when the position(trade) was closed
     /// </summary>
-    public double ClosePrice { get; set; }
+    public double? ClosePrice { get; set; }
     /// <summary>
     /// represents the position(trade) initial cost per volume traded
     /// </summary>
@@ -66,23 +62,23 @@ internal class Trade
     /// <summary>
     /// represents the maximun profit that can be taken in the position(trade)
     /// </summary>
-    public double TakeProfit { get; set;}
+    public double? TakeProfit { get; set;}
     /// <summary>
     /// represents the maximun loss allowed in the position(trade)
     /// </summary>
-    public double StopLoss { get; set; }
+    public double? StopLoss { get; set; }
     /// <summary>
     /// represents the return on investment or the profit of the position(trade)
     /// </summary>
-    public double ROI { get; set; }
+    public double? ROI { get; set; }
     /// <summary>
     /// represents the description or naming of any mistakes the users think to have
     /// committed in the position(trade)
     /// </summary>
-    public string Mistakes { get; set; }
+    public string? Mistakes { get; set; }
     /// <summary>
     /// represents any note or description the user wants to add regarding its behavior
     /// while operating
     /// </summary>
-    public string MyProperty { get; set; }
+    public string? Notes { get; set; }
 }

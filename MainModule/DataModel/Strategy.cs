@@ -1,7 +1,7 @@
 ﻿
 namespace MainModule.DataModel;
 
-internal class Strategy
+public class Strategy
 {
     /// <summary>
     /// the Strategy primary key
