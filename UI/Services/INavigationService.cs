@@ -8,5 +8,7 @@ public interface INavigationService
 {
     IViewModel CurrentView { get; }
 
+    Task NavigateToAsync<TViewModel>() where TViewModel : IViewModel;
+
     void NavigateTo<TViewModel>() where TViewModel : IViewModel;
 }

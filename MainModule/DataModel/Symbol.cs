@@ -6,7 +6,7 @@ public class Symbol
     /// <summary>
     /// the Symbol primary key
     /// </summary>
-    public int Id { get; set; }
+    public int Id { get; }
     /// <summary>
     /// represents the asset pair used in trades and defined in strategies
     /// </summary>

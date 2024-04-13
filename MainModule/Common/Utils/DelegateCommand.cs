@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace MainModule.Common.Helpers;
+namespace MainModule.Common.Utils;
 
 public class DelegateCommand : ICommand
 {
@@ -17,7 +17,7 @@ public class DelegateCommand : ICommand
 
     public event EventHandler CanExecuteChanged
     {
-        add => CommandManager.RequerySuggested += value; 
+        add => CommandManager.RequerySuggested += value;
         remove => CommandManager.RequerySuggested -= value;
     }
 

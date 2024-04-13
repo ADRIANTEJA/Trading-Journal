@@ -70,6 +70,7 @@ Foreground="white"/>
                     Grid.Column="1"
 Foreground="white"/>
                 <Button x:Name="strategy_button"
+                        Command="{Binding Path=NavigateToStrategyCommand}"
                 Background="cyan"
                     Content="Strategy"
                     Grid.Column="2"

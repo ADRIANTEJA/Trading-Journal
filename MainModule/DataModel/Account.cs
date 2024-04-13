@@ -18,5 +18,9 @@ public class Account
     /// <summary>
     /// represents the account actual balance
     /// </summary>
-    public double ActualBalance { get; set;}
+    public double CurrentBalance { get; set;}
+    /// <summary>
+    /// represents whether or not the account is selected as the current analysis subject
+    /// </summary>
+    public int IsSelected { get; set; }
 }

@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
              d:DesignWidth="1916">
-    <Grid>
+    <Grid Background="Black">
             
     </Grid>
 </UserControl>

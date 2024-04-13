@@ -6,10 +6,12 @@ using System.Windows;
 using UI.Views;
 using UI.Windows;
 using UI.Common.Helpers;
+using MainModule.DataAccess;
+using MainModule.Services;
 
 namespace UI;
 
-public partial class App : Application
+public partial class App : Application 
 {
     public static IHost? AppHost { get; private set; }
 
@@ -40,12 +42,25 @@ public partial class App : Application
         AppHost = Host.CreateDefaultBuilder()
             .ConfigureServices((hostContext, services) =>
             {
+                //Hard Dependencies
+                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddTransient<NavigationHelper>();
+                services.AddSingleton<IDataAccessConfiguration, DataAccessConfiguration>();
+                services.AddSingleton<Func<Type, IViewModel>>
+                    (provider => viewModelType => (IViewModel)provider.GetRequiredService(viewModelType));
                 //Windows
                 services.AddSingleton(provider => new MainWindow
                 {
                     DataContext = provider.GetRequiredService<NavigationHelper>()
                 });
-                services.AddSingleton<AddTradeWindow>();
+                services.AddSingleton(provider => new AddTradeWindow
+                {
+                    DataContext = provider.GetRequiredService<HomeViewModel>()
+                }); ;
+                services.AddSingleton(provider => new AddAccountWindow
+                {
+                    DataContext = provider.GetRequiredService<AccountViewModel>()
+                });
                 //Views
                 services.AddTransient(provider => new HomeView
                 {
@@ -59,20 +74,16 @@ public partial class App : Application
                 { 
                     DataContext = provider.GetRequiredService<StrategyViewModel>() 
                 });
+                //Data Access
+                services.AddSingleton<AccountAccess>();
                 //ViewModels
-                services.AddTransient<HomeViewModel>();
-                services.AddTransient<AccountViewModel>();
+                services.AddSingleton<HomeViewModel>();
+                services.AddSingleton<AccountViewModel>();
+                services.AddSingleton<StrategyViewModel>();
                 services.AddTransient<SymbolViewModel>();
-                services.AddTransient<StrategyViewModel>();
                 services.AddTransient<TradeImageViewModel>();
                 services.AddTransient<DayPerformanceViewModel>();
                 services.AddTransient<AnalysisNoteViewModel>();
-                //Others
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddTransient<NavigationHelper>();
-                services.AddSingleton<Func<Type, IViewModel>>
-                    (serviceProvider => viewModelType => (IViewModel)serviceProvider.GetRequiredService(viewModelType));    
-
             }).Build();
     }
 }

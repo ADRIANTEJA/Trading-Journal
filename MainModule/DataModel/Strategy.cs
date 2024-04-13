@@ -6,7 +6,7 @@ public class Strategy
     /// <summary>
     /// the Strategy primary key
     /// </summary>
-    public int Id { get; set; }
+    public int Id { get; }
     /// <summary>
     /// represents the strategy name for its identification in the UI 
     /// </summary>

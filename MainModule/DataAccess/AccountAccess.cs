@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using MainModule.DataModel;
-using System.Configuration;
-using System.Data;
+using MainModule.Services;
 using System.Data.SQLite;
 
 namespace MainModule.DataAccess;
@@ -10,29 +9,40 @@ namespace MainModule.DataAccess;
 /// </summary>
 public class AccountAccess
 {
-    public static void InsertAccount(Account account)
+    private readonly IDataAccessConfiguration _dataAccessConfig;
+
+    public AccountAccess(IDataAccessConfiguration dataAccessConfig)
     {
-        using IDbConnection connection = new SQLiteConnection(LoadConnectionString("main_connection"));
-        connection.Execute(@"INSERT INTO Account (name, initialBalance, actualBalance)
-                             VALUES (@Name, @InitialBalance, @ActualBalance)", account);
+        _dataAccessConfig = dataAccessConfig; 
     }
 
-    public static void DeleteAccount(int id)
+    public int InsertAccount(Account account)
     {
-        using IDbConnection connection = new SQLiteConnection(LoadConnectionString("main_connection"));
-        connection.Execute("DELETE FROM Account WHERE id = @id", new { id });
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(@"INSERT INTO Account (name, initialBalance, currentBalance, isSelected)
+                                    VALUES (@Name, @InitialBalance, @CurrentBalance, @IsSelected)", account);
     }
 
-    public static async Task<List<Account>> QueryAccountsAsync()
+    public int UpdateAccount(int id, double currentBalance)
     {
-        using IDbConnection connection = new SQLiteConnection(LoadConnectionString("main_connection"));
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(@"UPDATE Account 
+                                    SET currentBalance = @currentBalance
+                                    WHERE id = @id", new { id , currentBalance });
+    }
+
+    public int DeleteAccount(int id)
+    {
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(@"DELETE FROM Account 
+                             WHERE id = @id", new { id });
+    }
+
+    public async Task<List<Account>> QueryAccountsAsync()
+    {
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         var accounts = await connection.QueryAsync<Account>("SELECT * FROM Account");
         return accounts.ToList();
-    }
-
-    private static string LoadConnectionString(string id)
-    {
-        return ConfigurationManager.ConnectionStrings[id].ConnectionString;
     }
 }
 

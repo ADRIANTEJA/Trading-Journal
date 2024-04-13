@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MainModule.DataAccess;
 
 namespace MainModule.ViewModels;
 
 public partial class StrategyViewModel : ObservableObject, IViewModel
 {
+    private AccountAccess _accountAccess;
+
     [ObservableProperty]
     private int id;
 
@@ -36,4 +39,9 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
 
     [ObservableProperty]
     private int losses;
+
+    public StrategyViewModel()
+    {
+      
+    }
 }
