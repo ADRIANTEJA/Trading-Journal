@@ -4,7 +4,11 @@ namespace MainModule.DataModel;
 public class TradeImage
 {
     /// <summary>
-    /// the TradeImage primary and foreign key associated to a trade
+    /// the TradeImage primary key
+    /// </summary>
+    public int Id { get; set; }
+    /// <summary>
+    /// the TradeImage foreign key associated to a trade
     /// </summary>
     public int TradeId { get; set; }
     /// <summary>

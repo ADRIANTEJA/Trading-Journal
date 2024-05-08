@@ -75,7 +75,8 @@ public partial class App : Application
                     DataContext = provider.GetRequiredService<StrategyViewModel>() 
                 });
                 //Data Access
-                services.AddSingleton<AccountAccess>();
+                services.AddTransient<AccountAccess>();
+                services.AddTransient<TradeAccess>();
                 //ViewModels
                 services.AddSingleton<HomeViewModel>();
                 services.AddSingleton<AccountViewModel>();

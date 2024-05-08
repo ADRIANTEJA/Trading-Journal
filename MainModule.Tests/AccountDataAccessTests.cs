@@ -30,7 +30,7 @@ public class AccountDataAccessTests
     {
         int expected = 1;
 
-        int actual = dataAccess.UpdateAccount(1, 200);
+        int actual = dataAccess.UpdateAccountBalance(1, 200);
 
         Assert.Equal(expected, actual);
     }

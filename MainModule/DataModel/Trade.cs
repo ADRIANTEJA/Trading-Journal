@@ -4,7 +4,11 @@ namespace MainModule.DataModel;
 public class Trade
 {
     /// <summary>
-    /// the Trade primary and foreign key associated to an account
+    /// the Trade primary key
+    /// </summary>
+    public int Id { get; set; }
+    /// <summary>
+    /// the Trade foreign key associated to an account
     /// </summary>
     public int AccountId { get; set; }
     /// <summary>
@@ -14,25 +18,27 @@ public class Trade
     /// <summary>
     /// represents the date and hour the position(trade) was opened
     /// </summary>
-    public DateTime OpenDate { get; set; }
+    public string OpenDate { get; set; }
     /// <summary>
     /// represents the date and hour the position(trade) was closed
     /// </summary>
-    public DateTime? CloseDate { get; set; }
+    public string? CloseDate { get; set; }
     /// <summary>
-    /// represents on what side of the market the position(trade) was opened; long or short
+    /// represents on what side of the market the position(trade) was opened; 1 = long or 0 = short
+    /// only 0 or 1 values accepted
     /// </summary>
-    public string Side { get; set; }
+    public int IsLong { get; set; }
     /// <summary>
-    /// represents the volume of the asset operated e.g 100 usd
+    /// represents the volume of the asset operated e.g 100 BTC
     /// </summary>
-    public double Volume { get; set; }
+    public double? Volume { get; set; }
     /// <summary>
-    /// represents the current status of the position(trade); open or closed
+    /// represents wether position(trade) is open or closed
     /// </summary>
-    public string Status { get; set; }
+    public int IsOpen { get; set; }
     /// <summary>
     /// represents the price the traded symbol had when the position(trade) was opened
+    /// only 0 or 1 values accepted
     /// </summary>
     public double OpenPrice { get; set; }
     /// <summary>
@@ -70,7 +76,7 @@ public class Trade
     /// <summary>
     /// represents the return on investment or the profit of the position(trade)
     /// </summary>
-    public double? ROI { get; set; }
+    public double? Roi { get; set; }
     /// <summary>
     /// represents the description or naming of any mistakes the users think to have
     /// committed in the position(trade)

@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel;
+
 namespace MainModule.DataModel;
 
 public class Account

@@ -4,7 +4,11 @@ namespace MainModule.DataModel;
 public class AnalysisNote
 {
     /// <summary>
-    /// the AnalysisNote primary and foreign key associated to a strategy
+    /// the AnalysisNote primary key
+    /// </summary>
+    public int Id { get; set; }
+    /// <summary>
+    /// the AnalysisNote foreign key associated to a strategy
     /// </summary>
     public int StrategyId { get; set; }
     /// <summary>

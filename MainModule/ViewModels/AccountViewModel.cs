@@ -11,7 +11,10 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     private AccountAccess _accountDataAccess;
 
     [ObservableProperty]
-    private ObservableCollection<Account> accounts; // create a service for data access and pass it to viewmodels
+    private Account selectedAccount;
+
+    [ObservableProperty]
+    private ObservableCollection<Account> accounts;
 
     [ObservableProperty]
     private string nameVM;
@@ -38,6 +41,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     public AccountViewModel(AccountAccess accountDataAccess) 
     {
         _accountDataAccess = accountDataAccess;
-        accounts = new(_accountDataAccess.QueryAccountsAsync().Result);
+        Accounts = new(_accountDataAccess.QueryAccountsAsync().Result);
+        SelectedAccount = Accounts.First(ac => ac.IsSelected == 1);
     }
 }

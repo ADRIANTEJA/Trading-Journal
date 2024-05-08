@@ -9,7 +9,7 @@ public class DayPerformance
     /// <summary>
     /// represents the date of the day to measure account performance
     /// </summary>
-    public DateTime Date { get; set; }
+    public string Date { get; set; }
     /// <summary>
     /// represents the return on investment in the day
     /// </summary>
