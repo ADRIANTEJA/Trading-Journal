@@ -9,9 +9,9 @@ namespace MainModule.DataAccess;
 /// </summary>
 public class AccountAccess
 {
-    private readonly IDataAccessConfiguration _dataAccessConfig;
+    private readonly IConfigurationService _dataAccessConfig;
 
-    public AccountAccess(IDataAccessConfiguration dataAccessConfig)
+    public AccountAccess(IConfigurationService dataAccessConfig)
     {
         _dataAccessConfig = dataAccessConfig; 
     }

@@ -31,6 +31,13 @@ public partial class NavigationHelper : ObservableObject
         addAccountWindow.ShowDialog();
     }
 
+    [RelayCommand]
+    public void NavigateToSelectLanguage()
+    {
+        var selectLanguageWindow = App.AppHost!.Services.GetRequiredService<SelectLanguajeWindow>();
+        selectLanguageWindow.ShowDialog();
+    }
+
     private ICommand? navigateToHomeCommand;
 
     public ICommand NavigateToHomeCommand => navigateToHomeCommand ??= new DelegateCommand

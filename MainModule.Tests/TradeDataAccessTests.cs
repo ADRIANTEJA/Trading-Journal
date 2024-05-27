@@ -5,7 +5,7 @@ using MainModule.Services;
 namespace MainModule.Tests;
 public class TradeDataAccessTests
 {
-    private static DataAccessConfiguration dataAccessConfig = new();
+    private static ConfigurationService dataAccessConfig = new();
     private static TradeAccess dataAccess = new(dataAccessConfig);
 
     [Fact]

@@ -6,7 +6,7 @@ namespace MainModule.Tests;
 
 public class AccountDataAccessTests
 {
-    private static DataAccessConfiguration dataAccessConfig = new ();
+    private static Services.ConfigurationService dataAccessConfig = new ();
     private static AccountAccess dataAccess = new(dataAccessConfig);
 
     [Fact]

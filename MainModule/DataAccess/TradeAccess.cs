@@ -7,9 +7,9 @@ namespace MainModule.DataAccess;
 
 public class TradeAccess
 {
-    private readonly IDataAccessConfiguration _dataAccessConfig;
+    private readonly IConfigurationService _dataAccessConfig;
 
-    public TradeAccess(IDataAccessConfiguration dataAccessConfig)
+    public TradeAccess(IConfigurationService dataAccessConfig)
     {
         _dataAccessConfig = dataAccessConfig;
     }

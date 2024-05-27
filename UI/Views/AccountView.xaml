@@ -7,7 +7,7 @@
              d:DesignHeight="1020"
              d:DesignWidth="1916">
     
-    <Grid Background="Blue">
+    <Grid Background="{DynamicResource theme_background_brush}">
             
     </Grid>
 </UserControl>

@@ -3,50 +3,128 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:mainWindowSliders="clr-namespace:UI.Controls.Sliders.MainWindow"
         mc:Ignorable="d"
+        Title="Asset Ops"
+        x:Name="main_window"
         WindowStyle="None"
         WindowState="Maximized"
         AllowsTransparency="True"
+        Background="Transparent"
         MinHeight="1080"
-        MinWidth="1920">
+        MinWidth="1920" 
+        Loaded="OnMainWindowLoadHandler"
+        Effect="{StaticResource window_drop_shadow}">
 
-    <Border>
+    <Window.Resources>
+        <Storyboard x:Key="show_slide_settings_menu_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="-1964.377">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="hide_slide_settings_menu_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="show_theme_options_storyboard">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="theme_options" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <EasingThicknessKeyFrame KeyTime="00:00:00.3000000" Value="5,43,5,823">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="hide_theme_options_storyboard">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="theme_options" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <EasingThicknessKeyFrame KeyTime="00:00:00.3000000" Value="5,5,5,861">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Border Background="{DynamicResource theme_background_brush}"
+            BorderBrush="{StaticResource green_controls_brush}"
+            BorderThickness="1"
+            CornerRadius="2"
+            Margin="5,5,5,5">
+        
         <Grid Margin="1">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
-                <RowDefinition Height="32"/>
+                <RowDefinition Height="37"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid MouseDown="DragMoveHandler"
-                  Background="Green"
-                  Margin="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="32"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="32"/>
-                    <ColumnDefinition Width="32"/>
-                    <ColumnDefinition Width="32"/>
-                </Grid.ColumnDefinitions>
+            <Border BorderBrush="{StaticResource green_controls_brush}" 
+                    BorderThickness="0,0,0,1">
+                
+                <Grid MouseDown="DragMoveHandler"
+                      Background="Transparent"
+                      Margin="1">
 
-                <Button x:Name="minimize_button"
-                Background="Black"
-                Foreground="white"
-                Content="m"
-                Grid.Column="2" Click="MinimizeMainWindowHandler"/>
-                <Button x:Name="resize_button"
-                Background="Black"
-Foreground="white" Grid.Column="3"
-                    Content="r" Click="ResizeMainWindowHandler"/>
-                <Button x:Name="quit_button"
-                Background="Red"
-                    Grid.Column="4"
-                    Content="q"
-Foreground="white" Click="CloseProgramHandler"/>
-            </Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="32"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image x:Name="app_icon"
+                           Margin="3"
+                           Source="{StaticResource application_logo_icon}"/>
+
+                    <TextBlock x:Name="app_name"
+                               Grid.Column="1"
+                               Text="{StaticResource application_name}"
+                               Style="{StaticResource base_textblock_style}"
+                               FontSize="18"
+                               Foreground="{StaticResource green_controls_brush}"
+                               FontWeight="DemiBold"
+                               Margin="0,0,1684,0"/>
+
+                    <mainWindowButtons:MinimizeButton Grid.Column="2"
+                                                      Click="MinimizeWindowHandler"/>
+                    <mainWindowButtons:ResizeButton x:Name="resize_button"
+                                                    Grid.Column="3"
+                                                    Click="ResizeMainWindowHandler"/>
+                    <mainWindowButtons:QuitButton Grid.Column="4"
+                                                  Click="CloseProgramHandler"/>
+                </Grid>
+            </Border>
 
             <Grid Grid.Row="1"
-                  Margin="1">
+                  Margin="0,5,1,1"
+                  Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="64"/>
                     <ColumnDefinition Width="64"/>
@@ -57,6 +135,10 @@ Foreground="white" Click="CloseProgramHandler"/>
                     <ColumnDefinition Width="32"/>
                     <ColumnDefinition Width="32"/>
                 </Grid.ColumnDefinitions>
+
+                <mainWindowButtons:SettingsButton Grid.Column="7" 
+                                                  Click="ShowSettingsSliderHandler" 
+                                                  Margin="0,0,0,-2"/>
 
                 <Button x:Name="home_button"
                         Command="{Binding Path=NavigateToHomeCommand}"
@@ -83,12 +165,103 @@ Foreground="white"/>
 Foreground="white"/>
             </Grid>
 
-            <ContentControl Grid.Row="2"
-                            Content="{Binding Path=Navigation.CurrentView}"
-                            Background="Black"
-                            Margin="1">
-                
-            </ContentControl>
+            <Grid x:Name="settings_slide_menu"
+                  Grid.Column="7"
+                  Grid.Row="1"
+                  Grid.RowSpan="3" 
+                  Margin="1966,0,-1966,0" 
+                  Panel.ZIndex="1"
+                  RenderTransformOrigin="0.5,0.5">
+
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="17*"/>
+                    <RowDefinition Height="1061*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="175"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="quit_slide_menu_invisible_button"
+                        Opacity="0" 
+                        Grid.RowSpan="2" 
+                        Click="HideSettingsSliderHandler"/>
+
+                <Border Grid.Column="1"
+                        Grid.RowSpan="2"
+                        Background="{DynamicResource theme_background_brush}" 
+                        BorderBrush="{StaticResource green_controls_brush}"
+                        BorderThickness="1"
+                        CornerRadius="2"
+                        Margin="5,1,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="32"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="37"/>
+                            <RowDefinition Height="37"/>
+                            <RowDefinition Height="37"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock x:Name="settings_menu_header"
+                                   Grid.ColumnSpan="2"
+                                   Text="{DynamicResource main_window_settings_menu_header}"
+                                   Style="{StaticResource base_textblock_style}"
+                                   FontSize="16" 
+                                   Margin="5,5,5,0"/>
+
+                        <mainWindowButtons:SelectLanguageButton Grid.Row="3"
+                                                                Grid.ColumnSpan="2" 
+                                                                Margin="5,5,5,0"
+                                                                Command="{Binding Path=NavigateToSelectLanguageCommand}"/>
+
+
+                        <mainWindowSliders:FontSizeSlider x:Name="font_size_options"
+                                                          Grid.Row="2"
+                                                          Grid.ColumnSpan="2"
+                                                          Margin="10,5,10,0"/>
+
+                        <mainWindowButtons:ThemeOptions x:Name="theme_options"
+                                                        Grid.Row="4"
+                                                        Grid.ColumnSpan="2"
+                                                        ClipToBounds="True"
+                                                        VerticalAlignment="Top"
+                                                        Margin="5,5,5,0" 
+                                                        Height="32"/>
+
+
+                        <mainWindowButtons:SwitchThemeButton x:Name="switch_theme_button"
+                                                             Grid.Row="4"
+                                                             Grid.ColumnSpan="2"
+                                                             VerticalAlignment="Top"
+                                                             Click="ShowThemeOptionsHandler" 
+                                                             Margin="5,5,5,0" 
+                                                             Height="32" d:IsHidden="True"/>
+
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="2">
+                <ContentControl Content="{Binding Path=Navigation.CurrentView}"
+                                Margin="1"/>
+            </Border>
+
         </Grid>
     </Border>
 </Window>

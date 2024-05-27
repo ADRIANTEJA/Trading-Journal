@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--The key is composed by the name of the file where the control using it is located 
+        and the name of the control, should the string be used in more than one control it will
+        be specified in a comment above it, keys are also organized alphabetically-->
+
+    <system:String x:Key="main_window_settings_menu_header">Configurações</system:String>
+    <system:String x:Key="main_window_switch_theme_button">Tema</system:String>
+    <system:String x:Key="main_window_font_size_slider">Tamanho da fonte</system:String>
+    <system:String x:Key="specific_style_dictionary_dark_theme_button">Escuro</system:String>
+    <system:String x:Key="specific_style_dictionary_light_theme_button">Claro</system:String>
+    <system:String x:Key="select_language_window_window_header">Configurações de linguagem</system:String>
+    <system:String x:Key="select_language_button">Linguagem</system:String>
+    <!--This one is for the error message showed when handling settings file errors
+        and is not used in any control-->
+    <system:String x:Key="ui_settings_file_error_message">O arquivo de configuração do aplicativo
+    não estiver lá ou estiver corrompido, o aplicativo e as configurações serão redefinidos</system:String>
+    <!--same as above-->
+    <system:String x:Key="ui_settings_file_error_header">Erro de arquivo</system:String>
+</ResourceDictionary>

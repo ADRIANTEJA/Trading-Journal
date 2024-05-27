@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
              d:DesignWidth="1916">
-    <Grid Background="Black">
+    <Grid Background="{DynamicResource theme_background_brush}">
             
     </Grid>
 </UserControl>

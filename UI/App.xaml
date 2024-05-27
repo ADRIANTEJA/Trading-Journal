@@ -5,16 +5,25 @@
              xmlns:viewModels="clr-namespace:MainModule.ViewModels;assembly=MainModule">
 
     <Application.Resources>
-        <DataTemplate DataType="{x:Type TypeName=viewModels:HomeViewModel}">
-            <views:HomeView/>
-        </DataTemplate>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type TypeName=viewModels:HomeViewModel}">
+                <views:HomeView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type TypeName=viewModels:AccountViewModel}">
-            <views:AccountView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type TypeName=viewModels:AccountViewModel}">
+                <views:AccountView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type TypeName=viewModels:StrategyViewModel}">
-            <views:StrategyView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type TypeName=viewModels:StrategyViewModel}">
+                <views:StrategyView/>
+            </DataTemplate>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Common/Resources/Dictionaries/MainResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Common/Resources/Dictionaries/DarkThemeDictionary.xaml"/>
+                <ResourceDictionary Source="Common/Resources/Dictionaries/Language/EnglishDictionary.xaml"/>
+                <ResourceDictionary Source="Common/Resources/Dictionaries/SpecificStyleDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

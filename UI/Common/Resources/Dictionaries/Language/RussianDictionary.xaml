@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--The key is composed by the name of the file where the control using it is located 
+        and the name of the control, should the string be used in more than one control it will
+        be specified in a comment above it, keys are also organized alphabetically-->
+
+    <system:String x:Key="main_window_settings_menu_header">Настройки</system:String>
+    <system:String x:Key="main_window_switch_theme_button">Тема</system:String>
+    <system:String x:Key="main_window_font_size_slider">Размер шрифта</system:String>
+    <system:String x:Key="specific_style_dictionary_dark_theme_button">темный</system:String>
+    <system:String x:Key="specific_style_dictionary_light_theme_button">Свет</system:String>
+    <system:String x:Key="select_language_window_window_header">Языковые настройки</system:String>
+    <system:String x:Key="select_language_button">Язык</system:String>
+    <!--This one is for the error message showed when handling settings file errors
+        and is not used in any control-->
+    <system:String x:Key="ui_settings_file_error_message">Файл настроек приложения отсутствует или поврежден,
+    приложение перезагрузится и настройки будут сброшены</system:String>
+    <!--same as above-->
+    <system:String x:Key="ui_settings_file_error_header">Ошибка файла</system:String>
+</ResourceDictionary>

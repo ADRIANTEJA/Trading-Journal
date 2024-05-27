@@ -8,12 +8,16 @@ using UI.Windows;
 using UI.Common.Helpers;
 using MainModule.DataAccess;
 using MainModule.Services;
+using System.IO;
+using MainModule.Common;
 
 namespace UI;
 
 public partial class App : Application 
 {
     public static IHost? AppHost { get; private set; }
+    private static readonly string appDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                                                                   Constants.ApplicationDataFolderName);
 
     public App()
     {
@@ -24,9 +28,11 @@ public partial class App : Application
     {
         await AppHost!.StartAsync();
 
+        if (!Directory.Exists(appDirectoryPath)) { Directory.CreateDirectory(appDirectoryPath); }
+
         var startPoint = AppHost.Services.GetRequiredService<MainWindow>();
         startPoint.Show();
-
+        
         base.OnStartup(e);
     }
 
@@ -45,19 +51,21 @@ public partial class App : Application
                 //Hard Dependencies
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddTransient<NavigationHelper>();
-                services.AddSingleton<IDataAccessConfiguration, DataAccessConfiguration>();
+                services.AddSingleton<IConfigurationService, ConfigurationService>();
+                services.AddSingleton<IUIConfigurationService, UIConfigurationService>();
                 services.AddSingleton<Func<Type, IViewModel>>
                     (provider => viewModelType => (IViewModel)provider.GetRequiredService(viewModelType));
                 //Windows
-                services.AddSingleton(provider => new MainWindow
+                services.AddSingleton(provider => new MainWindow(provider.GetRequiredService<IUIConfigurationService>())
                 {
                     DataContext = provider.GetRequiredService<NavigationHelper>()
                 });
-                services.AddSingleton(provider => new AddTradeWindow
+                services.AddTransient(provider => new SelectLanguajeWindow(provider.GetRequiredService<IUIConfigurationService>()));
+                services.AddTransient(provider => new AddTradeWindow
                 {
                     DataContext = provider.GetRequiredService<HomeViewModel>()
-                }); ;
-                services.AddSingleton(provider => new AddAccountWindow
+                });
+                services.AddTransient(provider => new AddAccountWindow
                 {
                     DataContext = provider.GetRequiredService<AccountViewModel>()
                 });
