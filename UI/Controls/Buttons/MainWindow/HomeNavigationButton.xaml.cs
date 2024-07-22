@@ -2,11 +2,11 @@
 
 namespace UI.Controls.Buttons.MainWindow;
 /// <summary>
-/// Interaction logic for DarkThemeButton.xaml
+/// Interaction logic for HomeNavigationButton.xaml
 /// </summary>
-public partial class DarkThemeButton : Button
+public partial class HomeNavigationButton : Button
 {
-    public DarkThemeButton()
+    public HomeNavigationButton()
     {
         InitializeComponent();
     }

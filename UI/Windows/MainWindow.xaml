@@ -12,9 +12,12 @@
         WindowState="Maximized"
         AllowsTransparency="True"
         Background="Transparent"
-        MinHeight="1080"
-        MinWidth="1920" 
-        Loaded="OnMainWindowLoadHandler"
+        MinHeight="810"
+        MinWidth="1440"
+        ResizeMode="CanResizeWithGrip"
+        d:DesignHeight="1080"
+        d:DesignWidth="1920"
+        Loaded="OnWindowLoadedHandler" 
         Effect="{StaticResource window_drop_shadow}">
 
     <Window.Resources>
@@ -22,32 +25,39 @@
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="-1964.377">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseOut"/>
+                        <CubicEase EasingMode="EaseOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
                 <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseOut"/>
+                        <CubicEase EasingMode="EaseOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="hide_slide_settings_menu_storyboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseIn"/>
+                        <CubicEase EasingMode="EaseIn"/>
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
                 <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseIn"/>
+                        <CubicEase EasingMode="EaseIn"/>
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="settings_slide_menu" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="show_theme_options_storyboard">
@@ -70,26 +80,25 @@
         </Storyboard>
     </Window.Resources>
 
+    
     <Border Background="{DynamicResource theme_background_brush}"
-            BorderBrush="{StaticResource green_controls_brush}"
+            BorderBrush="{StaticResource green_brush}"
             BorderThickness="1"
             CornerRadius="2"
             Margin="5,5,5,5">
-        
-        <Grid Margin="1">
-            
+
+        <Grid Margin="2">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
-                <RowDefinition Height="37"/>
+                <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border BorderBrush="{StaticResource green_controls_brush}" 
-                    BorderThickness="0,0,0,1">
-                
+            <Border BorderBrush="{StaticResource green_brush}">
+
                 <Grid MouseDown="DragMoveHandler"
-                      Background="Transparent"
-                      Margin="1">
+                      Background="Transparent">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32"/>
@@ -107,8 +116,9 @@
                                Grid.Column="1"
                                Text="{StaticResource application_name}"
                                Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
                                FontSize="18"
-                               Foreground="{StaticResource green_controls_brush}"
+                               Foreground="{StaticResource green_brush}"
                                FontWeight="DemiBold"
                                Margin="0,0,1684,0"/>
 
@@ -123,54 +133,58 @@
             </Border>
 
             <Grid Grid.Row="1"
-                  Margin="0,5,1,1"
                   Background="Transparent">
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="64"/>
-                    <ColumnDefinition Width="64"/>
-                    <ColumnDefinition Width="64"/>
-                    <ColumnDefinition Width="64"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="88"/>
+                    <ColumnDefinition Width="88"/>
+                    <ColumnDefinition Width="164"/>
+                    <ColumnDefinition Width="370*"/>
+                    <ColumnDefinition Width="1181*"/>
                     <ColumnDefinition Width="32"/>
                     <ColumnDefinition Width="32"/>
-                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="17"/>
                 </Grid.ColumnDefinitions>
 
-                <mainWindowButtons:SettingsButton Grid.Column="7" 
-                                                  Click="ShowSettingsSliderHandler" 
-                                                  Margin="0,0,0,-2"/>
+                <mainWindowButtons:CalculatorButton Grid.Column="7"
+                                                    Margin="0,2,0,8" 
+                                                    Click="OpenCalculatorWindowHandler"/>
 
-                <Button x:Name="home_button"
-                        Command="{Binding Path=NavigateToHomeCommand}"
-                Background="blue"
-                    Content="Home"
-Foreground="white"/>
-                <Button x:Name="account_button"
-                        Command="{Binding Path=NavigateToAccountCommand}"
-                Background="Green"
-                    Content="Account"
-                    Grid.Column="1"
-Foreground="white"/>
-                <Button x:Name="strategy_button"
-                        Command="{Binding Path=NavigateToStrategyCommand}"
-                Background="cyan"
-                    Content="Strategy"
-                    Grid.Column="2"
-Foreground="white"/>
-                <Button x:Name="filter_button"
-                        Command="{Binding Path=NavigateToAddTradeCommand}"
-                Background="BlueViolet"
-                    Content="Add Trade"
-                    Grid.Column="3"
-Foreground="white"/>
+                <mainWindowButtons:SettingsButton Grid.Column="8"
+                                                  Grid.ColumnSpan="2"
+                                                  Click="ShowSettingsSliderHandler"
+                                                  Margin="0,2,0,8"/>
+
+                <mainWindowButtons:HomeNavigationButton x:Name="home_button"
+                                                        Command="{Binding Path=NavigateToHomeCommand}"
+                                                        Margin="5,2,5,8" 
+                                                        Click="HoldNavButtonHighlightHandler"/>
+                <mainWindowButtons:NavigationButton x:Name="account_button"
+                                                    Command="{Binding Path=NavigateToAccountCommand}"
+                                                    Content="{DynamicResource main_window_account_button}"
+                                                    Grid.Column="1" 
+                                                    Margin="5,2,5,8" 
+                                                    Click="HoldNavButtonHighlightHandler"/>
+                <mainWindowButtons:NavigationButton x:Name="strategy_button"
+                                                    Command="{Binding Path=NavigateToStrategyCommand}"
+                                                    Content="{DynamicResource main_window_strategy_button}"
+                                                    Grid.Column="2" 
+                                                    Margin="5,2,5,8" 
+                                                    Click="HoldNavButtonHighlightHandler"/>
+                <mainWindowButtons:NavigationButton x:Name="add_trade_button"
+                                                    Command="{Binding Path=NavigateToAddTradeCommand}"
+                                                    Content="{DynamicResource main_window_add_trade_button}"
+                                                    Grid.Column="3" 
+                                                    Margin="5,2,5,8"/>
             </Grid>
 
             <Grid x:Name="settings_slide_menu"
                   Grid.Column="7"
                   Grid.Row="1"
                   Grid.RowSpan="3" 
-                  Margin="1966,0,-1966,0" 
-                  Panel.ZIndex="1"
+                  Margin="1967,0,-1967,-3" 
                   RenderTransformOrigin="0.5,0.5">
 
                 <Grid.RenderTransform>
@@ -189,7 +203,7 @@ Foreground="white"/>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="175"/>
+                    <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
 
                 <Button x:Name="quit_slide_menu_invisible_button"
@@ -200,10 +214,10 @@ Foreground="white"/>
                 <Border Grid.Column="1"
                         Grid.RowSpan="2"
                         Background="{DynamicResource theme_background_brush}" 
-                        BorderBrush="{StaticResource green_controls_brush}"
+                        BorderBrush="{StaticResource green_brush}"
                         BorderThickness="1"
                         CornerRadius="2"
-                        Margin="5,1,0,1">
+                        Margin="5,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -227,14 +241,14 @@ Foreground="white"/>
 
                         <mainWindowButtons:SelectLanguageButton Grid.Row="3"
                                                                 Grid.ColumnSpan="2" 
-                                                                Margin="5,5,5,0"
+                                                                Margin="7,5,3,0"
                                                                 Command="{Binding Path=NavigateToSelectLanguageCommand}"/>
 
 
                         <mainWindowSliders:FontSizeSlider x:Name="font_size_options"
                                                           Grid.Row="2"
                                                           Grid.ColumnSpan="2"
-                                                          Margin="10,5,10,0"/>
+                                                          Margin="20,5,10,0"/>
 
                         <mainWindowButtons:ThemeOptions x:Name="theme_options"
                                                         Grid.Row="4"
@@ -250,16 +264,18 @@ Foreground="white"/>
                                                              Grid.ColumnSpan="2"
                                                              VerticalAlignment="Top"
                                                              Click="ShowThemeOptionsHandler" 
-                                                             Margin="5,5,5,0" 
-                                                             Height="32" d:IsHidden="True"/>
+                                                             Margin="7,5,3,0" Height="32" />
 
                     </Grid>
                 </Border>
             </Grid>
 
-            <Border Grid.Row="2">
-                <ContentControl Content="{Binding Path=Navigation.CurrentView}"
-                                Margin="1"/>
+            <Border Grid.Row="2"
+                    BorderBrush="{StaticResource green_brush}"
+                    Margin="-1,-3,-1,-1" 
+                    Panel.ZIndex="-1">
+                <ContentControl x:Name="navigation_panel"
+                                Content="{Binding Path=Navigation.CurrentView}"/>
             </Border>
 
         </Grid>

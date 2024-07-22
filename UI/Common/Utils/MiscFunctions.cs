@@ -21,6 +21,17 @@ public static class MiscFunctions
                             MessageBoxButton.OK, MessageBoxImage.Error);
 
         File.Delete(Constants.UIUserSettingsFilePath);
-        MiscFunctions.RestartApplication();
+        RestartApplication();
+    }
+
+    public static bool CheckInputIsNumeric(string content)
+    {
+        try
+        {
+            if (content.StartsWith('-') || content.Contains('e')) throw new FormatException();
+            double.Parse(content);
+            return true;
+        }
+        catch (FormatException) { return false; }
     }
 }

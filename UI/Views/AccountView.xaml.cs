@@ -1,28 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
-namespace UI.Views
+namespace UI.Views;
+/// <summary>
+/// Interaction logic for AccountView.xaml
+/// </summary>
+public partial class AccountView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for AccountView.xaml
-    /// </summary>
-    public partial class AccountView : UserControl
+    public AccountView()
     {
-        public AccountView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    private void ShowFilterPerformanceByDateOptionsHandler(object sender, MouseEventArgs e)
+    {
+        var sBoard = (Storyboard)Resources["expand_filter_performance_by_date_control_storyboard"];
+        sBoard.Begin();
+    }
+
+    private void HideFilterPerformanceByDateOptionsHandler(object sender, MouseEventArgs e)
+    {
+        var sBoard = (Storyboard)Resources["collapse_filter_performance_by_date_control_storyboard"];
+        sBoard.Begin();
+    }
+
+    private void ShowROIFormatOptionsHandler(object sender, MouseEventArgs e)
+    {
+        var sBoard = (Storyboard)Resources["expand_roi_format_options_storyboard"];
+        sBoard.Begin();
+    }
+
+    private void HideROIFormatOptionsHandler(object sender, MouseEventArgs e)
+    {
+        var sBoard = (Storyboard)Resources["collapse_roi_format_options_storyboard"];
+        sBoard.Begin();
+    }
+
+    private void OnAccountViewLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        var VM = (AccountViewModel)DataContext;
+        VM.LoadDailyPerformanceCommand.Execute(null);
     }
 }

@@ -6,13 +6,28 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <!--also used for the window title-->
+    <system:String x:Key="calculator_window_window_header">Calcolatrice</system:String>
+    <system:String x:Key="calculator_window_target_price_button">Etichetta del prezzo</system:String>
+    <system:String x:Key="calculator_window_calculate_button">Calcolare</system:String>
+    <system:String x:Key="leverage_slider_leverage_label">Leva</system:String>
     <system:String x:Key="main_window_settings_menu_header">Impostazioni</system:String>
     <system:String x:Key="main_window_switch_theme_button">Tema</system:String>
     <system:String x:Key="main_window_font_size_slider">Dimensione del font</system:String>
-    <system:String x:Key="select_language_window_window_header">Impostazioni della lingua</system:String>
-    <system:String x:Key="select_language_button">Lingua</system:String>
+    <system:String x:Key="main_window_account_button">Account</system:String>
+    <system:String x:Key="main_window_strategy_button">Strategia</system:String>
+    <system:String x:Key="main_window_add_trade_button">Aggiungi operazione</system:String>
+    <system:String x:Key="ROI_calculation_view_margin_field">Importo da investire</system:String>
+    <system:String x:Key="ROI_calculation_view_open_price_field">Prezzo d'ingresso</system:String>
+    <system:String x:Key="ROI_calculation_view_close_price_field">Prezzo di partenza</system:String>
+    <!--also used for the same label in TargetPriceCalculationView-->
+    <system:String x:Key="ROI_calculation_view_initial_margin_label">Margine iniziale:</system:String>
     <system:String x:Key="specific_style_dictionary_dark_theme_button">Buio</system:String>
     <system:String x:Key="specific_style_dictionary_light_theme_button">Chiaro</system:String>
+    <!--also used for the window title-->
+    <system:String x:Key="select_language_window_window_header">Impostazioni della lingua</system:String>
+    <system:String x:Key="select_language_button">Lingua</system:String>
+    <system:String x:Key="target_price_calculation_view_target_price_label">Etichetta del prezzo:</system:String>
     <!--This one is for the error message showed when handling settings file errors
         and is not used in any control-->
     <system:String x:Key="ui_settings_file_error_message">Il file di configurazione dell'applicazione

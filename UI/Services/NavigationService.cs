@@ -21,7 +21,6 @@ public partial class NavigationService : ObservableObject, INavigationService
     public async Task NavigateToAsync<TViewModel>() where TViewModel : IViewModel =>
         await Task.Run(NavigateTo<TViewModel>);
         
-    //when done with navigation system check if this is needed
     public void NavigateTo<TViewModel>() where TViewModel : IViewModel
     {
         Flags.IsThreadSafe = false;

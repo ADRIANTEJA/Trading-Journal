@@ -1,0 +1,118 @@
+﻿<Page x:Class="UI.Views.ROICalculator.ROICalculationView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
+      xmlns:sliders="clr-namespace:UI.Controls.Sliders.CalculatorWindow"
+      xmlns:calculatorButtons="clr-namespace:UI.Controls.Buttons.CalculatorWindow"
+      xmlns:local="clr-namespace:UI.Views.ROICalculator"
+      Background="{DynamicResource theme_background_brush}"
+      mc:Ignorable="d" 
+      d:DesignHeight="465" 
+      d:DesignWidth="400"
+      Title="ROICalculationView" 
+      Loaded="OnViewLoaderHandler">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="43"/>
+            <RowDefinition Height="43"/>
+            <RowDefinition Height="43"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="64"/>
+            <RowDefinition Height="43"/>
+            <RowDefinition Height="43"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <textBoxes:PlaceHolderTextBox x:Name="amount_field"
+                                      Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      PlaceHolder="{DynamicResource ROI_calculation_view_margin_field}" 
+                                      Margin="90,10,90,0"
+                                      MaxLength="7" 
+                                      TextChanged="ValidateNumericValueHandler" 
+                                      KeyDown="JumpToNextFieldHandler"/>
+        <textBoxes:PlaceHolderTextBox x:Name="open_price_field"
+                                      Grid.Row="2"
+                                      Grid.ColumnSpan="2"
+                                      PlaceHolder="{DynamicResource ROI_calculation_view_open_price_field}" 
+                                      Margin="90,10,90,0"
+                                      MaxLength="7"
+                                      TextChanged="ValidateNumericValueHandler" 
+                                      KeyDown="JumpToNextFieldHandler"/>
+        <textBoxes:PlaceHolderTextBox x:Name="close_price_field"
+                                      Grid.Row="3"
+                                      Grid.ColumnSpan="2"
+                                      PlaceHolder="{DynamicResource ROI_calculation_view_close_price_field}" 
+                                      Margin="90,10,90,0"
+                                      MaxLength="7"
+                                      TextChanged="ValidateNumericValueHandler" 
+                                      KeyUp="JumpToNextFieldHandler"/>
+
+        <sliders:LeverageSlider x:Name="leverage_slider"
+                                Grid.ColumnSpan="2"
+                                Grid.Row="4" 
+                                Margin="55,30,55,0"/>
+
+        <calculatorButtons:LongButton x:Name="long_button"
+                                      Grid.Row="5" 
+                                      Margin="80,21,10,0" 
+                                      Click="LongOperationSelectionHandler"/>
+        <calculatorButtons:ShortButton x:Name="short_button"
+                                       Grid.Column="1"
+                                       Grid.Row="5"
+                                       Margin="10,21,80,0" 
+                                       Click="ShortOperationSelectionHandler"/>
+
+        <calculatorButtons:CalculateButton x:Name="calculate_button"
+                                           Grid.ColumnSpan="2"
+                                           Grid.Row="6" 
+                                           Margin="80,10,80,0" 
+                                           Click="CaculateROIHandler"/>
+
+        <Border Grid.ColumnSpan="2"
+                Grid.Row="7"
+                Grid.RowSpan="2"
+                Background="{DynamicResource theme_control_wrapper_background_brush}"
+                CornerRadius="3" 
+                Margin="60,10,60,25">
+        </Border>
+
+        <TextBlock x:Name="profit_field"
+                   Grid.Row="7"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"
+                   Foreground="{DynamicResource green_brush}"
+                   FontWeight="Bold"
+                   Margin="65,10,10,0"/>
+        <TextBlock x:Name="ROI_field"
+                   Grid.Column="1"
+                   Grid.Row="7"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"
+                   Foreground="{DynamicResource green_brush}"
+                   FontWeight="Bold"
+                   Margin="10,10,65,0"/>
+
+        <TextBlock x:Name="initial_margin_label"
+                   Grid.Row="8"
+                   Visibility="Hidden"
+                   Text="{DynamicResource ROI_calculation_view_initial_margin_label}"
+                   Style="{StaticResource base_textblock_style}" 
+                   Margin="85,16,5,34"/>
+        <TextBlock x:Name="initial_margin_field"
+                   TextAlignment="Left"
+                   Grid.Column="1"
+                   Grid.Row="8"
+                   Style="{StaticResource base_textblock_style}" 
+                   Margin="5,16,85,34" />
+    </Grid>
+</Page>

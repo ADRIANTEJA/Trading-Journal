@@ -6,13 +6,28 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <!--also used for the window title-->
+    <system:String x:Key="calculator_window_window_header">電卓</system:String>
+    <system:String x:Key="calculator_window_target_price_button">目標価格</system:String>
+    <system:String x:Key="calculator_window_calculate_button">計算する</system:String>
+    <system:String x:Key="leverage_slider_leverage_label">てこの作用</system:String>
     <system:String x:Key="main_window_settings_menu_header">設定</system:String>
     <system:String x:Key="main_window_switch_theme_button">テーマ</system:String>
     <system:String x:Key="main_window_font_size_slider">フォントサイズ</system:String>
+    <system:String x:Key="main_window_account_button">アカウント</system:String>
+    <system:String x:Key="main_window_strategy_button">戦略</system:String>
+    <system:String x:Key="main_window_add_trade_button">追加操作</system:String>
+    <system:String x:Key="ROI_calculation_view_margin_field">投資金額</system:String>
+    <system:String x:Key="ROI_calculation_view_open_price_field">入場料</system:String>
+    <system:String x:Key="ROI_calculation_view_close_price_field">開始価格</system:String>
+    <!--also used for the same label in TargetPriceCalculationView-->
+    <system:String x:Key="ROI_calculation_view_initial_margin_label">当初証拠金:</system:String>
     <system:String x:Key="specific_style_dictionary_dark_theme_button">暗い</system:String>
     <system:String x:Key="specific_style_dictionary_light_theme_button">ライト</system:String>
+    <!--also used for the window title-->
     <system:String x:Key="select_language_window_window_header">言語設定</system:String>
     <system:String x:Key="select_language_button">言語</system:String>
+    <system:String x:Key="target_price_calculation_view_target_price_label">目標価格:</system:String>
     <!--This one is for the error message showed when handling settings file errors
         and is not used in any control-->
     <system:String x:Key="ui_settings_file_error_message">アプリケーション設定ファイルが見つからないか破損しています。

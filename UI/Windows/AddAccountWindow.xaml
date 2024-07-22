@@ -3,12 +3,88 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:accountViewButtons="clr-namespace:UI.Controls.Buttons.AccountView"
+        xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
-        Height="320" 
-        Width="240">
-    <Grid>
+        Background="Transparent"
+        ResizeMode="CanMinimize"
+        Height="250" 
+        Width="300"
+        Effect="{StaticResource window_drop_shadow}">
+    
+    <Border Background="{DynamicResource theme_background_brush}"
+            BorderBrush="{StaticResource green_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
         
-    </Grid>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="43"/>
+                <RowDefinition Height="43"/>
+                <RowDefinition Height="43"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="DragMoveHandler">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Add Account"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource base_textblock_style}" 
+                           Margin="64,0,0,0"/>
+
+                <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                                  Click="MinimizeWindowHandler"/>
+                <mainWindowButtons:QuitButton Grid.Column="2"
+                                              Click="CloseWindowHandler"/>
+            </Grid>
+
+            <textBoxes:PlaceHolderTextBox x:Name="account_name_field"
+                                          Text="{Binding Path=NameVM, Mode=OneWayToSource}"
+                                          MaxLength="15"
+                                          PlaceHolder="Name"
+                                          Grid.Row="2" 
+                                          Margin="40,10,40,0" 
+                                          TextChanged="AccountNameFieldChangedHandler" 
+                                          KeyDown="JumpToNextFieldHandler"/>
+            <textBoxes:PlaceHolderTextBox x:Name="account_initial_balance_field"
+                                          PlaceHolder="Initial Balance"
+                                          Text="{Binding Path=InitialBalanceVM, Mode=OneWayToSource}"
+                                          Grid.Row="3"
+                                          MaxLength="8"
+                                          Margin="40,10,40,0"
+                                          TextChanged="ValidateNumericValueHandler"
+                                          KeyDown="JumpToNextFieldHandler"/>
+
+            <accountViewButtons:CreateAccountButton x:Name="create_account_button"
+                                                    Grid.Row="4" 
+                                                    Margin="40,10,40,0"
+                                                    Click="CreateAccountClickHandler"/>
+
+            <TextBlock x:Name="duplicated_account_error_label"
+                       Grid.Row="5"
+                       VerticalAlignment="Center"
+                       Foreground="{StaticResource error_red_brush}">
+
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}"
+                           BasedOn="{StaticResource base_textblock_style}">
+
+                        
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+    </Border>
 </Window>

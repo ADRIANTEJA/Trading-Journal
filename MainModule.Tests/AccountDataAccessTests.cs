@@ -1,13 +1,12 @@
 ﻿using MainModule.DataAccess;
 using MainModule.Services;
-using System.Configuration;
 
 namespace MainModule.Tests;
 
 public class AccountDataAccessTests
 {
-    private static Services.ConfigurationService dataAccessConfig = new ();
-    private static AccountAccess dataAccess = new(dataAccessConfig);
+    private static readonly ConfigurationService dataAccessConfig = new();
+    private static readonly AccountAccess dataAccess = new(dataAccessConfig);
 
     [Fact]
     public void InsertAccount_ShouldInsert()

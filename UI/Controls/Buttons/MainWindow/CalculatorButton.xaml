@@ -1,0 +1,15 @@
+﻿<Button x:Class="UI.Controls.Buttons.MainWindow.CalculatorButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Style="{StaticResource icon_buttons_style}"
+             d:DesignHeight="32" 
+             d:DesignWidth="32">
+
+    <Image x:Name="calculator_icon"
+           Source="{DynamicResource caculator_button_icon}" 
+           Margin="7,7,7,7"/>
+    
+</Button>

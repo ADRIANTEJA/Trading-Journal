@@ -6,13 +6,28 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <!--also used for the window title-->
+    <system:String x:Key="calculator_window_window_header">计算器</system:String>
+    <system:String x:Key="calculator_window_target_price_button">目标价格</system:String>
+    <system:String x:Key="calculator_window_calculate_button">计算</system:String>
+    <system:String x:Key="leverage_slider_leverage_label">杠杆作用</system:String>
     <system:String x:Key="main_window_settings_menu_header">设置</system:String>
     <system:String x:Key="main_window_switch_theme_button">主题</system:String>
     <system:String x:Key="main_window_font_size_slider">字体大小</system:String>
+    <system:String x:Key="main_window_account_button">帐户</system:String>
+    <system:String x:Key="main_window_strategy_button">战略</system:String>
+    <system:String x:Key="main_window_add_trade_button">添加操作</system:String>
+    <system:String x:Key="ROI_calculation_view_margin_field">投资金额</system:String>
+    <system:String x:Key="ROI_calculation_view_open_price_field">入场费</system:String>
+    <system:String x:Key="ROI_calculation_view_close_price_field">起价</system:String>
+    <!--also used for the same label in TargetPriceCalculationView-->
+    <system:String x:Key="ROI_calculation_view_initial_margin_label">初始保证金:</system:String>
     <system:String x:Key="specific_style_dictionary_dark_theme_button">黑暗的</system:String>
     <system:String x:Key="specific_style_dictionary_light_theme_button">光</system:String>
+    <!--also used for the window title-->
     <system:String x:Key="select_language_window_window_header">语言设定</system:String>
     <system:String x:Key="select_language_button">语言</system:String>
+    <system:String x:Key="target_price_calculation_view_target_price_label">目标价格:</system:String>
     <!--This one is for the error message showed when handling settings file errors
         and is not used in any control-->
     <system:String x:Key="ui_settings_file_error_message">应用程序设置文件丢失或损坏，

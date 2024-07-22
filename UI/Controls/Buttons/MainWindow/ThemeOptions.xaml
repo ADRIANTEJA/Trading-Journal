@@ -1,11 +1,11 @@
 ﻿<Grid x:Class="UI.Controls.Buttons.MainWindow.ThemeOptions"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-             d:DesignHeight="32" 
-             d:DesignWidth="150">
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" 
+      d:DesignHeight="32" 
+      d:DesignWidth="150">
     
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="2*"/>
@@ -13,19 +13,21 @@
     </Grid.ColumnDefinitions>
 
     <Border x:Name="light_theme_button"
-        BorderThickness="2"
-        CornerRadius="3">
+            BorderThickness="1"
+            CornerRadius="3" 
+            Margin="1">
 
         <Button Style="{StaticResource light_theme_button_style}" 
-            Click="SwitchToLightThemeHandler"/>
+                Click="SwitchToLightThemeHandler"/>
     </Border>
 
     <Border x:Name="dark_theme_button"
-        Grid.Column="1"
-        BorderThickness="2"
-        CornerRadius="3">
+            Grid.Column="1"
+            BorderThickness="1"
+            CornerRadius="3"
+            Margin="1">
 
         <Button Style="{StaticResource dark_theme_button_style}" 
-            Click="SwitchToDarkThemeHandler"/>
+                Click="SwitchToDarkThemeHandler"/>
     </Border>
 </Grid>

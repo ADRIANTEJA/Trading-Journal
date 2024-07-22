@@ -6,13 +6,28 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <!--also used for the window title-->
+    <system:String x:Key="calculator_window_window_header">Taschenrechner</system:String>
+    <system:String x:Key="calculator_window_target_price_button">Zielpreis</system:String>
+    <system:String x:Key="calculator_window_calculate_button">Berechnung</system:String>
+    <system:String x:Key="leverage_slider_leverage_label">Hebelwirkung</system:String>
     <system:String x:Key="main_window_settings_menu_header">Einstellungen</system:String>
     <system:String x:Key="main_window_switch_theme_button">Thema</system:String>
     <system:String x:Key="main_window_font_size_slider">Schriftgröße</system:String>
+    <system:String x:Key="main_window_account_button">Konto</system:String>
+    <system:String x:Key="main_window_strategy_button">Strategie</system:String>
+    <system:String x:Key="main_window_add_trade_button">Vorgang hinzufügen</system:String>
+    <system:String x:Key="ROI_calculation_view_margin_field">Zu investierender Betrag</system:String>
+    <system:String x:Key="ROI_calculation_view_open_price_field">Eintrag Preis</system:String>
+    <system:String x:Key="ROI_calculation_view_close_price_field">Startpreis</system:String>
+    <!--also used for the same label in TargetPriceCalculationView-->
+    <system:String x:Key="ROI_calculation_view_initial_margin_label">Anfängliche Marge:</system:String>
     <system:String x:Key="specific_style_dictionary_dark_theme_button">Dunkel</system:String>
     <system:String x:Key="specific_style_dictionary_light_theme_button">Klar</system:String>
+    <!--also used for the window title-->
     <system:String x:Key="select_language_window_window_header">Spracheinstellungen</system:String>
     <system:String x:Key="select_language_button">Sprache</system:String>
+    <system:String x:Key="target_price_calculation_view_target_price_label">Zielpreis:</system:String>
     <!--This one is for the error message showed when handling settings file errors
         and is not used in any control-->
     <system:String x:Key="ui_settings_file_error_message">Die Anwendungskonfigurationsdatei

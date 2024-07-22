@@ -1,14 +1,15 @@
-﻿
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 
 namespace MainModule.Common.Converters;
 
-public class DateToIntegerConverter : IValueConverter
+public class LongToDateConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var dateInSeconds = (long)value;
+
+        //find out how to convert the date to be used in the performance chart
 
         var convertedDate = new DateTime(dateInSeconds);
 

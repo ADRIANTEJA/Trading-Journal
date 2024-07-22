@@ -20,7 +20,7 @@
                 <Trigger Property="IsMouseOver" Value="true">
                     <Setter TargetName="button_template"
                             Property="Background"
-                            Value="{StaticResource red_brush}"/>
+                            Value="{StaticResource error_red_brush}"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>

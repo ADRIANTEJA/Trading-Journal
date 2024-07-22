@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MainModule.Common;
 
 namespace MainModule.ViewModels;
 

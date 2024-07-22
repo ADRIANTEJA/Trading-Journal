@@ -14,7 +14,7 @@
                     Background="{DynamicResource theme_background_brush}">
                 <Border x:Name="minimize_icon"
                         Background="{DynamicResource theme_font_brush}"
-                        Margin="10,24,10,4"/>
+                        Margin="10,27,10,4"/>
             </Border>
 
             <ControlTemplate.Triggers>

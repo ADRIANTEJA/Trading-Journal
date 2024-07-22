@@ -2,6 +2,9 @@
 using MainModule.Common.Utils;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using UI.Common.Helpers;
 using UI.Common.Utils;
 using UI.Settings;
 
@@ -47,5 +50,17 @@ public partial class FontSizeSlider : Grid
             JsonFileUtils.SerializeJsonFile(config, Constants.UIUserSettingsFilePath);
         }
         catch { MiscFunctions.HandleUISettingsFileError(); }
+    }
+
+    private void ShowGrabCursorHandler(object sender, MouseEventArgs e)
+    {
+        var senderRef = (Thumb)sender;
+        senderRef.Cursor = ResourceAccessHelper.GrabCursorDummy.Cursor;
+    }
+
+    private void ShowGrabbingCursorHandler(object sender, DragStartedEventArgs e)
+    {
+        var senderRef = (Thumb)sender;
+        senderRef.Cursor = ResourceAccessHelper.GrabbingCursorDummy.Cursor;
     }
 }

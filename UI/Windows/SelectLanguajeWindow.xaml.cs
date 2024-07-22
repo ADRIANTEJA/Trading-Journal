@@ -5,13 +5,13 @@ using UI.Services;
 
 namespace UI.Windows;
 /// <summary>
-/// Interaction logic for SelectLanguajeWindow.xaml
+/// Interaction logic for SelectLanguageWindow.xaml
 /// </summary>
-public partial class SelectLanguajeWindow : Window
+public partial class SelectLanguageWindow : Window
 {
     private IUIConfigurationService _uiConfigService;
 
-    public SelectLanguajeWindow(IUIConfigurationService uiConfigService)
+    public SelectLanguageWindow(IUIConfigurationService uiConfigService)
     {
         InitializeComponent();
         _uiConfigService = uiConfigService;

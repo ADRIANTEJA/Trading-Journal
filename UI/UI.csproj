@@ -12,11 +12,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Common\Resources\Assets\Cursors\grab.cur" />
+    <None Remove="Common\Resources\Assets\Cursors\grabbing.cur" />
     <None Remove="Common\Resources\Assets\Icons\app_logo_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\chinese_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_calculator_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_home_button_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_long_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_quit_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_rezize_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_rezize_fullscreen_button_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_short_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_theme_dark_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_theme_light_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_theme_settings_icon.png" />
@@ -25,9 +31,13 @@
     <None Remove="Common\Resources\Assets\Icons\german_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\italian_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\japanese_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_calculator_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_home_button_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_long_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_quit_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_rezize_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_rezize_fullscreen_button_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_short_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_theme_dark_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_theme_light_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_theme_settings_icon.png" />
@@ -45,15 +55,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Common\Resources\Assets\Icons\dark_short_button_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_short_button_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\Converters\" />
-    <Folder Include="Controls\ScrollViewers\" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,8 +75,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Common\Resources\Assets\Cursors\grab.cur" />
+    <Resource Include="Common\Resources\Assets\Cursors\grabbing.cur" />
     <Resource Include="Common\Resources\Assets\Icons\app_logo_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\chinese_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\dark_calculator_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\dark_home_button_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\dark_long_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_quit_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_rezize_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_rezize_fullscreen_button_icon.png" />
@@ -74,6 +93,9 @@
     <Resource Include="Common\Resources\Assets\Icons\german_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\italian_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\japanese_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_calculator_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_home_button_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_long_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_quit_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_rezize_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_rezize_fullscreen_button_icon.png" />
@@ -109,6 +131,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Utils\" />
   </ItemGroup>
 
 </Project>

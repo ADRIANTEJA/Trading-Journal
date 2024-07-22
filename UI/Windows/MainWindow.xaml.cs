@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
+using UI.Common.Helpers;
 using UI.Common.Utils;
 using UI.Services;
 
@@ -19,12 +19,14 @@ public partial class MainWindow : Window
         _uiConfigService = uiConfigService;
     }
 
-    private void OnMainWindowLoadHandler(object sender, RoutedEventArgs e)
+    private void OnWindowLoadedHandler(object sender, RoutedEventArgs e)
     {
         // this calls the method for loading UI settings, if the settings file is missing or bad written
-        // it is deleted and recreated thus reseting the application's UI settings
+        // it is deleted and recreated thus reseting the application's UI settings and restarting the app
         try { ApplyUIPreferencesOnStartup(); }
         catch { MiscFunctions.HandleUISettingsFileError(); }
+
+        home_button.Background = ResourceAccessHelper.GreenBrushRef;
     }
 
     public void ApplyUIPreferencesOnStartup()
@@ -42,15 +44,13 @@ public partial class MainWindow : Window
                 Application.Current.Resources.MergedDictionaries.Add(new() { Source = Constants.DarkThemeDictionarySource });
                 Application.Current.Resources.MergedDictionaries.Remove(new() { Source = Constants.LightThemeDictionarySource });
 
-                dark_theme_button_ref.BorderBrush = 
-                    (SolidColorBrush)Application.Current.FindResource("theme_inverse_background_brush");
+                dark_theme_button_ref.SetResourceReference(BorderBrushProperty, ResourceAccessHelper.ThemeBackgroundInverseBrushKey);
                 break;
             case "False":
                 Application.Current.Resources.MergedDictionaries.Add(new() { Source = Constants.LightThemeDictionarySource });
                 Application.Current.Resources.MergedDictionaries.Remove(new() { Source = Constants.DarkThemeDictionarySource });
 
-                light_theme_button_ref.BorderBrush = 
-                    (SolidColorBrush)Application.Current.FindResource("theme_inverse_background_brush");
+                light_theme_button_ref.SetResourceReference(BorderBrushProperty, ResourceAccessHelper.ThemeBackgroundInverseBrushKey);
                 break;             
         }
 
@@ -136,5 +136,22 @@ public partial class MainWindow : Window
             var sBoardReverse = (Storyboard)Resources["hide_theme_options_storyboard"];
             sBoardReverse.Begin();
         }    
-    }  
+    }
+
+    private void HoldNavButtonHighlightHandler(object sender, RoutedEventArgs e)
+    {
+        var senderButtonRef = (Button)sender;
+
+        home_button.Background = null;
+        account_button.Background = null;
+        strategy_button.Background = null;
+
+        senderButtonRef.Background = ResourceAccessHelper.GreenBrushRef;
+    }
+
+    private void OpenCalculatorWindowHandler(object sender, RoutedEventArgs e)
+    {
+        var calculatorWindow = new CalculatorWindow();
+        calculatorWindow.ShowDialog();
+    }
 }

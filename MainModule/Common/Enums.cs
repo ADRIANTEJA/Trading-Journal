@@ -7,5 +7,18 @@ public static class Enums
     {
         main
     }
-   
+    /// <summary>
+    /// The format the ROI property should be displayed in the user interface
+    /// </summary>
+    public enum ROIFormat
+    {
+        Value,
+        Percentage
+    }
+
+    public enum PerfomanceTimeFrame
+    {
+        Daily,
+        Monthly
+    }
 }

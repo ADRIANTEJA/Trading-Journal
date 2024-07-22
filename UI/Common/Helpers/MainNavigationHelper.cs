@@ -7,12 +7,13 @@ using MainModule.Common.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Windows;
 using MainModule.Common;
+using API;
 
 namespace UI.Common.Helpers;
 /// <summary>
-/// Encapsulates an INavigation instance and defines the navigation commands
+/// Encapsulates an INavigationService instance and defines the navigation commands
 /// </summary>
-public partial class NavigationHelper : ObservableObject
+public partial class MainNavigationHelper : ObservableObject, INavigationHelper
 {
     [ObservableProperty]
     private INavigationService _navigation;
@@ -34,7 +35,7 @@ public partial class NavigationHelper : ObservableObject
     [RelayCommand]
     public void NavigateToSelectLanguage()
     {
-        var selectLanguageWindow = App.AppHost!.Services.GetRequiredService<SelectLanguajeWindow>();
+        var selectLanguageWindow = App.AppHost!.Services.GetRequiredService<SelectLanguageWindow>();
         selectLanguageWindow.ShowDialog();
     }
 
@@ -59,7 +60,7 @@ public partial class NavigationHelper : ObservableObject
 
     public bool CanNavigateToSrategy(object? parameter) => Flags.IsThreadSafe;
 
-    public NavigationHelper(INavigationService navigation)
+    public MainNavigationHelper(INavigationService navigation)
     {
         Navigation = navigation;
         Navigation.NavigateToAsync<HomeViewModel>(); 

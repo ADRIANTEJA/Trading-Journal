@@ -1,5 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary x:Class="UI.Common.Resources.Dictionaries.SpecificStyleDictionary"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:listViewItems="clr-namespace:UI.Controls.ScrollViewers.ListViewItems"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <Style x:Key="dark_theme_button_style" 
            TargetType="{x:Type Button}"
@@ -7,8 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid Background="{TemplateBinding Background}"
-                          Margin="2">
+                    <Grid Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
@@ -17,7 +19,8 @@
                         <Image Source="{DynamicResource theme_dark_icon}"/>
                         <TextBlock Grid.Column="1"
                                    Text="{DynamicResource specific_style_dictionary_dark_theme_button}"
-                                   Style="{StaticResource base_textblock_style}"/>
+                                   Style="{StaticResource base_textblock_style}"
+                                   VerticalAlignment="Center"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -39,84 +42,202 @@
                         <Image Source="{DynamicResource theme_light_icon}"/>
                         <TextBlock Grid.Column="1"
                                    Text="{DynamicResource specific_style_dictionary_light_theme_button}"
-                                   Style="{StaticResource base_textblock_style}"/>
+                                   Style="{StaticResource base_textblock_style}"
+                                   VerticalAlignment="Center"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="font_size_slider_style" TargetType="{x:Type Slider}">
-        <Setter Property="Minimum" Value="0"/>
-        <Setter Property="Maximum" Value="2"/>
-        <Setter Property="SelectionStart" Value="0"/>
-        <Setter Property="SelectionEnd" Value="{Binding 
-                                                RelativeSource={RelativeSource Self},
-                                                Path=Value}"/>
-        <Setter Property="TickFrequency" Value="1"/>
-        <Setter Property="IsSnapToTickEnabled" Value="True"/>
-        <Setter Property="IsSelectionRangeEnabled" Value="True"/>
-        <Setter Property="IsMoveToPointEnabled" Value="True"/>
+    <Style x:Key="navigation_button_style" 
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource base_buttons_style}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Slider}">
-                    <Grid Background="{TemplateBinding Background}">
-                        <Border Height="2.0" 
-                                Background="{DynamicResource theme_inverse_background_brush}"
-                                Margin="8,0,8,0"/>
-                        
-                        <Border x:Name="PART_SelectionRange"
-                                Height="2.0"
-                                Background="{StaticResource green_controls_brush}"
-                                HorizontalAlignment="Left"
-                                Visibility="Collapsed"
-                                Margin="8,0,8,0"/>
-                        
-                        <Border x:Name="slider_first_level"
-                                Background="{StaticResource green_controls_brush}"
-                                Margin="6,1,121,1"
-                                CornerRadius="1"/>
-                        <Border x:Name="slider_second_level"
-                                Background="{DynamicResource theme_inverse_background_brush}"
-                                Margin="64,1,63,1"
-                                CornerRadius="1"/>
-                        <Border x:Name="slider_third_level"
-                                Background="{DynamicResource theme_inverse_background_brush}"
-                                Margin="121,1,6,1"
-                                CornerRadius="1"/>
-                        
-                        <Track x:Name="PART_Track">
-                            <Track.Thumb>
-                                <Thumb>
-                                    <Thumb.Template>
-                                        <ControlTemplate>
-                                            <Ellipse x:Name="track_ellipse"
-                                                     Width="16" 
-                                                     Height="16"
-                                                     Fill="{StaticResource green_controls_brush}"
-                                                     VerticalAlignment="Center"
-                                                     HorizontalAlignment="Center"/>
-                                        </ControlTemplate>
-                                    </Thumb.Template>
-                                </Thumb>
-                            </Track.Thumb>
-                        </Track>
-                    </Grid>
-                    
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="highlight"
+                            Opacity="{TemplateBinding Opacity}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource green_brush}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   Style="{StaticResource base_textblock_style}"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource TemplatedParent}}">
+                        </TextBlock>
+                    </Border>
+
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelectionRangeEnabled" Value="True">
-                            <Setter TargetName="PART_SelectionRange"
-                                    Property="Visibility"
-                                    Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="Value" Value="2">
-                            <Setter TargetName="slider_second_level"
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="highlight"
                                     Property="Background"
-                                    Value="{StaticResource green_controls_brush}"/>
+                                    Value="{StaticResource green_brush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{DynamicResource green_highlight_brush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="home_navigation_button_style" 
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource base_buttons_style}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="highlight"
+                            Opacity="{TemplateBinding Opacity}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource green_brush}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        <Image Source="{DynamicResource home_button_icon}"
+                               HorizontalAlignment="Center" 
+                               Margin="0,7,0,7"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{StaticResource green_brush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{DynamicResource green_highlight_brush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="long_button_style" 
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource base_buttons_style}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="highlight"
+                            Opacity="{TemplateBinding Opacity}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource green_brush}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="{DynamicResource long_button_icon}"
+                                   Margin="0,6,0,4"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       Style="{StaticResource base_textblock_style}"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource TemplatedParent}}">
+                            </TextBlock>
+                        </Grid>
+                        
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{StaticResource green_brush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{DynamicResource green_highlight_brush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="short_button_style" 
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource base_buttons_style}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="highlight"
+                            Opacity="{TemplateBinding Opacity}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource salmon_brush}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="{DynamicResource short_button_icon}"
+                                   Margin="0,6,0,4"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       Style="{StaticResource base_textblock_style}"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource TemplatedParent}}">
+                            </TextBlock>
+                        </Grid>
+
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{DynamicResource salmon_brush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{DynamicResource salmon_highlight_brush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="accounts_list_view_item_style" TargetType="{x:Type ListViewItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <listViewItems:AccountsListViewItem/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="highlightable_border_style" TargetType="{x:Type Border}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource green_brush}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

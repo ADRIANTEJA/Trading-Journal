@@ -1,0 +1,57 @@
+﻿<Border x:Name="border" 
+        x:Class="UI.Controls.ScrollViewers.Custom.ROIFormatSelector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:UI.Controls.ScrollViewers.Custom"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"  
+        mc:Ignorable="d"
+        Background="{DynamicResource theme_control_wrapper_background_brush}"
+        Style="{StaticResource highlightable_border_style}"
+        Height="32"
+        d:DesignHeight="32" 
+        d:DesignWidth="100">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="ROI format"
+                   Style="{StaticResource base_textblock_style}"
+                   VerticalAlignment="Center"/>
+
+        <Polygon x:Name="toggle_icon"
+                 Grid.Column="1"
+                 Points="1,6 11,6 6,11" 
+                 Fill="{StaticResource green_brush}" 
+                 Margin="0,9,0,0"/>
+
+        <ListView x:Name="options_list_view"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="2"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  IsSynchronizedWithCurrentItem="True"
+                  Style="{StaticResource epander_option_list_items_style}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding}"
+                            Style="{StaticResource text_buttons_style}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <ListView.Items>
+                <system:String>Raw value</system:String>
+                <system:String>Percentage</system:String>
+            </ListView.Items>
+        </ListView>
+    </Grid>
+</Border>

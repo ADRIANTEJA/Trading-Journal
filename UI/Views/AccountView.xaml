@@ -3,11 +3,187 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
+             xmlns:accountViewButtons="clr-namespace:UI.Controls.Buttons.AccountView"
+             xmlns:charts="clr-namespace:UI.Controls.Charts.AccountView"
+             xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
+             mc:Ignorable="d"
+             x:Name="account_view"
              d:DesignHeight="1020"
-             d:DesignWidth="1916">
-    
-    <Grid Background="{DynamicResource theme_background_brush}">
-            
+             d:DesignWidth="1916"
+             Background="Transparent" 
+             Loaded="OnAccountViewLoadedHandler">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="expand_filter_performance_by_date_control_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="filter_performance_by_date_control" 
+                                           Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="320">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="collapse_filter_performance_by_date_control_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="filter_performance_by_date_control" 
+                                           Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+
+        </Storyboard>
+
+        <Storyboard x:Key="collapse_roi_format_options_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="roi_format_options_selector" 
+                                   Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+
+        </Storyboard>
+
+        <Storyboard x:Key="expand_roi_format_options_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="roi_format_options_selector" 
+                           Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="103">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid Margin="5">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <accountViewButtons:AddAccountButton Margin="5"
+                                                     Command="{Binding Path=MainNavigationHelper.NavigateToAddAccountCommand}"/>
+                <accountViewButtons:ChangeAccountButton Grid.Column="1"
+                                                        Margin="5"/>
+                <accountViewButtons:DeleteAccountButton Grid.Column="2"
+                                                        Margin="5"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.RowSpan="3"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <ListView x:Name="accounts_list_view"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      ItemsSource="{Binding Path=Accounts}"
+                      IsSynchronizedWithCurrentItem="True"
+                      VirtualizingPanel.ScrollUnit="Pixel"
+                      ScrollViewer.PanningMode="Both"
+                      ItemContainerStyle="{StaticResource accounts_list_view_item_style}"
+                      Margin="10,10,5,10">
+            </ListView>
+        </Border>
+
+        <Border Grid.Column="1"
+                Background="{DynamicResource theme_control_wrapper_background_brush}"
+                CornerRadius="5"
+                Margin="5">
+
+            <TextBlock Text="Account Performance"
+                       Style="{StaticResource base_textblock_style}"
+                       VerticalAlignment="Center"
+                       FontSize="20"/>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <Grid x:Name="performance_control_bar_grid"
+                  Margin="5,0,5,0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="130"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="42"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <accountViewButtons:OverallPerfomanceButton Margin="0,0,5,0"/>
+                <accountViewButtons:PerMothPerformanceButton Grid.Column="1" 
+                                                             Margin="0,0,5,0"/>
+
+                <customScrollViewers:ROIFormatSelector x:Name="roi_format_options_selector"
+                                                       Grid.Column="2"
+                                                       Grid.RowSpan="2"
+                                                       Panel.ZIndex="1"
+                                                       VerticalAlignment="Top" 
+                                                       Margin="5,5,0,0"
+                                                       MouseEnter="ShowROIFormatOptionsHandler" 
+                                                       MouseLeave="HideROIFormatOptionsHandler"/>
+
+                <customScrollViewers:FilterPerformanceByDateControl x:Name="filter_performance_by_date_control" 
+                                                                    Grid.Column="4"
+                                                                    Grid.RowSpan="2"
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalAlignment="Top"
+                                                                    Panel.ZIndex="1"
+                                                                    MouseEnter="ShowFilterPerformanceByDateOptionsHandler"
+                                                                    MaxWidth="{Binding ElementName=performance_control_bar_grid}" 
+                                                                    MouseLeave="HideFilterPerformanceByDateOptionsHandler" 
+                                                                    Margin="0,5,0,5"
+                                                                    Height="32"
+                                                                    Width="125"/>
+
+                <charts:AccountPerformanceLineChart x:Name="accountPerformanceLineChart" 
+                                                    Grid.ColumnSpan="5"
+                                                    Grid.Row="1"
+                                                    Margin="5"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="3"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <charts:StrategyUsePieChart Margin="100,100,30,100"/>
+        </Border>
     </Grid>
 </UserControl>

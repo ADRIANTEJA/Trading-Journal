@@ -81,6 +81,8 @@ public static class Constants
 	public static Uri LightThemeDictionarySource => lightThemeDictionarySource;
 
 	private static readonly string languageDictionariesFolderPath = "Common/Resources/Dictionaries/Language/";
-
+	/// <summary>
+	/// source of the folder where the languages xaml resource files are storaged
+	/// </summary>
 	public static string LanguageDictionariesFolderPath => languageDictionariesFolderPath;
 }

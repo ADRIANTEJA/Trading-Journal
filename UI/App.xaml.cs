@@ -10,6 +10,8 @@ using MainModule.DataAccess;
 using MainModule.Services;
 using System.IO;
 using MainModule.Common;
+using API;
+using Prism.Events;
 
 namespace UI;
 
@@ -49,8 +51,9 @@ public partial class App : Application
             .ConfigureServices((hostContext, services) =>
             {
                 //Hard Dependencies
+                services.AddSingleton<IEventAggregator, EventAggregator>();
                 services.AddSingleton<INavigationService, NavigationService>();
-                services.AddTransient<NavigationHelper>();
+                services.AddTransient<INavigationHelper, MainNavigationHelper>();
                 services.AddSingleton<IConfigurationService, ConfigurationService>();
                 services.AddSingleton<IUIConfigurationService, UIConfigurationService>();
                 services.AddSingleton<Func<Type, IViewModel>>
@@ -58,14 +61,14 @@ public partial class App : Application
                 //Windows
                 services.AddSingleton(provider => new MainWindow(provider.GetRequiredService<IUIConfigurationService>())
                 {
-                    DataContext = provider.GetRequiredService<NavigationHelper>()
+                    DataContext = provider.GetRequiredService<INavigationHelper>()
                 });
-                services.AddTransient(provider => new SelectLanguajeWindow(provider.GetRequiredService<IUIConfigurationService>()));
+                services.AddTransient(provider => new SelectLanguageWindow(provider.GetRequiredService<IUIConfigurationService>()));
                 services.AddTransient(provider => new AddTradeWindow
                 {
                     DataContext = provider.GetRequiredService<HomeViewModel>()
                 });
-                services.AddTransient(provider => new AddAccountWindow
+                services.AddTransient(provider => new AddAccountWindow(provider.GetRequiredService<IEventAggregator>())
                 {
                     DataContext = provider.GetRequiredService<AccountViewModel>()
                 });
@@ -85,14 +88,18 @@ public partial class App : Application
                 //Data Access
                 services.AddTransient<AccountAccess>();
                 services.AddTransient<TradeAccess>();
+                services.AddTransient<DayPerformanceAccess>();
                 //ViewModels
                 services.AddSingleton<HomeViewModel>();
-                services.AddSingleton<AccountViewModel>();
+                services.AddSingleton(provider => new AccountViewModel(provider.GetRequiredService<AccountAccess>(),
+                                                                       provider.GetRequiredService<DayPerformanceAccess>(),
+                                                                       provider.GetRequiredService<INavigationHelper>(),
+                                                                       provider.GetRequiredService<IEventAggregator>()));
                 services.AddSingleton<StrategyViewModel>();
-                services.AddTransient<SymbolViewModel>();
-                services.AddTransient<TradeImageViewModel>();
-                services.AddTransient<DayPerformanceViewModel>();
-                services.AddTransient<AnalysisNoteViewModel>();
+                services.AddSingleton<SymbolViewModel>();
+                services.AddSingleton<TradeImageViewModel>();
+                services.AddSingleton<DayPerformanceViewModel>();
+                services.AddSingleton<AnalysisNoteViewModel>();
             }).Build();
     }
 }
