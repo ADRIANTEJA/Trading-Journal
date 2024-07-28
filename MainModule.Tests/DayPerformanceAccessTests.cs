@@ -19,7 +19,7 @@ public class DayPerformanceAccessTests
         var dayPerformance = new DayPerformance()
         {
             AccountId = 1,
-            Date = "10/02/24",
+            Date = 9999999999999999,
             ROI = 45.32,
             ROIPercentage = 4.12
         };

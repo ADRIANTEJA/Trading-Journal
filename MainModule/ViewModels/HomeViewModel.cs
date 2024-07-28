@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using MainModule.Common;
 using MainModule.DataAccess;
 using MainModule.DataModel;
 using System.Collections.ObjectModel;
@@ -11,10 +10,11 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 {
     private readonly AccountViewModel _accountViewModel;
 
+    public AccountViewModel AccountViewModel => _accountViewModel;
+
     private readonly TradeAccess _tradeAccess;
 
-    [ObservableProperty]
-    private ObservableCollection<Trade> trades;
+    public ObservableCollection<Trade> Trades { get; }
 
     [ObservableProperty]
     private int tradeId;
@@ -83,9 +83,13 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
     private void OnSelectedAccountChanged(object sender, PropertyChangedEventArgs args)
     {
-        if (args.PropertyName == nameof(_accountViewModel.SelectedAccount))
+        if (args.PropertyName == nameof(AccountViewModel.SelectedAccount))
         {
-            Trades = new(_tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result);
+            Trades.Clear();
+
+            var tempDataReckords = _tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result;
+
+            foreach (var i in tempDataReckords) Trades.Add(i);
         }
     }
 }

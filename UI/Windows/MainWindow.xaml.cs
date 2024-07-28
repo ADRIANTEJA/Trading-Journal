@@ -1,4 +1,5 @@
 ﻿using MainModule.Common;
+using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -6,6 +7,7 @@ using System.Windows.Media.Animation;
 using UI.Common.Helpers;
 using UI.Common.Utils;
 using UI.Services;
+using UI.Views;
 
 namespace UI.Windows;
 
@@ -153,5 +155,11 @@ public partial class MainWindow : Window
     {
         var calculatorWindow = new CalculatorWindow();
         calculatorWindow.ShowDialog();
+    }
+
+    private void OnNaviagtionPanelLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (MainNavigationHelper)DataContext;
+        dataContext.NavigateToHomeCommand.Execute(null);
     }
 }

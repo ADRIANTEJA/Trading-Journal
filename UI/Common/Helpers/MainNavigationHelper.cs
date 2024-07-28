@@ -63,6 +63,5 @@ public partial class MainNavigationHelper : ObservableObject, INavigationHelper
     public MainNavigationHelper(INavigationService navigation)
     {
         Navigation = navigation;
-        Navigation.NavigateToAsync<HomeViewModel>(); 
     }
 }

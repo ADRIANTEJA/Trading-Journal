@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:UI.Controls.ScrollViewers.ListViewItems"
+        xmlns:homeViewButton="clr-namespace:UI.Controls.Buttons.HomeView"
         mc:Ignorable="d" 
         BorderBrush="{StaticResource green_brush}"
         BorderThickness="1"
@@ -34,10 +35,28 @@
         </Grid.RowDefinitions>
 
         <CheckBox VerticalAlignment="Center"
-              HorizontalAlignment="Center"/>
+                  HorizontalAlignment="Center"/>
 
         <TextBlock Grid.Column="1"
                    Text="Status"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="1"
+                   Text="{Binding Path=IsOpen}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="2"
+                   Text="Side"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="4"
+                   Text="{Binding Path=IsLong}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -46,8 +65,44 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <TextBlock Grid.Column="2"
+                   Grid.Row="4"
+                   Text="{Binding Path=CloseDate}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="2"
+                   Grid.Row="1"
+                   Text="{Binding Path=OpenDate}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="2"
+                   Grid.Row="2"
+                   Text="Close date"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
         <TextBlock Grid.Column="3"
                    Text="Open Price"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="3"
+                   Grid.Row="1"
+                   Text="{Binding Path=OpenPrice}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="3"
+                   Grid.Row="2"
+                   Text="Close price"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="3"
+                   Grid.Row="4"
+                   Text="{Binding Path=ClosePrice}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -56,8 +111,44 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <TextBlock Grid.Column="4"
+                   Grid.Row="1"
+                   Text="{Binding Path=TakeProfit}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="4"
+                   Grid.Row="2"
+                   Text="SL"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="4"
+                   Grid.Row="4"
+                   Text="{Binding Path=StopLoss}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
         <TextBlock Grid.Column="5"
-                   Text="Symbol"
+                   Text="Asset"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="5"
+                   Grid.Row="1"
+                   Text="{Binding Path=PairTraded}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="5"
+                   Grid.Row="2"
+                   Text="Volume"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="5"
+                   Grid.Row="4"
+                   Text="{Binding Path=Volume}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -66,14 +157,71 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <Button Grid.Column="6"
+                Grid.Row="1"
+                Content="See Costs"
+                Style="{StaticResource text_buttons_style}" 
+                Margin="5,0,5,0"/>
+
+        <TextBlock Grid.Column="6"
+                   Grid.Row="1" 
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="6"
+                   Grid.Row="2"
+                   Text="ROI"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="6"
+                   Grid.Row="4"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}">
+            
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0}   {1}%">
+                    <Binding Path="Roi"/>
+                    <Binding Path="RoiPercentage"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
         <TextBlock Grid.Column="7"
                    Text="Images"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <homeViewButton:OpenImagesFolderButton Grid.Column="7"
+                                               Grid.Row="1" 
+                                               Margin="24,0,24,0"/>
+
+        <TextBlock Grid.Column="7"
+                   Grid.Row="2"
+                   Text="Notes"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <homeViewButton:OpenTradeNotesButton Grid.Column="7"
+                                             Grid.Row="4" Margin="32,0,32,0"/>
+
         <TextBlock Grid.Column="9"
                    Text="Edit"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
+
+        <homeViewButton:EditTradeButton Grid.Column="9"
+                                        Grid.Row="1" 
+                                        Margin="32,0,32,0"/>
+
+        <TextBlock Grid.Column="9"
+                   Grid.Row="2"
+                   Text="Mistakes"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <homeViewButton:OpenTradeMistakesButton Grid.Column="9"
+                                                Grid.Row="4" 
+                                                Margin="32,0,32,0"/>
     </Grid>
 </Border>

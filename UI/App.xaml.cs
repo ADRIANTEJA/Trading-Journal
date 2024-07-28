@@ -20,7 +20,6 @@ public partial class App : Application
     public static IHost? AppHost { get; private set; }
     private static readonly string appDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
                                                                    Constants.ApplicationDataFolderName);
-
     public App()
     {
         ConfigureServices();
@@ -73,33 +72,35 @@ public partial class App : Application
                     DataContext = provider.GetRequiredService<AccountViewModel>()
                 });
                 //Views
-                services.AddTransient(provider => new HomeView
+                services.AddTransient(provider => new StrategyView
                 {
-                    DataContext = provider.GetRequiredService<HomeViewModel>()
+                    DataContext = provider.GetRequiredService<StrategyViewModel>()
                 });
                 services.AddTransient(provider => new AccountView
                 {
                     DataContext = provider.GetRequiredService<AccountViewModel>()
                 });
-                services.AddTransient(provider => new StrategyView 
-                { 
-                    DataContext = provider.GetRequiredService<StrategyViewModel>() 
+                services.AddTransient(provider => new HomeView
+                {
+                    DataContext = provider.GetRequiredService<HomeViewModel>()
                 });
                 //Data Access
                 services.AddTransient<AccountAccess>();
                 services.AddTransient<TradeAccess>();
                 services.AddTransient<DayPerformanceAccess>();
                 //ViewModels
-                services.AddSingleton<HomeViewModel>();
-                services.AddSingleton(provider => new AccountViewModel(provider.GetRequiredService<AccountAccess>(),
-                                                                       provider.GetRequiredService<DayPerformanceAccess>(),
-                                                                       provider.GetRequiredService<INavigationHelper>(),
-                                                                       provider.GetRequiredService<IEventAggregator>()));
                 services.AddSingleton<StrategyViewModel>();
                 services.AddSingleton<SymbolViewModel>();
                 services.AddSingleton<TradeImageViewModel>();
                 services.AddSingleton<DayPerformanceViewModel>();
                 services.AddSingleton<AnalysisNoteViewModel>();
+                services.AddSingleton(provider => new HomeViewModel(provider.GetRequiredService<AccountViewModel>(),
+                                                                    provider.GetRequiredService<TradeAccess>()));
+
+                services.AddSingleton(provider => new AccountViewModel(provider.GetRequiredService<AccountAccess>(),
+                                                                       provider.GetRequiredService<DayPerformanceAccess>(),
+                                                                       provider.GetRequiredService<INavigationHelper>(),
+                                                                       provider.GetRequiredService<IEventAggregator>()));
             }).Build();
     }
 }

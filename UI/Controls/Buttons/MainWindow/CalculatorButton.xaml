@@ -8,8 +8,7 @@
              d:DesignHeight="32" 
              d:DesignWidth="32">
 
-    <Image x:Name="calculator_icon"
-           Source="{DynamicResource caculator_button_icon}" 
-           Margin="7,7,7,7"/>
+    <Image Source="{DynamicResource caculator_button_icon}" 
+           Margin="7"/>
     
 </Button>

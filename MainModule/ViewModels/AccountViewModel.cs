@@ -2,22 +2,22 @@
 using API.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LiveChartsCore;
-using LiveChartsCore.Defaults;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
+using LiveCharts;
+using LiveCharts.Defaults;
 using MainModule.DataAccess;
 using MainModule.DataModel;
 using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
-using System.Windows;
 using static MainModule.Common.Enums;
 
 namespace MainModule.ViewModels;
 
 public partial class AccountViewModel : ObservableObject, IViewModel
 {
+    public Func<double, string> TicksToDateConverter { get; } = 
+        (double value) => new DateTime((long)value).ToString("yyyy-MM-dd");
+
     private readonly IEventAggregator _eventAggregator;
 
     private readonly INavigationHelper _mainNavigationHelper;
@@ -35,7 +35,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     [ObservableProperty]
     private Account selectedAccount;
 
-    public ObservableCollection<Account> Accounts { get; } = [];
+    public ObservableCollection<Account> Accounts { get; }
 
     [ObservableProperty]
     private string nameVM;
@@ -43,13 +43,11 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     [ObservableProperty]
     private double initialBalanceVM;
 
-    public ObservableCollection<DateTimePoint> AccountPerformanceValues { get; } = [];
-
     [ObservableProperty]
-    private ISeries[] accountPerformance;
+    public ChartValues<ObservablePoint> accountPerformance = [];
 
     [RelayCommand]
-    public void AddAccount()
+    private void AddAccount()
     {
         var newAccount = new Account
         {
@@ -68,20 +66,45 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     }
 
     [RelayCommand]
-    public void LoadDailyPerformance()
+    private void LoadDailyPerformance()
     {
         if (SelectedAccount == null) return;
 
-        var dayPerformance = _dayPerformanceDataAccess.QueryDayPerformanceByAccountIdAsync(SelectedAccount.Id).Result;
+        AccountPerformance.Clear();
+
+        var tempReckordsList = _dayPerformanceDataAccess.QueryDayPerformanceByAccountIdAsync(SelectedAccount.Id).Result;
+
+        List<DayPerformance> performance = [];
+
+        switch (performanceTimeFrame)
+        {
+            case PerfomanceTimeFrame.Daily:
+
+                performance = tempReckordsList;
+                break;
+            case PerfomanceTimeFrame.Monthly:
+
+                performance = tempReckordsList
+                    .Select(x => new { Date = new DateTime(x.Date), x.ROI, x.ROIPercentage })
+                    .GroupBy(x => new { x.Date.Month, x.Date.Year })
+                    .Select(g => new DayPerformance
+                    {
+                        Date = new DateTime(g.Key.Year, g.Key.Month, 1).Ticks,
+                        ROI = g.Sum(x => x.ROI),
+                        ROIPercentage = g.Sum(x => x.ROIPercentage) //Fix the ROI percentage calculation formula
+                    }).ToList();
+                break;
+        }
 
         switch (roiFormat)
         {
             case ROIFormat.Value:
 
-                foreach (var i in dayPerformance)
-                {
-                    AccountPerformanceValues.Add(new(new(i.Date), i.ROI));
-                }
+                foreach (var i in performance) AccountPerformance.Add(new(DateTime.Now.Ticks, i.ROI)); 
+                break;
+            case ROIFormat.Percentage:
+
+                foreach (var i in performance) AccountPerformance.Add(new(DateTime.Now.Ticks, i.ROIPercentage));
                 break;
         }
     }
@@ -97,21 +120,6 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         _eventAggregator = eventAggregator;
 
         Accounts = new(_accountDataAccess.QueryAccountsAsync().Result);
-        SelectedAccount = Accounts.First(ac => ac.IsSelected == 1);
-
-        var seriesColor = new SolidColorPaint(new(47, 201, 123), 1);
-
-        accountPerformance =
-        [
-            new LineSeries<DateTimePoint>
-            {
-                Values = AccountPerformanceValues,
-                Fill = null,
-                Stroke = seriesColor,
-                GeometrySize = 5,
-                GeometryFill = seriesColor,
-                GeometryStroke = seriesColor
-            }
-        ];
+        SelectedAccount = Accounts.First(account => account.IsSelected == 1);
     }
 }

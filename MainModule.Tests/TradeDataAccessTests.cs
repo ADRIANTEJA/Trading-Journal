@@ -33,6 +33,7 @@ public class TradeDataAccessTests
             TakeProfit = 1.5,
             StopLoss = 0.9,
             Roi = 4.0,
+            RoiPercentage = 20,
             Mistakes = "some mistakes",
             Notes = "some notes"
         };
@@ -91,6 +92,7 @@ public class TradeDataAccessTests
             TakeProfit = 1.5,
             StopLoss = 0.96,
             Roi = 4,
+            RoiPercentage = 10,
             Mistakes = "some mistakes",
             Notes = "some notes"
         };

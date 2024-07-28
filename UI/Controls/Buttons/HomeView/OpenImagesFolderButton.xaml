@@ -1,13 +1,14 @@
-﻿<Button x:Class="UI.Controls.Buttons.AccountView.OverallPerfomanceButton"
+﻿<Button x:Class="UI.Controls.Buttons.HomeView.OpenImagesFolderButton"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:local="clr-namespace:UI.Controls.Buttons.AccountView"
-        Style="{StaticResource navigation_button_style}"
-        Content="Overall"
-        mc:Ignorable="d" 
+        xmlns:local="clr-namespace:UI.Controls.Buttons.HomeView"
+        mc:Ignorable="d"
+        Style="{StaticResource icon_buttons_style}"
         d:DesignHeight="32" 
-        d:DesignWidth="100">
-   
+        d:DesignWidth="48">
+
+    <Image Source="{DynamicResource folder_icon}"
+           Margin="10"/>
 </Button>

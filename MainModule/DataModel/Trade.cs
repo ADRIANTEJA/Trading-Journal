@@ -74,9 +74,14 @@ public class Trade
     /// </summary>
     public double? StopLoss { get; set; }
     /// <summary>
-    /// represents the return on investment or the profit of the position(trade)
+    /// represents the return on investment or profit of the position(trade)
     /// </summary>
     public double? Roi { get; set; }
+    /// <summary>
+    /// represets the return on investment or profit of the position(trade)
+    /// in a percentage format
+    /// </summary>
+    public double? RoiPercentage { get; set; }
     /// <summary>
     /// represents the description or naming of any mistakes the users think to have
     /// committed in the position(trade)

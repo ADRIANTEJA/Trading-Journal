@@ -3,15 +3,45 @@
                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                           xmlns:liveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
                            xmlns:local="clr-namespace:UI.Controls.Charts.AccountView"
-                           xmlns:liveCharts="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
-                           Background="{DynamicResource theme_control_wrapper_background_brush}"
-                           Series="{Binding Path=AccountPerformance}"
-                           XAxes="{Binding Path=XAxes}"
                            mc:Ignorable="d"
-                           ZoomMode="Both"
+                           Zoom="X"
+                           Pan="None"
+                           ZoomingSpeed="0.5"
+                           DisableAnimations="True"
                            d:DesignHeight="450" 
                            d:DesignWidth="800">
-    
-    
+
+    <liveCharts:CartesianChart.AxisX>
+
+        <liveCharts:Axis Title="Days"
+                         LabelFormatter="{Binding Path=TicksToDateConverter}"
+                         ShowLabels="False"
+                         FontSize="{DynamicResource font_size}"
+                         FontFamily="Calibri">
+
+            <liveCharts:Axis.Separator>
+                <liveCharts:Separator Stroke="Transparent"/>
+            </liveCharts:Axis.Separator>
+        </liveCharts:Axis>
+    </liveCharts:CartesianChart.AxisX>
+
+    <liveCharts:CartesianChart.AxisY>
+
+        <liveCharts:Axis x:Name="y_axis"
+                         Title="ROI"
+                         Foreground="{DynamicResource theme_font_brush}"
+                         FontFamily="Calibri"
+                         FontSize="{StaticResource font_size}"
+                         LabelFormatter="{StaticResource roi_value_label_formatter}">
+
+            <liveCharts:Axis.Separator>
+                <liveCharts:Separator Stroke="{StaticResource theme_button_highlight_brush}"
+                                      StrokeThickness="0.5"
+                                      Step="10"/>
+            </liveCharts:Axis.Separator>
+            
+        </liveCharts:Axis>
+    </liveCharts:CartesianChart.AxisY>
 </liveCharts:CartesianChart>

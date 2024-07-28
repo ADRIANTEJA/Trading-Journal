@@ -30,8 +30,7 @@
 
         <Polygon x:Name="toggle_icon"
                  Grid.Column="1"
-                 Points="1,6 11,6 6,11" 
-                 Fill="{StaticResource green_brush}" 
+                 Style="{StaticResource vector_down_icon_style}" 
                  Margin="0,9,0,0"/>
 
         <ListView x:Name="options_list_view"
@@ -39,14 +38,7 @@
                   Grid.ColumnSpan="2"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   IsSynchronizedWithCurrentItem="True"
-                  Style="{StaticResource epander_option_list_items_style}">
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding}"
-                            Style="{StaticResource text_buttons_style}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                  Style="{StaticResource expander_option_list_items_style}">
 
             <ListView.Items>
                 <system:String>Raw value</system:String>

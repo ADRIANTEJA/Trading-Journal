@@ -1,5 +1,4 @@
-﻿using LiveChartsCore.SkiaSharpView.Painting;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace UI.Common.Helpers;

@@ -2,11 +2,11 @@
 
 namespace UI.Controls.Buttons.AccountView;
 /// <summary>
-/// Interaction logic for PerMothPerformanceButton.xaml
+/// Interaction logic for DailyPerformanceButton.xaml
 /// </summary>
-public partial class PerMothPerformanceButton : Button
+public partial class DailyPerformanceButton : Button
 {
-    public PerMothPerformanceButton()
+    public DailyPerformanceButton()
     {
         InitializeComponent();
     }

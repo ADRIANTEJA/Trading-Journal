@@ -2,11 +2,11 @@
 
 namespace UI.Controls.Buttons.AccountView;
 /// <summary>
-/// Interaction logic for OverallPerfomanceButton.xaml
+/// Interaction logic for MonthlyPerformanceButton.xaml
 /// </summary>
-public partial class OverallPerfomanceButton : Button
+public partial class MonthlyPerformanceButton : Button
 {
-    public OverallPerfomanceButton()
+    public MonthlyPerformanceButton()
     {
         InitializeComponent();
     }

@@ -30,4 +30,12 @@
                  UriSource="/Common/Resources/Assets/Icons/light_short_button_icon.png"/>
     <BitmapImage x:Key="long_button_icon"
                  UriSource="/Common/Resources/Assets/Icons/light_long_button_icon.png"/>
+    <BitmapImage x:Key="folder_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_folder_icon.png"/>
+    <BitmapImage x:Key="edit_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_edit_icon.png"/>
+    <BitmapImage x:Key="notes_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_notes_icon.png"/>
+    <BitmapImage x:Key="mistakes_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_mistakes_icon.png"/>
 </ResourceDictionary>

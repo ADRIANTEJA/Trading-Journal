@@ -1,0 +1,14 @@
+﻿<Button x:Class="UI.Controls.Buttons.HomeView.OpenTradeMistakesButton"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:UI.Controls.Buttons.HomeView"
+        Style="{StaticResource icon_buttons_style}"
+        mc:Ignorable="d" 
+        d:DesignHeight="32" 
+        d:DesignWidth="24">
+
+    <Image Source="{DynamicResource mistakes_icon}"
+           Margin="4,5,4,5"/>
+</Button>

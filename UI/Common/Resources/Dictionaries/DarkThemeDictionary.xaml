@@ -31,4 +31,12 @@
                  UriSource="/Common/Resources/Assets/Icons/dark_short_button_icon.png"/>
     <BitmapImage x:Key="long_button_icon"
                  UriSource="/Common/Resources/Assets/Icons/dark_long_button_icon.png"/>
+    <BitmapImage x:Key="folder_icon"
+                 UriSource="\Common\Resources\Assets\Icons\dark_folder_icon.png"/>
+    <BitmapImage x:Key="edit_icon"
+                 UriSource="\Common\Resources\Assets\Icons\dark_edit_icon.png"/>
+    <BitmapImage x:Key="notes_icon"
+                 UriSource="\Common\Resources\Assets\Icons\dark_notes_icon.png"/>
+    <BitmapImage x:Key="mistakes_icon"
+                 UriSource="\Common\Resources\Assets\Icons\dark_mistakes_icon.png"/>
 </ResourceDictionary>

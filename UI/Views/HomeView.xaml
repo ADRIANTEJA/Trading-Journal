@@ -3,10 +3,556 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:charts="clr-namespace:UI.Controls.Charts.AccountView"
+             xmlns:liveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
-             d:DesignWidth="1916">
+             d:DesignWidth="1916" 
+             Loaded="OnHomeViewLoadedHandler">
+    
+    <UserControl.Resources>
+        <Storyboard x:Key="show_symbol_categories_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_category_display_control" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="800">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="hide_symbol_categories_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_category_display_control" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="90">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="expand_crypto_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames  Storyboard.TargetName="crypto_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="expand_forex_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="forex_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="expand_indices_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="indices_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="expand_etfs_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="etfs_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="expand_stocks_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stocks_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="expand_commodities_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="commodities_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="collapse_crypto_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames  Storyboard.TargetName="crypto_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="collapse_forex_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="forex_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="collapse_indices_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="indices_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="collapse_etfs_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="etfs_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="collapse_stocks_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stocks_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="collapse_commodities_filter_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="commodities_expander" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
     <Grid Background="{DynamicResource theme_background_brush}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding Path=AccountViewModel.SelectedAccount.Name}"
+                           Style="{StaticResource base_textblock_style}"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" 
+                           Margin="0,0,2,0"/>
+                
+                <TextBlock Grid.Column="1"
+                           Text="Trades"
+                           Style="{StaticResource base_textblock_style}"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left" 
+                           Margin="3,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <TextBlock Text="Performance"
+                       Style="{StaticResource base_textblock_style}"
+                       VerticalAlignment="Center"
+                       FontSize="18"/>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.RowSpan="3"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <Grid Margin="5">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="symbol_category_display_control"
+                      Grid.RowSpan="2"
+                      Panel.ZIndex="1"
+                      Width="100"
+                      HorizontalAlignment="Left">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="116"/>
+                        <ColumnDefinition Width="116"/>
+                        <ColumnDefinition Width="116"/>
+                        <ColumnDefinition Width="116"/>
+                        <ColumnDefinition Width="116"/>
+                        <ColumnDefinition Width="116"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button x:Name="expand_symbol_category_button"
+                            Style="{StaticResource symbol_category_button_expand_style}"
+                            Tag="1"
+                            Width="90"
+                            Click="ShowSymbolCategoryHandler"/>
+
+                    <Border x:Name="crypto_expander"
+                            Grid.Column="1"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource highlightable_border_style}"
+                            Background="{StaticResource theme_control_wrapper_background_brush}"
+                            Height="32" 
+                            MouseEnter="ShowSymbolCategoryFiltersHandller"
+                            MouseLeave="HideSymbolCategoryFiltersHandller">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Crypto"
+                                           Style="{StaticResource base_textblock_style}"
+                                           VerticalAlignment="Center"/>
+
+                                <Polygon Grid.Column="1"
+                                         Style="{StaticResource vector_down_icon_style}"
+                                         Margin="0,9,0,0"/>
+                            </Grid>
+
+                            <ListView x:Name="crypto_list_view"
+                                      Grid.Row="1"
+                                      Background="Transparent"
+                                      BorderBrush="Transparent"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Style="{StaticResource expander_option_list_items_style}">
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding}"
+                                                Style="{StaticResource text_buttons_style}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+
+                                <ListView.Items>
+                                    <system:String>a</system:String>
+                                    <system:String>a</system:String>
+                                    <system:String>a</system:String>
+                                </ListView.Items>
+                            </ListView>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="forex_expander"
+                            Grid.Column="2"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource highlightable_border_style}"
+                            Background="{StaticResource theme_control_wrapper_background_brush}"
+                            Height="32"
+                            MouseEnter="ShowSymbolCategoryFiltersHandller"
+                            MouseLeave="HideSymbolCategoryFiltersHandller">
+
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Forex"
+                                           Style="{StaticResource base_textblock_style}"
+                                           VerticalAlignment="Center"/>
+
+                                <Polygon Grid.Column="1"
+                                         Style="{StaticResource vector_down_icon_style}" 
+                                         Margin="0,9,0,0"/>
+                            </Grid>
+
+                            <ListView x:Name="forex_list_view"
+                                      Grid.Row="1"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      Style="{StaticResource expander_option_list_items_style}">
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding}"
+                                                Style="{StaticResource text_buttons_style}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="indices_expander"
+                            Grid.Column="3"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource highlightable_border_style}"
+                            Background="{StaticResource theme_control_wrapper_background_brush}"
+                            Height="32"
+                            MouseEnter="ShowSymbolCategoryFiltersHandller"
+                            MouseLeave="HideSymbolCategoryFiltersHandller">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Indices"
+                                           Style="{StaticResource base_textblock_style}"
+                                           VerticalAlignment="Center"/>
+
+                                <Polygon Grid.Column="1"
+                                         Style="{StaticResource vector_down_icon_style}" 
+                                         Margin="0,9,0,0"/>
+                            </Grid>
+
+                            <ListView x:Name="indices_list_view"
+                                      Grid.Row="1"
+                                      Background="Transparent"
+                                      BorderBrush="Transparent"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Style="{StaticResource expander_option_list_items_style}">
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding}"
+                                                Style="{StaticResource text_buttons_style}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="etfs_expander"
+                            Grid.Column="4"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource highlightable_border_style}"
+                            Background="{StaticResource theme_control_wrapper_background_brush}"
+                            Height="32"
+                            MouseEnter="ShowSymbolCategoryFiltersHandller"
+                            MouseLeave="HideSymbolCategoryFiltersHandller">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="ETFs"
+                                           Style="{StaticResource base_textblock_style}"
+                                           VerticalAlignment="Center"/>
+
+                                <Polygon Grid.Column="1"
+                                         Style="{StaticResource vector_down_icon_style}" 
+                                         Margin="0,9,0,0"/>
+                            </Grid>
+
+                            <ListView x:Name="etf_list_view"
+                                      Grid.Row="1"
+                                      Background="Transparent"
+                                      BorderBrush="Transparent"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Style="{StaticResource expander_option_list_items_style}">
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding}"
+                                                Style="{StaticResource text_buttons_style}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="stocks_expander"
+                            Grid.Column="5"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource highlightable_border_style}"
+                            Background="{StaticResource theme_control_wrapper_background_brush}"
+                            Height="32"
+                            MouseEnter="ShowSymbolCategoryFiltersHandller"
+                            MouseLeave="HideSymbolCategoryFiltersHandller">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Stocks"
+                                           Style="{StaticResource base_textblock_style}"
+                                           VerticalAlignment="Center"/>
+
+                                <Polygon Grid.Column="1"
+                                         Style="{StaticResource vector_down_icon_style}" 
+                                         Margin="0,9,0,0"/>
+                            </Grid>
+
+                            <ListView x:Name="stocks_list_view"
+                                      Grid.Row="1"
+                                      Background="Transparent"
+                                      BorderBrush="Transparent"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Style="{StaticResource expander_option_list_items_style}">
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding}"
+                                                Style="{StaticResource text_buttons_style}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="commodities_expander"
+                            Grid.Column="6"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource highlightable_border_style}"
+                            Background="{StaticResource theme_control_wrapper_background_brush}"
+                            Height="32"
+                            MouseEnter="ShowSymbolCategoryFiltersHandller" 
+                            MouseLeave="HideSymbolCategoryFiltersHandller">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Commodities"
+                                           Style="{StaticResource base_textblock_style}"
+                                           VerticalAlignment="Center"/>
+
+                                <Polygon Grid.Column="1"
+                                         Style="{StaticResource vector_down_icon_style}" 
+                                         Margin="0,9,0,0"/>
+                            </Grid>
+
+                            <ListView x:Name="commodities_list_view"
+                                      Grid.Row="1"
+                                      Background="Transparent"
+                                      BorderBrush="Transparent"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Style="{StaticResource expander_option_list_items_style}">
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding}"
+                                                Style="{StaticResource text_buttons_style}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <ListView x:Name="trades_listview"
+                          Grid.Row="1"
+                          Style="{StaticResource base_listview_style}"
+                          ItemContainerStyle="{StaticResource trades_listview_item_style}"
+                          ItemsSource="{Binding Path=Trades}" Margin="0,10,0,0"/>
+            </Grid>
+        </Border>
+        
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <charts:AccountPerformanceLineChart x:Name="account_performance_line_chart"
+                                                Margin="5">
+
+                <charts:AccountPerformanceLineChart.Series>
+
+                    <liveCharts:LineSeries Values="{Binding Path=AccountViewModel.AccountPerformance}"
+                                           Style="{StaticResource account_performance_line_series_style}"/>
+                </charts:AccountPerformanceLineChart.Series>
+            </charts:AccountPerformanceLineChart>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="3"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
             
+        </Border>
     </Grid>
 </UserControl>
