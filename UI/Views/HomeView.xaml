@@ -527,7 +527,8 @@
                           Grid.Row="1"
                           Style="{StaticResource base_listview_style}"
                           ItemContainerStyle="{StaticResource trades_listview_item_style}"
-                          ItemsSource="{Binding Path=Trades}" Margin="0,10,0,0"/>
+                          ItemsSource="{Binding Path=Trades}" 
+                          Margin="0,10,0,0"/>
             </Grid>
         </Border>
         

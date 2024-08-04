@@ -1,0 +1,16 @@
+﻿<Button x:Class="UI.Controls.ScrollViewers.ScrollableGridViewItems.AddTradeImageButton"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:UI.Controls.ScrollViewers.ScrollableGridViewItems"
+        x:Name="add_trade_image_button"
+        Style="{StaticResource icon_buttons_style}"
+        Margin="5"
+        mc:Ignorable="d" 
+        d:DesignHeight="128" 
+        d:DesignWidth="128">
+
+    <Image Source="{DynamicResource add_trade_image_icon}"
+           Margin="30"/>
+</Button>

@@ -50,7 +50,7 @@ public class TradeDataAccessTests
             StopLoss = 0.96,
         };
 
-        if (dataAccess.InsertTrade(newfullTrade) == 1 && dataAccess.InsertTrade(newPartialTrade) == 1) { actual = 1; }
+        if (dataAccess.InsertTrade(newfullTrade) == 1 && dataAccess.InsertTrade(newPartialTrade) == 1) { actual = expected; }
 
         Assert.Equal(expected, actual);
     }
@@ -98,7 +98,7 @@ public class TradeDataAccessTests
         };
 
         if (dataAccess.UpdateTrade(partiallyUpdatedTrade) == 1
-            && dataAccess.UpdateTrade(fullyUpdatedTrade) == 1) { actual = 1; }
+            && dataAccess.UpdateTrade(fullyUpdatedTrade) == 1) { actual = expected; }
 
         Assert.Equal(expected, actual);
     }
@@ -107,7 +107,6 @@ public class TradeDataAccessTests
     public void DeleteTrade_ShouldDelete()
     {
         int expected = 1;
-
         int actual = dataAccess.DeleteTrade(1);
 
         Assert.Equal(expected, actual);
@@ -117,10 +116,9 @@ public class TradeDataAccessTests
     public void QueryAccountTradesAsync_ShouldLoadTrades()
     {
         int expected = 1;
-
         int actual = 0;
 
-        if (dataAccess.QueryAccountTradesAsync(1).IsCompletedSuccessfully) actual = 1;
+        if (dataAccess.QueryAccountTradesAsync(1).IsCompletedSuccessfully) actual = expected;
 
         Assert.Equal(expected, actual); 
     }

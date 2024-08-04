@@ -38,4 +38,6 @@
                  UriSource="\Common\Resources\Assets\Icons\light_notes_icon.png"/>
     <BitmapImage x:Key="mistakes_icon"
                  UriSource="\Common\Resources\Assets\Icons\light_mistakes_icon.png"/>
+    <BitmapImage x:Key="add_trade_image_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_add_trade_image_icon.png"/>
 </ResourceDictionary>

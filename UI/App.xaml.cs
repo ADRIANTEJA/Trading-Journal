@@ -71,6 +71,10 @@ public partial class App : Application
                 {
                     DataContext = provider.GetRequiredService<AccountViewModel>()
                 });
+                services.AddTransient(provider => new TradeImageWindow
+                {
+                    DataContext = provider.GetRequiredService<TradeImageViewModel>()
+                });
                 //Views
                 services.AddTransient(provider => new StrategyView
                 {
@@ -87,18 +91,25 @@ public partial class App : Application
                 //Data Access
                 services.AddTransient<AccountAccess>();
                 services.AddTransient<TradeAccess>();
-                services.AddTransient<DayPerformanceAccess>();
+                services.AddTransient<PerformanceAccess>();
+                services.AddTransient<TradeImageAccess>();
                 //ViewModels
                 services.AddSingleton<StrategyViewModel>();
                 services.AddSingleton<SymbolViewModel>();
-                services.AddSingleton<TradeImageViewModel>();
                 services.AddSingleton<DayPerformanceViewModel>();
                 services.AddSingleton<AnalysisNoteViewModel>();
                 services.AddSingleton(provider => new HomeViewModel(provider.GetRequiredService<AccountViewModel>(),
-                                                                    provider.GetRequiredService<TradeAccess>()));
+                                                                    provider.GetRequiredService<TradeAccess>(),
+                                                                    provider.GetRequiredService<IEventAggregator>(),
+                                                                    provider.GetRequiredService<INavigationHelper>()));
+
+                services.AddSingleton(provider => new TradeImageViewModel(provider.GetRequiredService<HomeViewModel>(),
+                                                                          provider.GetRequiredService<TradeImageAccess>(),
+                                                                          provider.GetRequiredService<INavigationHelper>(),
+                                                                          provider.GetRequiredService<IEventAggregator>()));
 
                 services.AddSingleton(provider => new AccountViewModel(provider.GetRequiredService<AccountAccess>(),
-                                                                       provider.GetRequiredService<DayPerformanceAccess>(),
+                                                                       provider.GetRequiredService<PerformanceAccess>(),
                                                                        provider.GetRequiredService<INavigationHelper>(),
                                                                        provider.GetRequiredService<IEventAggregator>()));
             }).Build();

@@ -10,6 +10,9 @@
     <system:String x:Key="calculator_window_window_header">Калькулятор</system:String>
     <system:String x:Key="calculator_window_target_price_button">Целевая цена</system:String>
     <system:String x:Key="calculator_window_calculate_button">Рассчитать</system:String>
+    <!--This one is for the error message showed when convertion of a byte[] array to
+        a BitMapSource fails due to some problem with jpg image format-->
+    <system:String x:Key="image_convertion_error_message">Неверный файл изображения</system:String>
     <system:String x:Key="leverage_slider_leverage_label">Использовать</system:String>
     <system:String x:Key="main_window_settings_menu_header">Настройки</system:String>
     <system:String x:Key="main_window_switch_theme_button">Тема</system:String>

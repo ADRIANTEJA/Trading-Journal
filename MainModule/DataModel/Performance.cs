@@ -1,9 +1,9 @@
 ﻿namespace MainModule.DataModel;
 
-public class DayPerformance
+public class Performance
 {
     /// <summary>
-    /// the DayPerformance primary and foreign key associated to an account
+    /// the Performance primary and foreign key associated to an account
     /// </summary>
     public int AccountId { get; set; }
     /// <summary>

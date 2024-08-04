@@ -26,7 +26,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
     private readonly AccountAccess _accountDataAccess;
 
-    private DayPerformanceAccess _dayPerformanceDataAccess;
+    private PerformanceAccess _dayPerformanceDataAccess;
 
     private ROIFormat roiFormat = ROIFormat.Value;
 
@@ -74,7 +74,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
         var tempReckordsList = _dayPerformanceDataAccess.QueryDayPerformanceByAccountIdAsync(SelectedAccount.Id).Result;
 
-        List<DayPerformance> performance = [];
+        List<Performance> performance = [];
 
         switch (performanceTimeFrame)
         {
@@ -87,7 +87,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
                 performance = tempReckordsList
                     .Select(x => new { Date = new DateTime(x.Date), x.ROI, x.ROIPercentage })
                     .GroupBy(x => new { x.Date.Month, x.Date.Year })
-                    .Select(g => new DayPerformance
+                    .Select(g => new Performance
                     {
                         Date = new DateTime(g.Key.Year, g.Key.Month, 1).Ticks,
                         ROI = g.Sum(x => x.ROI),
@@ -110,7 +110,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     }
 
     public AccountViewModel(AccountAccess accountDataAccess,
-                            DayPerformanceAccess dayPerformanceDataAccess,
+                            PerformanceAccess dayPerformanceDataAccess,
                             INavigationHelper mainNavigationHelper,
                             IEventAggregator eventAggregator) 
     {

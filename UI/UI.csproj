@@ -16,6 +16,7 @@
     <None Remove="Common\Resources\Assets\Cursors\grabbing.cur" />
     <None Remove="Common\Resources\Assets\Icons\app_logo_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\chinese_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_add_trade_image_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_calculator_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_folder_icon.png" />
@@ -36,6 +37,7 @@
     <None Remove="Common\Resources\Assets\Icons\german_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\italian_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\japanese_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_add_trade_image_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_calculator_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_folder_icon.png" />
@@ -64,11 +66,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Common\Resources\Assets\Icons\dark_add_trade_image_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_folder_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_mistakes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_notes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_short_button_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_add_trade_image_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_folder_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_mistakes_icon.png" />
@@ -147,10 +151,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\Utils\" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,8 @@
         CornerRadius="3"
         Height="160" 
         d:DesignWidth="1000" 
-        Margin="0,0,0,10">
+        Margin="0,0,0,10" 
+        MouseEnter="UpdateContextTradeHandler">
     
     <Grid>
 
@@ -161,7 +162,7 @@
                 Grid.Row="1"
                 Content="See Costs"
                 Style="{StaticResource text_buttons_style}" 
-                Margin="5,0,5,0"/>
+                Margin="20,0,20,0"/>
 
         <TextBlock Grid.Column="6"
                    Grid.Row="1" 
@@ -194,7 +195,9 @@
 
         <homeViewButton:OpenImagesFolderButton Grid.Column="7"
                                                Grid.Row="1" 
-                                               Margin="24,0,24,0"/>
+                                               Margin="24,0,24,0" 
+                                               Click="OpenTradeImagesWindowHandler"
+                                               Command="{Binding Path=MainNavigationHelper.NavigateToTradeImagesCommand}"/>
 
         <TextBlock Grid.Column="7"
                    Grid.Row="2"

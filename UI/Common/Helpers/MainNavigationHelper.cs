@@ -19,24 +19,31 @@ public partial class MainNavigationHelper : ObservableObject, INavigationHelper
     private INavigationService _navigation;
 
     [RelayCommand]
-    public void NavigateToAddTrade()
+    private void NavigateToAddTrade()
     {
         var addTradeWindow = App.AppHost!.Services.GetRequiredService<AddTradeWindow>();
         addTradeWindow.ShowDialog();
     }
 
     [RelayCommand]
-    public void NavigateToAddAccount()
+    private void NavigateToAddAccount()
     {
         var addAccountWindow = App.AppHost!.Services.GetRequiredService<AddAccountWindow>();
         addAccountWindow.ShowDialog();
     }
 
     [RelayCommand]
-    public void NavigateToSelectLanguage()
+    private void NavigateToSelectLanguage()
     {
         var selectLanguageWindow = App.AppHost!.Services.GetRequiredService<SelectLanguageWindow>();
         selectLanguageWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToTradeImages()
+    {
+        var tradeImagesWindow = App.AppHost!.Services.GetRequiredService<TradeImageWindow>();
+        tradeImagesWindow.ShowDialog();
     }
 
     private ICommand? navigateToHomeCommand;
@@ -54,11 +61,11 @@ public partial class MainNavigationHelper : ObservableObject, INavigationHelper
     public ICommand? NavigateToStrategyCommand => navigateToStrategyCommand ??= new DelegateCommand
         (o => Navigation.NavigateToAsync<StrategyViewModel>(), CanNavigateToSrategy);
 
-    public bool CanNavigateToHome(object? parameter) => Flags.IsThreadSafe;
+    private bool CanNavigateToHome(object? parameter) => Flags.IsThreadSafe;
 
-    public bool CanNavigateToAccount(object? parameter) => Flags.IsThreadSafe;
+    private bool CanNavigateToAccount(object? parameter) => Flags.IsThreadSafe;
 
-    public bool CanNavigateToSrategy(object? parameter) => Flags.IsThreadSafe;
+    private bool CanNavigateToSrategy(object? parameter) => Flags.IsThreadSafe;
 
     public MainNavigationHelper(INavigationService navigation)
     {

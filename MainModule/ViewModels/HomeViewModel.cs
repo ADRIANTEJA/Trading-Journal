@@ -1,6 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using API;
+using API.Events;
+using CommunityToolkit.Mvvm.ComponentModel;
 using MainModule.DataAccess;
 using MainModule.DataModel;
+using Prism.Events;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -8,6 +11,10 @@ namespace MainModule.ViewModels;
 
 public partial class HomeViewModel : ObservableObject, IViewModel
 {
+    private readonly INavigationHelper _mainNavigationHelper;
+
+    private readonly IEventAggregator _eventAggregator;
+
     private readonly AccountViewModel _accountViewModel;
 
     public AccountViewModel AccountViewModel => _accountViewModel;
@@ -15,6 +22,10 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     private readonly TradeAccess _tradeAccess;
 
     public ObservableCollection<Trade> Trades { get; }
+
+    private Trade selectedTrade;
+
+    public Trade SelectedTrade { get; set; }
 
     [ObservableProperty]
     private int tradeId;
@@ -73,12 +84,35 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     [ObservableProperty]
     private string tradeNotes;
 
-    public HomeViewModel(AccountViewModel accountViewModel, TradeAccess tradeAccess)
+    public HomeViewModel(AccountViewModel accountViewModel, 
+                         TradeAccess tradeAccess, 
+                         IEventAggregator eventAggregator,
+                         INavigationHelper mainNavigationHelper)
     {
         _accountViewModel = accountViewModel;
         _tradeAccess = tradeAccess;
+        _mainNavigationHelper = mainNavigationHelper;
+        _eventAggregator = eventAggregator;
+
+        _eventAggregator.GetEvent<OnSelectedTradeItemChangedEvent>().Subscribe(UpdateSelectedTrade);
+        _eventAggregator.GetEvent<OnLoadTradeImagesClickEvent>().Subscribe(OpenTradeImagesHandler);
 
         Trades = new(_tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result);
+    }
+
+    private void UpdateSelectedTrade(object trade)
+    {
+        SelectedTrade = (Trade)trade;
+    }
+
+    private void OpenTradeImagesHandler()
+    {
+        //I used dynamic typing here because this proyect can't see the implementation type of
+        //the mainNavigationHelper menber just its interface type, thus I needed to avoid the
+        //compile time check for the NavigateToTradeImagesCommand Property of the MainNavigationHelper
+        //implementation
+        dynamic navHelperRef = _mainNavigationHelper;
+        navHelperRef.NavigateToTradeImagesCommand.Execute(null);
     }
 
     private void OnSelectedAccountChanged(object sender, PropertyChangedEventArgs args)

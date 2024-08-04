@@ -12,7 +12,6 @@ public class AccountDataAccessTests
     public void InsertAccount_ShouldInsert()
     {
         int expected = 1;
-        
         int actual = dataAccess.InsertAccount(new()
         {
             Name = "Testo",
@@ -28,7 +27,6 @@ public class AccountDataAccessTests
     public void UpdateAccount_ShouldUpdate()
     {
         int expected = 1;
-
         int actual = dataAccess.UpdateAccountBalance(1, 200);
 
         Assert.Equal(expected, actual);
@@ -38,7 +36,6 @@ public class AccountDataAccessTests
     public void DeleteAccount_ShouldDelete()
     {
         int expected = 1;
-
         int actual = dataAccess.DeleteAccount(1);
 
         Assert.Equal(expected, actual);
@@ -48,10 +45,9 @@ public class AccountDataAccessTests
     public void QueryAccountsAsync_shouldLoadAccounts()
     {
         int expected = 1;
-
         int actual = 0;
 
-        if (dataAccess.QueryAccountsAsync().IsCompletedSuccessfully) actual = 1;
+        if (dataAccess.QueryAccountsAsync().IsCompletedSuccessfully) actual = expected;
 
         Assert.Equal(expected, actual);
     }

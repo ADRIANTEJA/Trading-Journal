@@ -235,7 +235,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <listViewItems:TradesListViewItem/>
+                    <listViewItems:TradesListViewItem DataContext="{Binding}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -333,5 +333,15 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="mouse_over_highlighter" TargetType="{x:Type Border}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="{Binding RelativeSource={RelativeSource }}"
+                        Property="Background"
+                        Value="{DynamicResource theme_button_highlight_brush}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

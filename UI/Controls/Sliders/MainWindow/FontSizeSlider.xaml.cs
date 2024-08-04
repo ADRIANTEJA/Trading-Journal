@@ -49,7 +49,7 @@ public partial class FontSizeSlider : Grid
             config.FontSize = fontSize;
             JsonFileUtils.SerializeJsonFile(config, Constants.UIUserSettingsFilePath);
         }
-        catch { MiscFunctions.HandleUISettingsFileError(); }
+        catch { ErrorHandlers.HandleUISettingsFileError(); }
     }
 
     private void ShowGrabCursorHandler(object sender, MouseEventArgs e)

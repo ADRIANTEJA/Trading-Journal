@@ -38,7 +38,8 @@
                                                     Content="ROI"
                                                     Style="{StaticResource navigation_button_style}" 
                                                     Margin="80,8,5,8" 
-                                                    Click="NavigateToROIViewHandler" Grid.ColumnSpan="2"/>
+                                                    Click="NavigateToROIViewHandler" 
+                                                    Grid.ColumnSpan="2"/>
                 <mainWindowButtons:NavigationButton x:Name="target_price_button"
                                                     Grid.Column="2"
                                                     Content="{DynamicResource calculator_window_target_price_button}"

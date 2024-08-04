@@ -10,6 +10,9 @@
     <system:String x:Key="calculator_window_window_header">電卓</system:String>
     <system:String x:Key="calculator_window_target_price_button">目標価格</system:String>
     <system:String x:Key="calculator_window_calculate_button">計算する</system:String>
+    <!--This one is for the error message showed when convertion of a byte[] array to
+        a BitMapSource fails due to some problem with jpg image format-->
+    <system:String x:Key="image_convertion_error_message">画像ファイルが無効です</system:String>
     <system:String x:Key="leverage_slider_leverage_label">てこの作用</system:String>
     <system:String x:Key="main_window_settings_menu_header">設定</system:String>
     <system:String x:Key="main_window_switch_theme_button">テーマ</system:String>

@@ -1,5 +1,4 @@
 ﻿using MainModule.Common;
-using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,7 +6,6 @@ using System.Windows.Media.Animation;
 using UI.Common.Helpers;
 using UI.Common.Utils;
 using UI.Services;
-using UI.Views;
 
 namespace UI.Windows;
 
@@ -26,7 +24,7 @@ public partial class MainWindow : Window
         // this calls the method for loading UI settings, if the settings file is missing or bad written
         // it is deleted and recreated thus reseting the application's UI settings and restarting the app
         try { ApplyUIPreferencesOnStartup(); }
-        catch { MiscFunctions.HandleUISettingsFileError(); }
+        catch { ErrorHandlers.HandleUISettingsFileError(); }
 
         home_button.Background = ResourceAccessHelper.GreenBrushRef;
     }

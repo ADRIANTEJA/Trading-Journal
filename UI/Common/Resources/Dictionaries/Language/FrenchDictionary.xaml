@@ -9,6 +9,9 @@
     <system:String x:Key="calculator_window_window_header">Calculatrice</system:String>
     <system:String x:Key="calculator_window_target_price_button">Prix ​​indicatif</system:String>
     <system:String x:Key="calculator_window_calculate_button">Calculer</system:String>
+    <!--This one is for the error message showed when convertion of a byte[] array to
+        a BitMapSource fails due to some problem with jpg image format-->
+    <system:String x:Key="image_convertion_error_message">Fichier image non valide</system:String>
     <system:String x:Key="leverage_slider_leverage_label">Effet de levier</system:String>
     <system:String x:Key="main_window_settings_menu_header">Paramètres</system:String>
     <system:String x:Key="main_window_switch_theme_button">Thème</system:String>

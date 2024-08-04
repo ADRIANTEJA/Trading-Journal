@@ -49,6 +49,6 @@ public partial class ThemeOptions : Grid
 
             JsonFileUtils.SerializeJsonFile(settings, Constants.UIUserSettingsFilePath);
         }
-        catch { MiscFunctions.HandleUISettingsFileError(); }
+        catch { ErrorHandlers.HandleUISettingsFileError(); }
     }
 }
