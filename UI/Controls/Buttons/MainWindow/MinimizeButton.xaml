@@ -1,19 +1,20 @@
 ﻿<Button x:Class="UI.Controls.Buttons.MainWindow.MinimizeButton"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d"
-             Background="Transparent"
-             d:DesignHeight="32" 
-             d:DesignWidth="32">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Background="Transparent"
+        FocusVisualStyle="{x:Null}"    
+        d:DesignHeight="32" 
+        d:DesignWidth="32">
     
     <Button.Template>
         <ControlTemplate>
             <Border x:Name="button_template"
                     Background="{DynamicResource theme_background_brush}">
                 <Border x:Name="minimize_icon"
-                        Background="{DynamicResource theme_font_brush}"
+                        Background="{DynamicResource theme_background_inverse_brush}"
                         Margin="10,27,10,4"/>
             </Border>
 

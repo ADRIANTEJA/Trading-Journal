@@ -41,4 +41,13 @@ public  class TradeImageAccessTests
 
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    private void InitAutoincrementSequence_ShouldSetAutoincrementValue()
+    {
+        int expected = 1;
+        int actual = dataAccess.InitAutoincrementSequence();
+
+        Assert.Equal(expected, actual);
+    }
 }

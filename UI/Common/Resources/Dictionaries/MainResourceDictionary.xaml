@@ -4,8 +4,8 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes">
 
-    <SolidColorBrush x:Key="green_brush" Color="#2FC97B"/>
-    <SolidColorBrush x:Key="green_highlight_brush" Color="#39D385"/>
+    <SolidColorBrush x:Key="green_brush" Color="#00735C"/>
+    <SolidColorBrush x:Key="green_highlight_brush" Color="#FF1E917A"/>
     <SolidColorBrush x:Key="positive_hightlight_brush" Color="#1FFF1F"/>
     <SolidColorBrush x:Key="warning_yellow_brush" Color="#FFDC00"/>
     <SolidColorBrush x:Key="error_red_brush" Color="#F41312"/>
@@ -37,6 +37,8 @@
                  UriSource="\Common\Resources\Assets\Icons\french_icon.png"/>
     <BitmapImage x:Key="japanese_icon"
                  UriSource="\Common\Resources\Assets\Icons\japanese_icon.png"/>
+    <BitmapImage x:Key="delete_cross_icon"
+                 UriSource="\Common\Resources\Assets\Icons\delete_cross_icon.png"/>
 
     <Style x:Key="base_text_box_style" TargetType="{x:Type TextBox}">
         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -45,6 +47,7 @@
         <Setter Property="Foreground" Value="{DynamicResource theme_font_brush}"/>
         <Setter Property="FontSize" Value="{DynamicResource font_size}"/>
         <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="SelectionBrush" Value="{DynamicResource theme_place_holder_brush}"/>
     </Style>
 
@@ -54,6 +57,7 @@
     <Style x:Key="base_textblock_style" TargetType="{x:Type TextBlock}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="FontSize" Value="{DynamicResource font_size}"/>
         <Setter Property="Foreground" Value="{DynamicResource theme_font_brush}"/>
         <Setter Property="TextAlignment" Value="Center"/>
@@ -65,8 +69,16 @@
         <Setter Property="FontFamily" Value="Calibri"/>
         <Setter Property="Height" Value="32"/>
         <Setter Property="FontSize" Value="{DynamicResource font_size}"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+    </Style>
+
+    <Style x:Key="base_check_box_style" TargetType="{x:Type CheckBox}">
+        <Setter Property="Foreground" Value="{DynamicResource theme_font_brush}"/>
+        <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="Cursor" Value="Hand"/>
     </Style>
 
     <Style x:Key="base_listview_style" TargetType="{x:Type ListView}">

@@ -1,20 +1,18 @@
-﻿<Window x:Class="UI.Windows.TradeImageWindow"
+﻿<Window x:Class="UI.Windows.TradeMistakesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.Windows"
         xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
-        xmlns:scrollGridViewItems="clr-namespace:UI.Controls.ScrollViewers.ScrollableGridViewItems"
         mc:Ignorable="d"
         WindowStyle="None"
+        Title="Mistakes"
         AllowsTransparency="True"
         Background="Transparent"
-        Title="Trade images"
-        Height="400" 
-        Width="522"
-        Effect="{StaticResource window_drop_shadow}"
-        Loaded="OnTradeImagesWindowLoadedHandler">
+        ResizeMode="NoResize"
+        Height="600" 
+        Width="450">
 
     <Border Background="{DynamicResource theme_background_brush}"
             BorderBrush="{StaticResource green_brush}"
@@ -22,19 +20,21 @@
             CornerRadius="2">
 
         <Grid Margin="2">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid MouseDown="DragMoveHandler">
+            <Grid Grid.ColumnSpan="2"
+                  MouseDown="DragMoveHandler">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="32"/>
                     <ColumnDefinition Width="32"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Trade images"
+                <TextBlock Text="Mistakes"
                            VerticalAlignment="Center"
                            Style="{StaticResource base_textblock_style}" 
                            Margin="64,0,0,0"/>
@@ -50,22 +50,14 @@
                     Style="{StaticResource control_wrapper_border_style}"
                     Margin="5">
 
-                <Grid x:Name="image_gallery"
-                      Grid.Row="1">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="128"/>
-                        <ColumnDefinition Width="128"/>
-                        <ColumnDefinition Width="128"/>
-                        <ColumnDefinition Width="128"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="128"/>
-                        <RowDefinition Height="128"/>
-                    </Grid.RowDefinitions>
-                </Grid>
+                <ScrollViewer>
+                    <TextBlock Text="{Binding Path=SelectedTrade.Mistakes}"
+                               TextAlignment="Justify"
+                               Style="{StaticResource base_textblock_style}"
+                               Padding="10,0,0,0"
+                               TextWrapping="Wrap" 
+                               Margin="0,5,0,0"/>
+                </ScrollViewer>
             </Border>
         </Grid>
     </Border>

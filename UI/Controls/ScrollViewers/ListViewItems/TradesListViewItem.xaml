@@ -35,7 +35,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <CheckBox VerticalAlignment="Center"
+        <CheckBox Style="{StaticResource base_check_box_style}"
+                  VerticalAlignment="Center"
                   HorizontalAlignment="Center"/>
 
         <TextBlock Grid.Column="1"
@@ -206,7 +207,9 @@
                    Style="{StaticResource base_textblock_style}"/>
 
         <homeViewButton:OpenTradeNotesButton Grid.Column="7"
-                                             Grid.Row="4" Margin="32,0,32,0"/>
+                                             Grid.Row="4" 
+                                             Margin="32,0,32,0" 
+                                             Click="OpenTradeNotesWindowHandler"/>
 
         <TextBlock Grid.Column="9"
                    Text="Edit"
@@ -225,6 +228,7 @@
 
         <homeViewButton:OpenTradeMistakesButton Grid.Column="9"
                                                 Grid.Row="4" 
-                                                Margin="32,0,32,0"/>
+                                                Margin="32,0,32,0" 
+                                                Click="OpenTradeMistakesWindowHandler"/>
     </Grid>
 </Border>

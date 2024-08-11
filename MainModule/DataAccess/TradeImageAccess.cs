@@ -16,8 +16,8 @@ public class TradeImageAccess
 
     public int InsertTradeImage(TradeImage tradeImage)
     {
-        var command = @"INSERT INTO TradeImage (tradeId, image)
-                        VALUES (@TradeId, @Image)";
+        var command = @"INSERT INTO TradeImage (id, tradeId, image)
+                        VALUES (@Id, @TradeId, @Image)";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         return connection.Execute(command, tradeImage);
@@ -40,5 +40,14 @@ public class TradeImageAccess
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         var tradeImages =  await connection.QueryAsync<TradeImage>(command, new { tradeId });
         return tradeImages.ToList();
+    }
+
+    public int InitAutoincrementSequence()
+    {
+        var command = @"UPDATE sqlite_sequence SET seq = 0 
+                        WHERE name = 'TradeImage'";
+
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(command);
     }
 }

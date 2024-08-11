@@ -28,4 +28,10 @@ public partial class TradesListViewItem : Border
         var contextTrade = (Trade)DataContext;
         _eventAggregator.GetEvent<OnSelectedTradeItemChangedEvent>().Publish(contextTrade);
     }
+
+    private void OpenTradeNotesWindowHandler(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<OnLoadTradeNotesClickEvent>().Publish();
+
+    private void OpenTradeMistakesWindowHandler(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<OnLoadTradeMistakesClickEvent>().Publish();
 }

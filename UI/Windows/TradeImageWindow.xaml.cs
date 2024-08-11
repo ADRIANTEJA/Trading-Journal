@@ -1,10 +1,13 @@
 ﻿using MainModule.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Prism.Events;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using UI.Common.Utils;
 using UI.Controls.ScrollViewers.ScrollableGridViewItems;
+using UI.Events;
 
 namespace UI.Windows;
 /// <summary>
@@ -12,9 +15,14 @@ namespace UI.Windows;
 /// </summary>
 public partial class TradeImageWindow : Window
 {
+    private readonly IEventAggregator _eventAggragator;
+
     public TradeImageWindow()
     {
         InitializeComponent();
+
+        _eventAggragator = App.AppHost!.Services.GetRequiredService<IEventAggregator>();
+        _eventAggragator.GetEvent<OnTradeImageDeletedEvent>().Subscribe(LoadTradeImagesOnGallery);
 
         var grid = new Grid();
 
@@ -44,13 +52,12 @@ public partial class TradeImageWindow : Window
     private void AddTradeImageHandler(object sender, RoutedEventArgs e)
     {
         var imagePath = MiscFunctions.GetImagePathFromDisk();
+
+        if (string.IsNullOrEmpty(imagePath)) return; 
+
         var imageBytes = File.ReadAllBytes(imagePath);
 
-        //adds the image to the database
-        var dataContext = (TradeImageViewModel)DataContext;
-        dataContext.AddTradeImageCommand.Execute(imageBytes);
-
-        //then continous to update the UI
+        //updates the UI
         TradeImageContainer tradeImageContainer = new();
 
         var imageControlRef = (Image)tradeImageContainer.FindName("image_control");
@@ -66,6 +73,18 @@ public partial class TradeImageWindow : Window
         }
 
         image_gallery.Children.Add(tradeImageContainer);
+
+        //then continous to add the image to the database
+        var dataContext = (TradeImageViewModel)DataContext;
+
+        var imageId = 1;
+        if (dataContext.Images.Count > 0) imageId = dataContext.Images[dataContext.Images.Count - 1].Id + 1;
+
+        dataContext.AddTradeImageCommand.Execute(new() { Id = imageId, TradeId = 0, Image = imageBytes});
+
+        //it stores the Image Id value in the Tag Property so it can be
+        //used to delete the image later
+        tradeImageContainer.Tag = imageId;
 
         //iterates over the grid cells based on how many images
         //are in Images and adds the image at the next empty cell
@@ -121,6 +140,10 @@ public partial class TradeImageWindow : Window
 
     private void LoadTradeImagesOnGallery()
     {
+        var test = image_gallery.Children.Count;
+
+        image_gallery.Children.Clear();
+
         var dataContext = (TradeImageViewModel)DataContext;
 
         int columnsIndex = 0;
@@ -134,6 +157,10 @@ public partial class TradeImageWindow : Window
 
             var imageControlRef = (Image)tradeImageContainer.FindName("image_control");
             imageControlRef.Source = MiscFunctions.ByteArrayToBitmapSource(image.Image);
+
+            //it stores the Image Id value in the Tag Property so it can be
+            //used to delete the image later
+            tradeImageContainer.Tag = image.Id;
 
             image_gallery.Children.Add(tradeImageContainer);
 

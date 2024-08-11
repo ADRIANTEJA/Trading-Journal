@@ -3,11 +3,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <SolidColorBrush x:Key="theme_background_brush" Color="#ffffff"/>
-    <SolidColorBrush x:Key="theme_control_wrapper_background_brush" Color="#22D347"/>
+    <SolidColorBrush x:Key="theme_control_wrapper_background_brush" Color="#EFF0F0"/>
     <!--for controls that require inverse color highlight-->
     <SolidColorBrush x:Key="theme_background_inverse_brush" Color="#151515"/>
-    <SolidColorBrush x:Key="theme_button_highlight_brush" Color="#FFB4B4B4"/>
-    <SolidColorBrush x:Key="theme_font_brush" Color="#141414"/>
+    <SolidColorBrush x:Key="theme_button_highlight_brush" Color="#3FB4B4B4"/>
+    <SolidColorBrush x:Key="theme_button_on_click_brush" Color="#3F787878"/>
+    <SolidColorBrush x:Key="theme_font_brush" Color="#00B97E"/>
     <SolidColorBrush x:Key="theme_place_holder_brush" Color="#E5505050"/>
 
     <BitmapImage x:Key="settings_theme_icon" 
@@ -40,4 +41,6 @@
                  UriSource="\Common\Resources\Assets\Icons\light_mistakes_icon.png"/>
     <BitmapImage x:Key="add_trade_image_icon"
                  UriSource="\Common\Resources\Assets\Icons\light_add_trade_image_icon.png"/>
+    <BitmapImage x:Key="delete_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_delete_icon.png"/>
 </ResourceDictionary>

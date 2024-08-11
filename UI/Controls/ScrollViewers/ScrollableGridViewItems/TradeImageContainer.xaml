@@ -4,8 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:UI.Controls.ScrollViewers.ScrollableGridViewItems"
+        xmlns:tradeImageWindowButtons="clr-namespace:UI.Controls.Buttons.TradeImageWIndow"
         BorderBrush="{DynamicResource theme_background_inverse_brush}"
-        Style="{StaticResource highlightable_border_style}"
+        Style="{StaticResource mouse_over_highlighter}"
         Height="Auto"
         BorderThickness="3,3,1,1"
         CornerRadius="3"
@@ -14,6 +15,14 @@
         d:DesignWidth="128"
         Margin="5">
 
-    <Image x:Name="image_control"
-           Margin="5"/>
+    <Grid>
+        <Image x:Name="image_control"
+               Margin="5,10,5,10" 
+               MouseDown="ShowTradeImageHandler"/>
+        
+        <tradeImageWindowButtons:DeleteImageButton Margin="87,5,5,83" 
+                                                   Click="DeleteTradeImageHandler"/>
+    </Grid>
+    
+    
 </Border>

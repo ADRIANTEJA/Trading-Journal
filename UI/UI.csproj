@@ -18,6 +18,7 @@
     <None Remove="Common\Resources\Assets\Icons\chinese_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_add_trade_image_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_calculator_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_delete_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_folder_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_home_button_icon.png" />
@@ -31,6 +32,7 @@
     <None Remove="Common\Resources\Assets\Icons\dark_theme_dark_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_theme_light_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_theme_settings_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\delete_cross_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\english_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\folder_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\french_icon.png" />
@@ -39,6 +41,7 @@
     <None Remove="Common\Resources\Assets\Icons\japanese_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_add_trade_image_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_calculator_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_delete_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_folder_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_home_button_icon.png" />
@@ -67,12 +70,15 @@
 
   <ItemGroup>
     <Resource Include="Common\Resources\Assets\Icons\dark_add_trade_image_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\dark_delete_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_folder_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_mistakes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_notes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_short_button_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\delete_cross_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_add_trade_image_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_delete_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_folder_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_mistakes_icon.png" />

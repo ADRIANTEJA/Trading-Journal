@@ -1,0 +1,57 @@
+﻿<Window x:Class="UI.Windows.ShowImageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:local="clr-namespace:UI.Windows"
+        mc:Ignorable="d"
+        Title="ShowImageWindow"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Effect="{StaticResource window_drop_shadow}"
+        MinHeight="640"
+        MinWidth="1280"
+        ResizeMode="CanResizeWithGrip">
+    
+    <Border BorderBrush="{DynamicResource green_brush}"
+            Background="{DynamicResource theme_background_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid MouseDown="DragMoveHandler"
+              Background="Transparent">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                              Click="MinimizeWindowHandler"/>
+            <mainWindowButtons:ResizeButton x:Name="resize_button"
+                                            Grid.Column="2"
+                                            Click="ResizeMainWindowHandler" Loaded="OnShowImageWindowHandler"/>
+            <mainWindowButtons:QuitButton Grid.Column="3"
+                                          Click="CloseProgramHandler"/>
+
+            <Border Grid.ColumnSpan="4"
+                    Grid.Row="1"
+                    Style="{StaticResource control_wrapper_border_style}"
+                    Margin="5">
+
+                <Image x:Name="show_image_control"
+                       Margin="5"/>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

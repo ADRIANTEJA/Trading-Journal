@@ -75,6 +75,14 @@ public partial class App : Application
                 {
                     DataContext = provider.GetRequiredService<TradeImageViewModel>()
                 });
+                services.AddTransient(provider => new TradeNotesWindow
+                {
+                    DataContext = provider.GetRequiredService<HomeViewModel>()
+                });
+                services.AddTransient(provider => new TradeMistakesWindow
+                {
+                    DataContext = provider.GetRequiredService<HomeViewModel>()
+                });
                 //Views
                 services.AddTransient(provider => new StrategyView
                 {
@@ -93,11 +101,14 @@ public partial class App : Application
                 services.AddTransient<TradeAccess>();
                 services.AddTransient<PerformanceAccess>();
                 services.AddTransient<TradeImageAccess>();
+                services.AddTransient<NoteAccess>();
                 //ViewModels
                 services.AddSingleton<StrategyViewModel>();
                 services.AddSingleton<SymbolViewModel>();
                 services.AddSingleton<DayPerformanceViewModel>();
-                services.AddSingleton<AnalysisNoteViewModel>();
+                services.AddSingleton(provider => new AnalysisNoteViewModel(provider.GetRequiredService<HomeViewModel>(),
+                                                                            provider.GetRequiredService<NoteAccess>()));
+
                 services.AddSingleton(provider => new HomeViewModel(provider.GetRequiredService<AccountViewModel>(),
                                                                     provider.GetRequiredService<TradeAccess>(),
                                                                     provider.GetRequiredService<IEventAggregator>(),
