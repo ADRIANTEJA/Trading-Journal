@@ -24,6 +24,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Border Grid.ColumnSpan="3"
+                Background="{StaticResource green_brush}"/>
+
         <TextBlock Text="Name"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>

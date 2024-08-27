@@ -1,8 +1,13 @@
-﻿using MainModule.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Media.Imaging;
+using UI.Services;
+using UI.Settings;
 
 namespace UI.Common.Utils;
 
@@ -39,9 +44,14 @@ public static class MiscFunctions
         return bitmap;
     }
 
+    /// <summary>
+    /// opens a dialog interface and returns the selected image file
+    /// path, else returns a empty string
+    /// </summary>
+    /// <returns></returns>
     public static string GetImagePathFromDisk()
     {
-        Microsoft.Win32.OpenFileDialog dlg = new()
+        OpenFileDialog dlg = new()
         {
             Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp) | *.jpg; *.jpeg; *.png; *.bmp"
         };

@@ -1,10 +1,12 @@
 ﻿using MainModule.Common;
+using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using UI.Common.Helpers;
 using UI.Common.Utils;
+using UI.Events;
 using UI.Services;
 
 namespace UI.Windows;
@@ -12,21 +14,28 @@ namespace UI.Windows;
 public partial class MainWindow : Window
 {
     private readonly IUIConfigurationService _uiConfigService;
+    private readonly IEventAggregator _eventAggregator;
 
-    public MainWindow(IUIConfigurationService uiConfigService)
+    public MainWindow(IUIConfigurationService uiConfigService, IEventAggregator eventAggregator)
     { 
         InitializeComponent();
+
+        _eventAggregator = eventAggregator;
         _uiConfigService = uiConfigService;
     }
 
     private void OnWindowLoadedHandler(object sender, RoutedEventArgs e)
     {
-        // this calls the method for loading UI settings, if the settings file is missing or bad written
-        // it is deleted and recreated thus reseting the application's UI settings and restarting the app
+        //this calls the method for loading UI settings, if the settings file is missing or bad written
+        //it is deleted and recreated thus reseting the application's UI settings and restarting the app
         try { ApplyUIPreferencesOnStartup(); }
         catch { ErrorHandlers.HandleUISettingsFileError(); }
 
         home_button.Background = ResourceAccessHelper.GreenBrushRef;
+
+        //fires an event to load the culture settings related to language
+        //at startup
+        _eventAggregator.GetEvent<OnUILanguageChangedEvent>().Publish();
     }
 
     public void ApplyUIPreferencesOnStartup()

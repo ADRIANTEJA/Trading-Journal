@@ -6,7 +6,7 @@ public class Strategy
     /// <summary>
     /// the Strategy primary key
     /// </summary>
-    public int Id { get; }
+    public int Id { get; set; }
     /// <summary>
     /// represents the strategy name for its identification in the UI 
     /// </summary>
@@ -16,10 +16,10 @@ public class Strategy
     /// </summary>
     public string? Goal { get; set; }
     /// <summary>
-    /// symbol pair defined to be the strategy's main focus on investment,
-    /// it may be none specific
+    /// symbol pair id to be the strategy's main focus on investment,
+    /// it may be none
     /// </summary>
-    public string? Market { get; set; }
+    public int? Market { get; set; }
     /// <summary>
     /// represents the broker or exchange the user its using to operate
     /// </summary>

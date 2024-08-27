@@ -42,7 +42,7 @@ public class AccountDataAccessTests
     }
 
     [Fact]
-    public void QueryAccountsAsync_shouldLoadAccounts()
+    public void QueryAccountsAsync_ShouldLoadAccounts()
     {
         int expected = 1;
         int actual = 0;

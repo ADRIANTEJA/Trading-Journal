@@ -34,4 +34,7 @@ public partial class TradesListViewItem : Border
 
     private void OpenTradeMistakesWindowHandler(object sender, RoutedEventArgs e) =>
         _eventAggregator.GetEvent<OnLoadTradeMistakesClickEvent>().Publish();
+
+    private void OpenTradeCostsWindowHandler(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<OnLoadTradeCostsClickEvent>().Publish();
 }

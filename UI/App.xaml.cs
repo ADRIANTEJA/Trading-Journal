@@ -58,12 +58,13 @@ public partial class App : Application
                 services.AddSingleton<Func<Type, IViewModel>>
                     (provider => viewModelType => (IViewModel)provider.GetRequiredService(viewModelType));
                 //Windows
-                services.AddSingleton(provider => new MainWindow(provider.GetRequiredService<IUIConfigurationService>())
+                services.AddSingleton(provider => new MainWindow(provider.GetRequiredService<IUIConfigurationService>(),
+                                                                 provider.GetRequiredService<IEventAggregator>())
                 {
                     DataContext = provider.GetRequiredService<INavigationHelper>()
                 });
                 services.AddTransient(provider => new SelectLanguageWindow(provider.GetRequiredService<IUIConfigurationService>()));
-                services.AddTransient(provider => new AddTradeWindow
+                services.AddTransient(provider => new AddTradeWindow(provider.GetRequiredService<IEventAggregator>())
                 {
                     DataContext = provider.GetRequiredService<HomeViewModel>()
                 });
@@ -75,11 +76,15 @@ public partial class App : Application
                 {
                     DataContext = provider.GetRequiredService<TradeImageViewModel>()
                 });
+                services.AddTransient(provider => new TradeMistakesWindow
+                {
+                    DataContext = provider.GetRequiredService<HomeViewModel>()
+                });
                 services.AddTransient(provider => new TradeNotesWindow
                 {
                     DataContext = provider.GetRequiredService<HomeViewModel>()
                 });
-                services.AddTransient(provider => new TradeMistakesWindow
+                services.AddTransient(provider => new TradeCostsWindow
                 {
                     DataContext = provider.GetRequiredService<HomeViewModel>()
                 });

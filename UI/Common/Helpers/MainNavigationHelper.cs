@@ -56,8 +56,15 @@ public partial class MainNavigationHelper : ObservableObject, INavigationHelper
     [RelayCommand]
     private void NavigateToTradeMistakes()
     {
-        var tradeMistakesWindow = new TradeMistakesWindow();
+        var tradeMistakesWindow = App.AppHost!.Services.GetRequiredService<TradeMistakesWindow>();
         tradeMistakesWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToTradeCosts()
+    {
+        var tradeCostsWindow = App.AppHost!.Services.GetRequiredService<TradeCostsWindow>();
+        tradeCostsWindow.ShowDialog();
     }
 
     private ICommand? navigateToHomeCommand;

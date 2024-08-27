@@ -275,12 +275,6 @@
                                                 Style="{StaticResource text_buttons_style}"/>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
-
-                                <ListView.Items>
-                                    <system:String>a</system:String>
-                                    <system:String>a</system:String>
-                                    <system:String>a</system:String>
-                                </ListView.Items>
                             </ListView>
                         </Grid>
                     </Border>

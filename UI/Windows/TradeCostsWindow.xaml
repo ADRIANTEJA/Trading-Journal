@@ -1,0 +1,169 @@
+﻿<Window x:Class="UI.Windows.TradeCostsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Windows"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        mc:Ignorable="d"
+        Title="Trade costs" 
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        Height="300" 
+        Width="450">
+    
+    <Border Background="{DynamicResource theme_background_brush}"
+            BorderBrush="{StaticResource green_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid Margin="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="DragMoveHandler">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Costs"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource base_textblock_style}" 
+                           Margin="64,0,0,0"/>
+
+                <mainWindowButtons:QuitButton Grid.Column="2" 
+                                              Click="CloseWindowHandler"/>
+
+                <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                                  Click="MinimizeWindowHandler"/>
+            </Grid>
+
+            <Border Grid.Row="1"
+                    Style="{StaticResource control_wrapper_border_style}"
+                    Margin="5">
+
+                <Grid Margin="0,20,0,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="43"/>
+                        <RowDefinition Height="43"/>
+                        <RowDefinition Height="43"/>
+                        <RowDefinition Height="43"/>
+                        <RowDefinition Height="43"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Open cost:"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" 
+                               Margin="0,0,5,0"/>
+
+                    <TextBlock Grid.Row="1"
+                               Text="Swap:"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" 
+                               Margin="0,0,5,0"/>
+
+                    <TextBlock Grid.Row="2"
+                               Text="Spread:"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" 
+                               Margin="0,0,5,0"/>
+
+                    <TextBlock Grid.Row="3"
+                               Text="Commissions:"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" 
+                               Margin="0,0,5,0"/>
+
+                    <TextBlock Grid.Row="4"
+                               Text="Other costs:"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" 
+                               Margin="0,0,5,0"/>
+
+                    <TextBlock Grid.Column="1"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" 
+                               Margin="5,0,0,0">
+
+                        <TextBlock.Text>
+                            <Binding StringFormat="{}{0} $"
+                                     Path="SelectedTrade.TradeCost"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="1"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" 
+                               Margin="5,0,0,0">
+
+                        <TextBlock.Text>
+                            <Binding StringFormat="{}{0} $"
+                                     Path="SelectedTrade.Swap"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="2"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" 
+                               Margin="5,0,0,0">
+
+                        <TextBlock.Text>
+                            <Binding StringFormat="{}{0} $"
+                                     Path="SelectedTrade.Spread"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="3"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" 
+                               Margin="5,0,0,0">
+
+                        <TextBlock.Text>
+                            <Binding StringFormat="{}{0} $"
+                                     Path="SelectedTrade.Commission"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="4"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" 
+                               Margin="5,0,0,0">
+
+                        <TextBlock.Text>
+                            <Binding StringFormat="{}{0} $"
+                                     Path="SelectedTrade.OtherCosts"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+            </Border>
+            
+        </Grid>
+    </Border>
+</Window>

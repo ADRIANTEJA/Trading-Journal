@@ -15,7 +15,7 @@ namespace MainModule.DataAccess
 
         public int InsertTradeNote()
         {
-            var command = @"INSERT INTO AnalysisNote (tradeId, title, text)
+            string command = @"INSERT INTO AnalysisNote (tradeId, title, text)
                             VALUES (@TradeId, @Title, @Text)";
             return 1;
         }

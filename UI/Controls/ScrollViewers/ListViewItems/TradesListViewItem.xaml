@@ -35,6 +35,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Border Grid.ColumnSpan="10"
+                Background="{DynamicResource green_brush}"/>
+
         <CheckBox Style="{StaticResource base_check_box_style}"
                   VerticalAlignment="Center"
                   HorizontalAlignment="Center"/>
@@ -50,6 +53,10 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <Border Grid.Row="2"
+                Grid.ColumnSpan="10"
+                Background="{DynamicResource green_brush}"/>
+        
         <TextBlock Grid.Column="1"
                    Grid.Row="2"
                    Text="Side"
@@ -163,12 +170,7 @@
                 Grid.Row="1"
                 Content="See Costs"
                 Style="{StaticResource text_buttons_style}" 
-                Margin="20,0,20,0"/>
-
-        <TextBlock Grid.Column="6"
-                   Grid.Row="1" 
-                   VerticalAlignment="Center"
-                   Style="{StaticResource base_textblock_style}"/>
+                Margin="20,0,20,0" Click="OpenTradeCostsWindowHandler"/>
 
         <TextBlock Grid.Column="6"
                    Grid.Row="2"

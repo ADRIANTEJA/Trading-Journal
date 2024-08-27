@@ -2,9 +2,11 @@
 using MainModule.Common.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
 using UI.Common.Utils;
+using UI.Events;
 using UI.Services;
 using UI.Settings;
 
@@ -53,6 +55,9 @@ public partial class LanguageRadioButton : Grid
                 ApplyAndSaveSettings(config, "ItalianDictionary.xaml", UISettings.LanguageOption.Italian);
                 break;
         }
+
+        var eventAggregator = App.AppHost!.Services.GetRequiredService<IEventAggregator>();
+        eventAggregator.GetEvent<OnUILanguageChangedEvent>().Publish();
     }
     /// <summary>
     /// Apply and saves language configurations based on settings written in the user UI settings

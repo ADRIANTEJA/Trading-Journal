@@ -18,6 +18,7 @@
     <None Remove="Common\Resources\Assets\Icons\chinese_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_add_trade_image_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_calculator_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_calendar_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_delete_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_folder_icon.png" />
@@ -41,6 +42,7 @@
     <None Remove="Common\Resources\Assets\Icons\japanese_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_add_trade_image_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_calculator_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_calendar_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_delete_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_folder_icon.png" />
@@ -64,12 +66,13 @@
   <ItemGroup>
     <Content Include="Common\Resources\Assets\Icons\app_taskbar_icon.ico" />
     <Content Include="DataBase.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Common\Resources\Assets\Icons\dark_add_trade_image_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\dark_calendar_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_delete_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_folder_icon.png" />
@@ -78,6 +81,7 @@
     <Resource Include="Common\Resources\Assets\Icons\dark_short_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\delete_cross_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_add_trade_image_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_calendar_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_delete_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_folder_icon.png" />

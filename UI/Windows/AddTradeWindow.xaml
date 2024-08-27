@@ -1,15 +1,238 @@
 ﻿<Window x:Class="UI.Windows.AddTradeWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d"
-             WindowStyle="None"
-             AllowsTransparency="True"
-             Height="680" 
-             Width="840">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
+        xmlns:addTradeWindowButtons="clr-namespace:UI.Controls.Buttons.AddTradeWindow"
+        xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
+        mc:Ignorable="d"
+        Title="Add trade"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        Height="550" 
+        Width="500" 
+        Loaded="OnAddTradeWindowLoaded">
     
-    <Grid Background="Green">
-            
-    </Grid>
+    <Window.Resources>
+        <Storyboard x:Key="show_asset_types_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="asset_type_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="hide_asset_types_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="asset_type_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="show_symbols_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="hide_symbols_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Border Background="{DynamicResource theme_background_brush}"
+            BorderBrush="{StaticResource green_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid Margin="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="DragMoveHandler">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Add trade"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource base_textblock_style}" 
+                           Margin="64,0,0,0"/>
+
+                <mainWindowButtons:QuitButton Grid.Column="2" 
+                                              Click="CloseWindowHandler"/>
+
+                <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                                  Click="MinimizeWindowHandler"/>
+            </Grid>
+
+            <Border Grid.Row="1"
+                    Background="{DynamicResource theme_control_wrapper_background_brush}"
+                    Margin="5">
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="43"/>
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Margin="5">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="43"/>
+                            </Grid.RowDefinitions>
+
+                            <textBoxes:PlaceHolderTextBox PlaceHolder="Volume"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="1"
+                                                          PlaceHolder="Open price"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="2"
+                                                          PlaceHolder="Close price"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="3"
+                                                          PlaceHolder="Open cost"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="4"
+                                                          PlaceHolder="Swap"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="5"
+                                                          PlaceHolder="Spread"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="6"
+                                                          PlaceHolder="Commissions"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="7"
+                                                          PlaceHolder="Other costs"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="8"
+                                                          PlaceHolder="Take profit"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+                            <textBoxes:PlaceHolderTextBox Grid.Row="9"
+                                                          PlaceHolder="Stop loss"
+                                                          Margin="0,0,5,11"
+                                                          TextChanged="ValidateNumericValueHandler"/>
+
+                            <DatePicker Grid.Row="10"
+                                        Tag="Open date"
+                                        Style="{StaticResource base_date_picker_style}"
+                                        Margin="0,0,5,5"/>
+
+                            <DatePicker Grid.Row="11"
+                                        Tag="Close date"
+                                        Style="{StaticResource base_date_picker_style}"
+                                        Margin="0,0,5,5"/>
+
+                            <addTradeWindowButtons:AddImageButton Grid.Row="12" 
+                                                                  Margin="10,5,10,6"/>
+                        </Grid>
+                    </ScrollViewer>
+
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.ColumnSpan="2"
+                                   Text="Market"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+
+                        <customScrollViewers:AssetTypeSelector x:Name="asset_type_selector"
+                                                               Grid.RowSpan="4"
+                                                               Height="32"
+                                                               Grid.Row="1"
+                                                               Panel.ZIndex="1"
+                                                               MouseEnter="ShowAssetTypesHandler"
+                                                               MouseLeave="HideAssetTypesHandler"/>
+                        <customScrollViewers:SymbolSelector x:Name="symbol_selector"
+                                                            Height="32"
+                                                            Grid.Column="1"
+                                                            Grid.Row="1" 
+                                                            Grid.RowSpan="4"
+                                                            Panel.ZIndex="1"
+                                                            MouseEnter="ShowSymbolsHandler" 
+                                                            MouseLeave="HideSymbolsHandler" Loaded="OnSymbolSelectorLoaded"/>
+
+                        <TextBlock Grid.Row="2"
+                                   Text="{Binding Path=Tag, ElementName=asset_type_selector}"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="2"
+                                   Text="{Binding Path=Tag, ElementName=symbol_selector}"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+
+                        <TextBlock Grid.Row="3"
+                                   Grid.ColumnSpan="2"
+                                   Text="Notes"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
 </Window>

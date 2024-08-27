@@ -98,6 +98,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         _eventAggregator.GetEvent<OnLoadTradeImagesClickEvent>().Subscribe(OpenTradeImagesHandler);
         _eventAggregator.GetEvent<OnLoadTradeNotesClickEvent>().Subscribe(OpenTradeNotesHandler);
         _eventAggregator.GetEvent<OnLoadTradeMistakesClickEvent>().Subscribe(OpenTradeMistakesHandler);
+        _eventAggregator.GetEvent<OnLoadTradeCostsClickEvent>().Subscribe(OpenTradeCostsHandler);
 
         Trades = new(_tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result);
     }
@@ -127,6 +128,12 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     {
         dynamic navHelperRef = _mainNavigationHelper;
         navHelperRef.NavigateToTradeMistakesCommand.Execute(null);
+    }
+
+    private void OpenTradeCostsHandler()
+    {
+        dynamic navHelperRef = _mainNavigationHelper;
+        navHelperRef.NavigateToTradeCostsCommand.Execute(null);
     }
 
     private void OnSelectedAccountChanged(object sender, PropertyChangedEventArgs args)
