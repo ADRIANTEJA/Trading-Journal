@@ -19,7 +19,7 @@ public class Account
     /// <summary>
     /// represents the account actual balance
     /// </summary>
-    public double CurrentBalance { get; set;}
+    public double? CurrentBalance { get; set;}
     /// <summary>
     /// represents whether or not the account is selected as the current analysis subject
     /// </summary>

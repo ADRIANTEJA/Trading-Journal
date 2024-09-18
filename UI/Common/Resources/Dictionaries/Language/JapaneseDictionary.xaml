@@ -6,6 +6,12 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <system:String x:Key="add_symbol_window_asset_type_error">アセットタイプを選択する</system:String>
+    <system:String x:Key="add_symbol_window_duplicated_symbol_name_error">その資産のペアはすでに登録されている</system:String>
+    <system:String x:Key="add_strategy_window_duplicated_strategy_name_error">その名前の戦略はすでに存在する</system:String>
+    <!--also used in the add trade window for the asset type selector-->
+    <system:String x:Key="add_trade_window_asset_type_selector_header">資産の種類</system:String>
+    <system:String x:Key="add_account_window_duplicated_account_error_message">この名前ですでにアカウントが存在する</system:String>
     <!--also used for the window title-->
     <system:String x:Key="calculator_window_window_header">電卓</system:String>
     <system:String x:Key="calculator_window_target_price_button">目標価格</system:String>

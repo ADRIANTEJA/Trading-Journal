@@ -1,0 +1,94 @@
+﻿<Window x:Class="UI.Windows.AnalysisNotesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Windows"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:analysisNoteWindowButtons="clr-namespace:UI.Controls.Buttons.AnalysisNoteWindow"
+        mc:Ignorable="d"
+        Title="Analysis Notes"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        Height="400" 
+        Width="500"
+        Effect="{StaticResource window_drop_shadow}"
+        Loaded="OnAnlylisisNotesWindowLoaded">
+    
+    <Border Background="{DynamicResource theme_background_brush}"
+            BorderBrush="{StaticResource green_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="DragMoveHandler">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Analysis Notes"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource base_textblock_style}" 
+                           Margin="64,0,0,0"/>
+
+                <mainWindowButtons:QuitButton Grid.Column="2" 
+                                              Click="CloseWindowHandler"/>
+
+                <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                                  Click="MinimizeWindowHandler"/>
+            </Grid>
+
+            <Border Grid.Row="1"
+                    Style="{StaticResource control_wrapper_border_style}"
+                    Margin="5">
+
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="42"/>
+                    </Grid.RowDefinitions>
+
+                    <ListView x:Name="analysis_notes_lisview"
+                              Style="{StaticResource base_listview_style}"
+                              ItemContainerStyle="{StaticResource analysis_note_listview_item_style}"
+                              ItemsSource="{Binding Path=AnalysisNotes}"
+                              Margin="5"/>
+
+                    <ScrollViewer Grid.Column="1"
+                                  Margin="10">
+                        <TextBlock Grid.Column="1"
+                                   TextAlignment="Justify"
+                                   Style="{StaticResource base_textblock_style}">
+        
+                            <ContentPresenter Content="{Binding Path=SelectedValue, ElementName=analysis_notes_lisview}"
+                                              ContentTemplate="{StaticResource selected_analysis_note_textblock_template}"/>
+                        </TextBlock>
+                    </ScrollViewer>
+                    
+                    <analysisNoteWindowButtons:AddAnalysisNoteButton Grid.ColumnSpan="2"
+                                                                     Grid.Row="1"
+                                                                     Command="{Binding 
+                                                                     Path=NavigationHelper.NavigateToAddAnalysisNoteCommand}"
+                                                                     Margin="145,0,145,0"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

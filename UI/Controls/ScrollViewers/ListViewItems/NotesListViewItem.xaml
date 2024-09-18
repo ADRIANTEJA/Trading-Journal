@@ -4,13 +4,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:UI.Controls.ScrollViewers.ListViewItems"
-        mc:Ignorable="d" 
+        xmlns:commonButtons="clr-namespace:UI.Controls.Buttons.Common"
+        mc:Ignorable="d"
+        Style="{StaticResource listview_item_container_style}"
         Height="80" 
         d:DesignWidth="300"
-        BorderBrush="{DynamicResource green_brush}"
-        BorderThickness="1"
-        CornerRadius="3" 
-        Margin="0,10,10,0">
+        Margin="0,0,10,10">
     
     <Grid>
 
@@ -22,5 +21,8 @@
         <TextBlock Text="{Binding Path=Title}"
                    Style="{StaticResource base_textblock_style}"
                    VerticalAlignment="Center"/>
+
+        <commonButtons:DeleteItemButton Grid.Column="1" 
+                                        Margin="13,0,14,0"/>
     </Grid>
 </Border>

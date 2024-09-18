@@ -1,6 +1,7 @@
 ﻿using API;
 using API.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MainModule.DataAccess;
 using MainModule.DataModel;
 using Prism.Events;
@@ -19,9 +20,13 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
     public AccountViewModel AccountViewModel => _accountViewModel;
 
+    private readonly SymbolViewModel _symbolViewModel;
+
+    public SymbolViewModel SymbolViewModel => _symbolViewModel;
+
     private readonly TradeAccess _tradeAccess;
 
-    public ObservableCollection<Trade> Trades { get; }
+    public ObservableCollection<Trade> Trades { get; } = [];
 
     private Trade selectedTrade;
 
@@ -31,82 +36,97 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     private int tradeId;
 
     [ObservableProperty]
-    private string tradePairTraded;
+    private string pairTradedVM;
 
     [ObservableProperty]
-    private DateTime tradeOpenDate;
+    private DateTime openDateVM;
 
     [ObservableProperty]
-    private DateTime tradeCloseDate;
+    private DateTime closeDateVM;
 
     [ObservableProperty]
-    private string tradeSide;
+    private string sideVM;
 
     [ObservableProperty]
-    private double tradeVolume;
+    private double volumeVM;
 
     [ObservableProperty]
-    private string tradeStatus;
+    private string statusVM;
 
     [ObservableProperty]
-    private double tradeOpenPrice;
+    private double openPriceVM;
 
     [ObservableProperty]
-    private double tradeClosePrice;
+    private double closePriceVM;
 
     [ObservableProperty]
-    private double tradeCost;
+    private double costVM;
 
     [ObservableProperty]
-    private double tradeSwap;
+    private double swapVM;
 
     [ObservableProperty]
-    private double tradeSread;
+    private double spreadVM;
 
     [ObservableProperty]
-    private double tradeCommission;
+    private double commissionVM;
 
     [ObservableProperty]
-    private double otherTradeCosts;
+    private double otherCostsVM;
 
     [ObservableProperty]
-    private double tradeStopLoss;
+    private double stopLossVM;
 
     [ObservableProperty]
-    private double tradeTakeProfit;
+    private double takeProfitVM;
 
     [ObservableProperty]
-    private double tradeROI;
+    private double tradeROIVM;
 
     [ObservableProperty]
-    private string tradeMistakes;
+    private string mistakesVM;
 
     [ObservableProperty]
-    private string tradeNotes;
+    private string notesVM;
 
-    public HomeViewModel(AccountViewModel accountViewModel, 
+    [RelayCommand]
+    private void LoadTrades()
+    {
+        Trades.Clear();
+
+        var tempDataReckords =
+            _tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result;
+
+        foreach (var trade in tempDataReckords) Trades.Add(trade);
+    }
+
+    [RelayCommand]
+    private void AddTrade(bool isTradeOpen)
+    {
+        int isOpen = 1;
+        
+    }
+
+    public HomeViewModel(AccountViewModel accountViewModel,
+                         SymbolViewModel symbolViewModel,        
                          TradeAccess tradeAccess, 
                          IEventAggregator eventAggregator,
                          INavigationHelper mainNavigationHelper)
     {
         _accountViewModel = accountViewModel;
+        _symbolViewModel = symbolViewModel;
         _tradeAccess = tradeAccess;
         _mainNavigationHelper = mainNavigationHelper;
         _eventAggregator = eventAggregator;
 
-        _eventAggregator.GetEvent<OnSelectedTradeItemChangedEvent>().Subscribe(UpdateSelectedTrade);
+        _eventAggregator.GetEvent<OnSelectedTradeItemChangedEvent>().Subscribe(UpdateSelectedTradeHandler);
         _eventAggregator.GetEvent<OnLoadTradeImagesClickEvent>().Subscribe(OpenTradeImagesHandler);
         _eventAggregator.GetEvent<OnLoadTradeNotesClickEvent>().Subscribe(OpenTradeNotesHandler);
         _eventAggregator.GetEvent<OnLoadTradeMistakesClickEvent>().Subscribe(OpenTradeMistakesHandler);
         _eventAggregator.GetEvent<OnLoadTradeCostsClickEvent>().Subscribe(OpenTradeCostsHandler);
-
-        Trades = new(_tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result);
     }
 
-    private void UpdateSelectedTrade(object trade)
-    {
-        SelectedTrade = (Trade)trade;
-    }
+    private void UpdateSelectedTradeHandler(object trade) => SelectedTrade = (Trade)trade;
 
     private void OpenTradeImagesHandler()
     {

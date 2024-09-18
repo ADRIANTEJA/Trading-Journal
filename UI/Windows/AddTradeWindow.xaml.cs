@@ -1,6 +1,8 @@
-﻿using Prism.Events;
+﻿using MainModule.ViewModels;
+using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using UI.Common.Helpers;
@@ -12,6 +14,8 @@ namespace UI.Windows;
 
 public partial class AddTradeWindow : Window
 {
+    private bool isLongTrade = true;
+
     public AddTradeWindow(IEventAggregator eventAggregator)
     {
         InitializeComponent();
@@ -66,22 +70,193 @@ public partial class AddTradeWindow : Window
 
     private void OnAddTradeWindowLoaded(object sender, RoutedEventArgs e)
     {
-        var symbolListViewRef = (ListView)symbol_selector.FindName("options_list_view");
-
-        var itemButtonRef = (Button)symbolListViewRef.ItemTemplate.FindName("item_button", symbolListViewRef);
-        itemButtonRef.Click += UpdateSymbolListSelectedItem;// LEFT HERE
+        var assetTypeListRef = (ListView)asset_type_selector.FindName("options_listview");
+        var binding = new Binding("SelectedValue")
+        {
+            ElementName = assetTypeListRef.Name,
+        };
+        selected_asset_textblock.SetBinding(TextBlock.TextProperty, binding);
     }
 
-    private void UpdateSymbolListSelectedItem(object sender, RoutedEventArgs e)
+    private void OnAssetTypeSelectionChangedHandler(object sender, RoutedEventArgs e)
     {
-        var buttonRef = (Button)sender;
-
-        var listViewRef = (ListView)symbol_selector.FindName("options_list_view");
-        listViewRef.SelectedValue = buttonRef.Content;
+        var optionsListRef = (ListView)asset_type_selector.FindName("options_listview");
+        optionsListRef.SelectionChanged += AssetTypeChangedHandler;
     }
 
-    private void OnSymbolSelectorLoaded(object sender, RoutedEventArgs e)
+    private void AssetTypeChangedHandler(object sender, SelectionChangedEventArgs e)
     {
+        var optionsListRef = (ListView)asset_type_selector.FindName("options_listview");
 
+        var dataContext = (HomeViewModel)DataContext;
+        dataContext.SymbolViewModel.LoadSymbolsByAssetTypeCommand.Execute(optionsListRef.SelectedValue.ToString());
+    }
+
+    private bool IsInputValid()
+    {
+        bool isValid = true;
+
+        if (string.IsNullOrEmpty(volume_field.Text))
+        {
+            volume_field.Tag = ResourceAccessHelper.ErrorRedBrush;
+            isValid = false;
+        }
+
+        if (string.IsNullOrEmpty(open_price_field.Text))
+        {
+            open_price_field.Tag = ResourceAccessHelper.ErrorRedBrush;
+            isValid = false;
+        }
+
+        if (string.IsNullOrEmpty(trade_cost_field.Text))
+        {
+            trade_cost_field.Tag = ResourceAccessHelper.ErrorRedBrush;
+            isValid = false;
+        }
+
+        if (string.IsNullOrEmpty(open_date_field.Text))
+        {
+            open_date_field.Tag = ResourceAccessHelper.ErrorRedBrush;
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private void JumpToNextFieldHandler(object sender, KeyEventArgs e)
+    {
+        var senderRef = (TextBox)sender;
+
+        switch (e.Key)
+        {
+            case Key.Enter:
+                if (senderRef.Name == "volume_field"
+                    && !string.IsNullOrEmpty(volume_field.Text)) Keyboard.Focus(open_price_field);
+                if (senderRef.Name == "open_price_field"
+                    && !string.IsNullOrEmpty(open_price_field.Text)) Keyboard.Focus(close_price_field);
+                if (senderRef.Name == "close_price_field"
+                    && !string.IsNullOrEmpty(close_price_field.Text)) Keyboard.Focus(trade_cost_field);
+                if (senderRef.Name == "trade_cost_field"
+                    && !string.IsNullOrEmpty(trade_cost_field.Text)) Keyboard.Focus(swap_field);
+                if (senderRef.Name == "swap_field"
+                    && !string.IsNullOrEmpty(swap_field.Text)) Keyboard.Focus(spread_field);
+                if (senderRef.Name == "spread_field"
+                    && !string.IsNullOrEmpty(spread_field.Text)) Keyboard.Focus(commissions_field);
+                if (senderRef.Name == "commissions_field"
+                    && !string.IsNullOrEmpty(commissions_field.Text)) Keyboard.Focus(other_costs_field);
+                if (senderRef.Name == "other_costs_field"
+                    && !string.IsNullOrEmpty(other_costs_field.Text)) Keyboard.Focus(take_profit_field);
+                if (senderRef.Name == "take_profit_field"
+                    && !string.IsNullOrEmpty(take_profit_field.Text)) Keyboard.Focus(stop_loss_field);
+                if (senderRef.Name == "stop_loss_field"
+                    && !string.IsNullOrEmpty(stop_loss_field.Text)) Keyboard.Focus(notes_field);
+                if (senderRef.Name == "notes_field"
+                    && !string.IsNullOrEmpty(notes_field.Text)) Keyboard.Focus(mistakes_field);
+                break;
+        }
+    }
+
+    private void OnLongButtonLoaded(object sender, RoutedEventArgs e) => long_button.Background = ResourceAccessHelper.GreenBrushRef;
+
+    private void LongOperationSelectionHandler(object sender, RoutedEventArgs e)
+    {
+        long_button.Background = ResourceAccessHelper.GreenBrushRef;
+        short_button.Background = null;
+        isLongTrade = true;
+    }
+
+    private void ShortOperationSelectionHandler(object sender, RoutedEventArgs e)
+    {
+        short_button.Background = ResourceAccessHelper.SalmonBrushRef;
+        long_button.Background = null;
+        isLongTrade = false;
+    }
+
+    private bool IsSymbolListNotEmpty()
+    {
+        var symbolListRef = (ListView)symbol_selector.FindName("options_listview");
+        return symbolListRef.Items.Count > 0;
+    }
+
+    private bool AreDatesValid()
+    {
+        bool areValid = true;
+
+        var openDateTextBoxRef = (TextBox)open_date_field.Template.FindName("PART_TextBox", open_date_field);
+        var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
+
+
+        if (string.IsNullOrEmpty(openDateTextBoxRef.Text))
+        {
+            openDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
+            areValid = false;
+        }
+
+        try { long openDate = DateTime.ParseExact(openDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
+        catch (FormatException)
+        {
+            openDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
+            areValid = false;
+        }
+
+        if (!string.IsNullOrEmpty(closeDateTextBoxRef.Text))
+        {
+            try { long closeDate = DateTime.ParseExact(closeDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
+            catch (FormatException) 
+            {
+                closeDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
+                areValid = false;
+            }
+        }
+
+        return areValid;
+    }
+
+    private void AddTradeClickHandler(object sender, RoutedEventArgs e)
+    {
+        if (!IsInputValid())
+        {
+            add_trade_button.Focus();
+            return;
+        }
+        if (!IsSymbolListNotEmpty())
+        {
+            MessageBox.Show("symbol error");
+            return;
+        }
+        if (!AreDatesValid())
+        {
+            add_trade_button.Focus();
+            return;
+        }
+        
+        
+    }
+
+    private void OnOpenDateFieldLoaded(object sender, RoutedEventArgs e)
+    {
+        var openDateTextBoxRef = (TextBox)open_date_field.Template.FindName("PART_TextBox", open_date_field);
+        openDateTextBoxRef.TextChanged += OpenDateFieldChangedHandler;
+    }
+
+    private void OnCloseDateFieldLoaded(object sender, RoutedEventArgs e)
+    {
+        var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
+        closeDateTextBoxRef.TextChanged += CloseDateFieldChangedHandler;
+    }
+
+    private void OpenDateFieldChangedHandler(object sender, TextChangedEventArgs e)
+    {
+        var openDateTextBoxRef = (TextBox)open_date_field.Template.FindName("PART_TextBox", open_date_field);
+
+        if (!string.IsNullOrEmpty(openDateTextBoxRef.Text))
+            openDateTextBoxRef.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);
+    }
+
+    private void CloseDateFieldChangedHandler(object sender, TextChangedEventArgs e)
+    {
+        var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
+
+        if (!string.IsNullOrEmpty(closeDateTextBoxRef.Text))
+            closeDateTextBoxRef.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);
     }
 }

@@ -3,10 +3,98 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:strategyViewButtons="clr-namespace:UI.Controls.Buttons.StrategyView"
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
              d:DesignWidth="1916">
+    
     <Grid Background="{DynamicResource theme_background_brush}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <strategyViewButtons:AddStrategyButton Command="{Binding Path=NavigationHelper.NavigateToAddStrategyCommand}" 
+                                                       Margin="5,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <TextBlock Text="Performance"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource base_textblock_style}"
+                       FontSize="18"/>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.RowSpan="4"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <ListView x:Name="strategies_listview"
+                      Style="{StaticResource base_listview_style}"
+                      ItemContainerStyle="{StaticResource strategy_listview_item_style}"
+                      ItemsSource="{Binding Path=Strategies}"
+                      Margin="10"
+                      Loaded="OnStrategyViewLoaded" 
+                      SelectionChanged="StrategySelectionChangedHandler"/>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
             
+            
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="3"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <TextBlock Text="Goal"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource base_textblock_style}"
+                       FontSize="18"/>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="4"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
+            <ScrollViewer Margin="10,5,5,5">
+                <TextBlock TextAlignment="Justify"
+                           Style="{StaticResource base_textblock_style}">
+    
+                    <ContentPresenter Content="{Binding Path=SelectedValue, ElementName=strategies_listview}"
+                                      ContentTemplate="{StaticResource selected_strategy_goal_textblock_template}"/>
+                </TextBlock>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </UserControl>

@@ -45,4 +45,6 @@
                  UriSource="\Common\Resources\Assets\Icons\dark_delete_icon.png"/>
     <BitmapImage x:Key="calendar_icon"
                  UriSource="\Common\Resources\Assets\Icons\dark_calendar_icon.png"/>
+    <BitmapImage x:Key="portfolio_icon"
+                 UriSource="\Common\Resources\Assets\Icons\dark_portfolio_icon.png"/>
 </ResourceDictionary>

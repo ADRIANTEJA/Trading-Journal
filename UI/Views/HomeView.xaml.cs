@@ -19,11 +19,13 @@ public partial class HomeView : UserControl
     {
         var dataContext = (HomeViewModel)DataContext;
         dataContext.AccountViewModel.LoadDailyPerformanceCommand.Execute(null);
+        dataContext.AccountViewModel.LoadAccountsCommand.Execute(null);
+        dataContext.LoadTradesCommand.Execute(null);
+        dataContext.SymbolViewModel.LoadSymbolsCommand.Execute(null);
     }
 
     private void ShowSymbolCategoryHandler(object sender, RoutedEventArgs e)
     {
-
         if (expand_symbol_category_button.Tag.ToString() == "1")
         {
             expand_symbol_category_button.SetResourceReference(StyleProperty, "symbol_category_button_collapse_style");

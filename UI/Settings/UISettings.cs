@@ -63,6 +63,7 @@ public class UISettings
 
         Thread.CurrentThread.CurrentCulture = culture;
         Thread.CurrentThread.CurrentUICulture = culture;
+        Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern = "dd/MM/yyyy hh.mm tt";
 
         element.Language = XmlLanguage.GetLanguage(culture.IetfLanguageTag);
     }

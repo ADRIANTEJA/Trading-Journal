@@ -25,9 +25,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="32"/>
-                <RowDefinition Height="43"/>
-                <RowDefinition Height="43"/>
-                <RowDefinition Height="43"/>
+                <RowDefinition Height="42"/>
+                <RowDefinition Height="42"/>
+                <RowDefinition Height="42"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -56,7 +56,7 @@
                                           PlaceHolder="Name"
                                           Grid.Row="2" 
                                           Margin="40,10,40,0" 
-                                          TextChanged="AccountNameFieldChangedHandler" 
+                                          TextChanged="OnNameFieldChangedHandler" 
                                           KeyDown="JumpToNextFieldHandler"/>
             <textBoxes:PlaceHolderTextBox x:Name="account_initial_balance_field"
                                           PlaceHolder="Initial Balance"

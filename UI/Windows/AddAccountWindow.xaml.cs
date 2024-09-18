@@ -79,7 +79,7 @@ public partial class AddAccountWindow : Window
         dataContext.AddAccountCommand.Execute(null);
     }
 
-    private void AccountNameFieldChangedHandler(object sender, TextChangedEventArgs e)
+    private void OnNameFieldChangedHandler(object sender, TextChangedEventArgs e)
     {
         if(!string.IsNullOrEmpty(account_name_field.Text))
             account_name_field.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);

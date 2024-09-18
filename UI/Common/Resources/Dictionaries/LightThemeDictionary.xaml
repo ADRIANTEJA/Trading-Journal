@@ -9,7 +9,7 @@
     <SolidColorBrush x:Key="theme_button_highlight_brush" Color="#3FB4B4B4"/>
     <SolidColorBrush x:Key="theme_button_on_click_brush" Color="#3F787878"/>
     <SolidColorBrush x:Key="theme_font_brush" Color="#00B97E"/>
-    <SolidColorBrush x:Key="theme_place_holder_brush" Color="#E5505050"/>
+    <SolidColorBrush x:Key="theme_place_holder_brush" Color="#00735C"/>
 
     <BitmapImage x:Key="settings_theme_icon" 
                  UriSource="/Common/Resources/Assets/Icons/light_theme_settings_icon.png"/>
@@ -45,4 +45,6 @@
                  UriSource="\Common\Resources\Assets\Icons\light_delete_icon.png"/>
     <BitmapImage x:Key="calendar_icon"
                  UriSource="\Common\Resources\Assets\Icons\light_calendar_icon.png"/>
+    <BitmapImage x:Key="portfolio_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_portfolio_icon.png"/>
 </ResourceDictionary>

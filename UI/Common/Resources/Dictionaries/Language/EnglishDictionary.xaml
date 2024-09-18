@@ -6,8 +6,13 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
-    <!--also used for the window title-->
+    <system:String x:Key="add_symbol_window_asset_type_error">Select an asset type</system:String>
+    <system:String x:Key="add_symbol_window_duplicated_symbol_name_error">That pair of assets is already registered</system:String>
+    <system:String x:Key="add_strategy_window_duplicated_strategy_name_error">A strategy with this name already exists</system:String>
+    <!--also used in the add trade window for the asset type selector-->
+    <system:String x:Key="add_trade_window_asset_type_selector_header">Asset type</system:String>
     <system:String x:Key="add_account_window_duplicated_account_error_message">An account with this name already exists</system:String>
+    <!--also used for the window title-->
     <system:String x:Key="calculator_window_window_header">Calculator</system:String>
     <system:String x:Key="calculator_window_target_price_button">Target Price</system:String>
     <system:String x:Key="calculator_window_calculate_button">Calculate</system:String>

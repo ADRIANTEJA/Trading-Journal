@@ -6,7 +6,7 @@ public class AnalysisNote
     /// <summary>
     /// the AnalysisNote primary key
     /// </summary>
-    public int Id { get; set; }
+    public int Id { get; }
     /// <summary>
     /// the AnalysisNote foreign key associated to a strategy
     /// </summary>

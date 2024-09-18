@@ -3,11 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MainModule.DataAccess;
 using MainModule.DataModel;
-using Microsoft.Extensions.DependencyInjection;
 using Prism.Events;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Security.Cryptography.Xml;
 
 namespace MainModule.ViewModels;
 
@@ -36,7 +33,7 @@ public partial class TradeImageViewModel : ObservableObject, IViewModel
 
         var tempDataReckords = _tradeImageAccess.QueryTradeImagesAsync(castedTrade.Id).Result;
 
-        foreach (var i in tempDataReckords) Images.Add(i);
+        foreach (var image in tempDataReckords) Images.Add(image);
     }
 
     [RelayCommand]

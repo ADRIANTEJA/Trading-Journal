@@ -18,10 +18,7 @@ public partial class ROICalculationView : Page
         InitializeComponent();
     }
 
-    private void OnViewLoaderHandler(object sender, RoutedEventArgs e)
-    {
-        long_button.Background = ResourceAccessHelper.GreenBrushRef;
-    }
+    private void OnViewLoaderHandler(object sender, RoutedEventArgs e) => long_button.Background = ResourceAccessHelper.GreenBrushRef;
 
     private void LongOperationSelectionHandler(object sender, RoutedEventArgs e)
     {

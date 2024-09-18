@@ -1,0 +1,139 @@
+﻿<Border x:Class="UI.Controls.ScrollViewers.ListViewItems.StrategyListViewItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:UI.Controls.ScrollViewers.ListViewItems"
+        xmlns:strategyViewButtons="clr-namespace:UI.Controls.Buttons.StrategyView"
+        xmlns:commonButtons="clr-namespace:UI.Controls.Buttons.Common"
+        Style="{StaticResource hand_cursor_border_style}"
+        mc:Ignorable="d" 
+        Height="160" 
+        d:DesignWidth="800" 
+        Margin="0,0,10,10" 
+        MouseEnter="UpdateContextStrategyHandler">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.ColumnSpan="5"
+                Background="{StaticResource green_brush}"/>
+
+        <TextBlock Text="Name"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="1"
+                   Text="Market"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="2"
+                   Text="Intermediary"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="3"
+                   Text="Analysis Notes"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Row="1"
+                   Text="{Binding Path=Name}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="1"
+                   Text="{Binding Path=Market}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="2"
+                   Grid.Row="1"
+                   Text="{Binding Path=Intermediary, TargetNullValue={StaticResource empty_textblock_target_null_value}}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <strategyViewButtons:OpenAnalysisNotesButton Grid.Column="3"
+                                                     Grid.Row="1"
+                                                     Width="32"
+                                                     HorizontalAlignment="Center" Click="OpenAnalysisNotesClickHandler"/>
+
+        <strategyViewButtons:EditStrategyButton Grid.Column="4"
+                                                Grid.Row="1" 
+                                                Margin="34,0,34,0"/>
+
+        <TextBlock Grid.Column="4"
+                   Text="Edit"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <Border Grid.Row="2"
+                Grid.ColumnSpan="5"
+                Background="{StaticResource green_brush}"/>
+
+        <TextBlock Grid.Row="2"
+                   Text="Daily Goal"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="2"
+                   Text="Max Daily Loss"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="2"
+                   Grid.Row="2"
+                   Text="Max Trade Risk"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="3"
+                   Grid.Row="2"
+                   Text="Risk Reward Ratio"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Row="3"
+                   Text="{Binding Path=DailyGoal}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="3"
+                   Text="{Binding Path=MaxDailyLoss}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="2"
+                   Grid.Row="3"
+                   Text="{Binding Path=MaxTradeRisk}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="3"
+                   Grid.Row="3"
+                   Text="{Binding Path=RiskRewardRatio}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <commonButtons:DeleteItemButton Grid.Column="4"
+                                        Grid.Row="3" 
+                                        Margin="34,0,34,0"/>
+    </Grid>
+</Border>

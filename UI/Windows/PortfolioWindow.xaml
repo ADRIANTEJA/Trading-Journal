@@ -1,0 +1,80 @@
+﻿<Window x:Class="UI.Windows.PortfolioWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Windows"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:portfolioWindowButtons="clr-namespace:UI.Controls.Buttons.PortfolioWindow"
+        mc:Ignorable="d"
+        Title="Portfolio"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent"
+        ResizeMode="CanMinimize"
+        Height="450" 
+        Width="400"
+        Effect="{StaticResource window_drop_shadow}" 
+        Loaded="OnPortfolioWindowLoaded" >
+
+    <Border Background="{DynamicResource theme_background_brush}"
+            BorderBrush="{StaticResource green_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48*"/>
+                <ColumnDefinition Width="149*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="DragMoveHandler" Grid.ColumnSpan="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Portfolio"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource base_textblock_style}" 
+                           Margin="64,0,0,0"/>
+
+                <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                                  Click="MinimizeWindowHandler"/>
+                <mainWindowButtons:QuitButton Grid.Column="2"
+                                              Click="CloseWindowHandler"/>
+            </Grid>
+
+            <Border Grid.Row="1"
+                    Style="{StaticResource control_wrapper_border_style}"
+                    Margin="5,5,5,5" Grid.ColumnSpan="2">
+
+                <Grid Margin="5,5,5,5">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="42"/>
+                    </Grid.RowDefinitions>
+
+                    <ListView x:Name="symbol_list"
+                              Style="{StaticResource base_listview_style}"
+                              ItemsSource="{Binding Path=Symbols}"
+                              ItemContainerStyle="{StaticResource symbol_listview_item_style}">
+
+                    </ListView>
+
+                    <portfolioWindowButtons:AddSymbolButton Grid.Row="1" 
+                                                            Command="{Binding Path=NavigationHelper.NavigateToAddSymbolCommand}"
+                                                            Margin="129,0,130,0"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

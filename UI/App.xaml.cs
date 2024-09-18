@@ -88,6 +88,26 @@ public partial class App : Application
                 {
                     DataContext = provider.GetRequiredService<HomeViewModel>()
                 });
+                services.AddTransient(provider => new PortfolioWindow
+                {
+                    DataContext = provider.GetRequiredService<SymbolViewModel>()
+                });
+                services.AddTransient(provider => new AddSymbolWindow(provider.GetRequiredService<IEventAggregator>())
+                {
+                    DataContext = provider.GetRequiredService<SymbolViewModel>()
+                });
+                services.AddTransient(provider => new AddStrategyWindow(provider.GetRequiredService<IEventAggregator>())
+                {
+                    DataContext = provider.GetRequiredService<StrategyViewModel>()
+                });
+                services.AddTransient(provider => new AddAnalysisNoteWindow
+                {
+                    DataContext = provider.GetRequiredService<AnalysisNoteViewModel>()
+                });
+                services.AddTransient(provider => new AnalysisNotesWindow
+                {
+                    DataContext = provider.GetRequiredService<AnalysisNoteViewModel>()
+                });
                 //Views
                 services.AddTransient(provider => new StrategyView
                 {
@@ -106,15 +126,27 @@ public partial class App : Application
                 services.AddTransient<TradeAccess>();
                 services.AddTransient<PerformanceAccess>();
                 services.AddTransient<TradeImageAccess>();
-                services.AddTransient<NoteAccess>();
+                services.AddTransient<AnalysisNoteAccess>();
+                services.AddTransient<SymbolAccess>();
+                services.AddTransient<StrategyAccess>();
                 //ViewModels
-                services.AddSingleton<StrategyViewModel>();
-                services.AddSingleton<SymbolViewModel>();
+                services.AddSingleton(provider => new StrategyViewModel(provider.GetRequiredService<IEventAggregator>(),
+                                                                        provider.GetRequiredService<StrategyAccess>(),
+                                                                        provider.GetRequiredService<INavigationHelper>(),
+                                                                        provider.GetRequiredService<SymbolViewModel>()));
+
+                services.AddSingleton(provider => new SymbolViewModel(provider.GetRequiredService<SymbolAccess>(),
+                                                                      provider.GetRequiredService<INavigationHelper>(),
+                                                                      provider.GetRequiredService<IEventAggregator>()));
+
                 services.AddSingleton<DayPerformanceViewModel>();
-                services.AddSingleton(provider => new AnalysisNoteViewModel(provider.GetRequiredService<HomeViewModel>(),
-                                                                            provider.GetRequiredService<NoteAccess>()));
+
+                services.AddSingleton(provider => new AnalysisNoteViewModel(provider.GetRequiredService<INavigationHelper>(),
+                                                                            provider.GetRequiredService<StrategyViewModel>(),
+                                                                            provider.GetRequiredService<AnalysisNoteAccess>()));
 
                 services.AddSingleton(provider => new HomeViewModel(provider.GetRequiredService<AccountViewModel>(),
+                                                                    provider.GetRequiredService<SymbolViewModel>(),
                                                                     provider.GetRequiredService<TradeAccess>(),
                                                                     provider.GetRequiredService<IEventAggregator>(),
                                                                     provider.GetRequiredService<INavigationHelper>()));

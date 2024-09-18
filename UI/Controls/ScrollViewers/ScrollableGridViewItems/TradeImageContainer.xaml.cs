@@ -25,7 +25,6 @@ public partial class TradeImageContainer : Border
     private void DeleteTradeImageHandler(object sender, RoutedEventArgs e)
     {
         var dataContext = (TradeImageViewModel)DataContext;
-
         dataContext.DeleteTradeImageCommand.Execute((int)Tag);
 
         _eventAggregator.GetEvent<OnTradeImageDeletedEvent>().Publish();

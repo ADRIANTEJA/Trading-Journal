@@ -67,6 +67,41 @@ public partial class MainNavigationHelper : ObservableObject, INavigationHelper
         tradeCostsWindow.ShowDialog();
     }
 
+    [RelayCommand]
+    private void NavigateToPortfolio()
+    {
+        var portfolioWindow = App.AppHost!.Services.GetRequiredService<PortfolioWindow>();
+        portfolioWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToAddSymbol()
+    {
+        var addSymbolWindow = App.AppHost!.Services.GetRequiredService<AddSymbolWindow>();
+        addSymbolWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToAddStrategy()
+    {
+        var addStrategyWindow = App.AppHost!.Services.GetRequiredService<AddStrategyWindow>();
+        addStrategyWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToAnalysisNotes()
+    {
+        var analysisNotesWindow = App.AppHost!.Services.GetRequiredService<AnalysisNotesWindow>();
+        analysisNotesWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToAddAnalysisNote()
+    {
+        var addAnalysisNoteWindow = App.AppHost!.Services.GetRequiredService<AddAnalysisNoteWindow>();
+        addAnalysisNoteWindow.ShowDialog();
+    }
+
     private ICommand? navigateToHomeCommand;
 
     public ICommand NavigateToHomeCommand => navigateToHomeCommand ??= new DelegateCommand

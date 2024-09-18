@@ -245,16 +245,42 @@
         </Setter>
     </Style>
 
-    <Style x:Key="highlightable_border_style" TargetType="{x:Type Border}">
+    <Style x:Key="symbol_listview_item_style" TargetType="{x:Type ListViewItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <listViewItems:SymbolListViewItem DataContext="{Binding}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="strategy_listview_item_style" TargetType="{x:Type ListViewItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <listViewItems:StrategyListViewItem DataContext="{Binding}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="analysis_note_listview_item_style" TargetType="{x:Type ListViewItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <listViewItems:NotesListViewItem DataContext="{Binding}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="selector_border_style" TargetType="{x:Type Border}">
         <Setter Property="Height" Value="32"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="BorderBrush" Value="{StaticResource green_brush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="3"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource green_brush}"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="account_performance_line_series_style" TargetType="{x:Type liveCharts:LineSeries}">
@@ -362,5 +388,59 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <DataTemplate x:Key="selected_symbol_pair_template">
+        <TextBlock Text="{Binding Path=Pair}"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="selected_strategy_goal_textblock_template">
+        <TextBlock Text="{Binding Path=Goal}"
+                   TextWrapping="Wrap"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="selected_analysis_note_textblock_template">
+        <TextBlock Text="{Binding Path=Text}"
+                   TextWrapping="Wrap"/>
+    </DataTemplate>
+
+    <Style x:Key="symbol_pair_listview_style" 
+           TargetType="{x:Type ListView}"
+           BasedOn="{StaticResource base_listview_style}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border Height="32"
+                                        Style="{StaticResource selectable_container_style}"
+                                        Cursor="Hand"
+                                        CornerRadius="3" 
+                                        Margin="1,0,1,5">
+
+                                    <TextBlock VerticalAlignment="Center"
+                                               Style="{StaticResource base_textblock_style}">
+                                        <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                                          ContentTemplate="{StaticResource selected_symbol_pair_template}"/>
+                                    </TextBlock>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hand_cursor_border_style"
+           TargetType="{x:Type Border}"
+           BasedOn="{StaticResource listview_item_container_style}">
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

@@ -12,19 +12,19 @@ public class Trade
     /// </summary>
     public int AccountId { get; set; }
     /// <summary>
-    /// the pair of assets traded
+    /// the pairVM of assets traded
     /// </summary>
     public string PairTraded { get; set; }
     /// <summary>
     /// represents the date and hour the position(trade) was opened
     /// </summary>
-    public string OpenDate { get; set; }
+    public long OpenDate { get; set; }
     /// <summary>
     /// represents the date and hour the position(trade) was closed
     /// </summary>
-    public string? CloseDate { get; set; }
+    public long? CloseDate { get; set; }
     /// <summary>
-    /// represents on what side of the market the position(trade) was opened; 1 = long or 0 = short
+    /// represents on what side of the market the position(trade) was opened; 1 = long and 0 = short
     /// only 0 or 1 values accepted
     /// </summary>
     public int IsLong { get; set; }

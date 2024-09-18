@@ -148,6 +148,10 @@
                     <ColumnDefinition Width="17"/>
                 </Grid.ColumnDefinitions>
 
+                <mainWindowButtons:PortfolioButton Grid.Column="6"
+                                                   Command="{Binding Path=NavigateToPortfolioCommand}"
+                                                   Margin="0,2,0,8"/>
+
                 <mainWindowButtons:CalculatorButton Grid.Column="7"
                                                     Margin="0,2,0,8" 
                                                     Click="OpenCalculatorWindowHandler"/>

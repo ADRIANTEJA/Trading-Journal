@@ -4,10 +4,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:UI.Controls.ScrollViewers.Custom"
-        mc:Ignorable="d" 
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
         Background="{DynamicResource theme_control_wrapper_background_brush}"
-        Style="{StaticResource highlightable_border_style}"
-        Tag="{Binding Path=SelectedItem, ElementName=options_list_view, Mode=OneTime}"
+        Style="{StaticResource selector_border_style}"
         Height="32" 
         d:DesignWidth="100">
 
@@ -22,7 +22,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Asset type"
+        <TextBlock Text="{Binding Path=SelectedValue, ElementName=options_listview}"
                    Style="{StaticResource base_textblock_style}"
                    VerticalAlignment="Center"/>
 
@@ -31,14 +31,20 @@
                  Style="{StaticResource vector_down_icon_style}" 
                  Margin="0,9,0,0"/>
 
-        <ListView x:Name="options_list_view"
+        <ListView x:Name="options_listview"
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   IsSynchronizedWithCurrentItem="True"
-                  Style="{StaticResource expander_option_list_items_style}">
-            
-            
+                  Style="{StaticResource expander_option_list_items_style}" 
+                  Loaded="OnOptionsListviewLoaded">
+
+            <system:String>Forex</system:String>
+            <system:String>Crypto</system:String>
+            <system:String>Indices</system:String>
+            <system:String>ETF</system:String>
+            <system:String>Stocks</system:String>
+            <system:String>Commodities</system:String>
         </ListView>
 
     </Grid>

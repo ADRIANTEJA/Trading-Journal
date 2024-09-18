@@ -4,13 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:UI.Controls.ScrollViewers.Custom"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Background="{DynamicResource theme_control_wrapper_background_brush}"
-        Style="{StaticResource highlightable_border_style}"
-        Tag="{Binding Path=SelectedValue, ElementName=options_list_view, Mode=TwoWay}"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Style="{StaticResource selector_border_style}"
         Height="32"
-        d:DesignWidth="100">
+        d:DesignWidth="100" 
+        Loaded="OnSymbolSelectorLoaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -23,28 +23,27 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{Binding Path=SelectedValue, ElementName=options_list_view}"
+        <TextBlock x:Name="selector_header"
                    Style="{StaticResource base_textblock_style}"
-                   VerticalAlignment="Center"/>
+                   VerticalAlignment="Center">
+            <ContentPresenter Content="{Binding Path=SelectedValue, ElementName=options_listview}"
+                              ContentTemplate="{StaticResource selected_symbol_pair_template}" />
+        </TextBlock>
 
         <Polygon x:Name="toggle_icon"
                  Grid.Column="1"
                  Style="{StaticResource vector_down_icon_style}" 
                  Margin="0,9,0,0"/>
 
-        <ListView x:Name="options_list_view"
+        <ListView x:Name="options_listview"
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
-                  SelectedValue="ffuygu"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                   IsSynchronizedWithCurrentItem="True"
-                  Style="{StaticResource expander_option_list_items_style}">
-
-            <ListView.Items>
-                <system:String>Raw value</system:String>
-                <system:String>Percentage</system:String>
-            </ListView.Items>
+                  SelectedValue="{Binding Path=SymbolViewModel.SelectedSymbolVM}"
+                  ItemsSource="{Binding Path=SymbolViewModel.Symbols}"
+                  Style="{StaticResource symbol_pair_listview_style}" 
+                  Loaded="OnOptionsListViewLoaded">
         </ListView>
-
     </Grid>
 </Border>

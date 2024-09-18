@@ -8,7 +8,7 @@ public class Symbol
     /// </summary>
     public int Id { get; }
     /// <summary>
-    /// represents the asset pair used in trades and defined in strategies
+    /// represents the asset pairVM used in trades and defined in strategies
     /// </summary>
     public string Pair { get; set; }
     /// <summary>

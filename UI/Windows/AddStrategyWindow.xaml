@@ -1,0 +1,237 @@
+﻿<Window x:Class="UI.Windows.AddStrategyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Windows"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
+        xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
+        xmlns:customButtons="clr-namespace:UI.Controls.Buttons.Common"
+        mc:Ignorable="d"
+        Title="Add strategy"
+        WindowStyle="None"
+        ResizeMode="CanMinimize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Effect="{StaticResource window_drop_shadow}"
+        Height="420" 
+        Width="500">
+
+    <Window.Resources>
+        <Storyboard x:Key="show_asset_types_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="asset_type_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="hide_asset_types_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="asset_type_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="show_symbols_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="150">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="hide_symbols_storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_selector" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Border Background="{DynamicResource theme_background_brush}"
+            BorderBrush="{StaticResource green_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid Margin="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="DragMoveHandler">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Add strategy"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource base_textblock_style}" 
+                           Margin="64,0,0,0"/>
+
+                <mainWindowButtons:QuitButton Grid.Column="2" 
+                                              Click="CloseWindowHandler"/>
+
+                <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                                  Click="MinimizeWindowHandler"/>
+            </Grid>
+
+            <Border Grid.Row="1"
+                    Style="{StaticResource control_wrapper_border_style}"
+                    Margin="5">
+
+                <Grid Margin="5,5,5,5">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="42"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Margin="0,10,0,0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <textBoxes:PlaceHolderTextBox x:Name="name_field"
+                                                      Text="{Binding Path=NameVM, Mode=OneWayToSource}"
+                                                      PlaceHolder="Name"
+                                                      Margin="0,0,10,10" 
+                                                      KeyDown="JumpToNextFieldHandler" TextChanged="OnNameFieldChangedHandler"/>
+                        <textBoxes:PlaceHolderTextBox x:Name="intermediary_field"
+                                                      Grid.Row="1"
+                                                      Text="{Binding Path=IntermediaryVM, Mode=OneWayToSource}"
+                                                      PlaceHolder="Intermediary"
+                                                      Margin="0,0,10,11"
+                                                      KeyDown="JumpToNextFieldHandler"/>
+                        <textBoxes:PlaceHolderTextBox x:Name="risk_reward_ratio_field"
+                                                      Grid.Row="2"
+                                                      Text="{Binding Path=RiskRewardRatioVM, Mode=OneWayToSource}"
+                                                      PlaceHolder="Risk reward ratio"
+                                                      Margin="0,0,10,11"
+                                                      TextChanged="ValidateNumericValueHandler"
+                                                      KeyDown="JumpToNextFieldHandler"/>
+                        <textBoxes:PlaceHolderTextBox x:Name="max_trade_risk_field"
+                                                      Grid.Row="3"
+                                                      Text="{Binding Path=MaxTradeRiskVM, Mode=OneWayToSource}"
+                                                      PlaceHolder="Max trade risk"
+                                                      Margin="0,0,10,11"
+                                                      TextChanged="ValidateNumericValueHandler"
+                                                      KeyDown="JumpToNextFieldHandler"/>
+                        <textBoxes:PlaceHolderTextBox x:Name="daily_goal_field"
+                                                      Grid.Row="4"
+                                                      Text="{Binding Path=DailyGoalVM, Mode=OneWayToSource}"
+                                                      PlaceHolder="Daily goal"
+                                                      Margin="0,0,10,11"
+                                                      TextChanged="ValidateNumericValueHandler"
+                                                      KeyDown="JumpToNextFieldHandler"/>
+                        <textBoxes:PlaceHolderTextBox x:Name="max_daily_loss_field"
+                                                      Grid.Row="5"
+                                                      Text="{Binding Path=MaxDailyLossVM, Mode=OneWayToSource}"
+                                                      PlaceHolder="Max daily loss"
+                                                      Margin="0,0,10,11"
+                                                      TextChanged="ValidateNumericValueHandler"
+                                                      KeyDown="JumpToNextFieldHandler"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="180.8"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Asset type"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="Symbol"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+
+                        <customScrollViewers:AssetTypeSelector x:Name="asset_type_selector"
+                                                               Grid.Row="1"
+                                                               Grid.RowSpan="3"
+                                                               Height="32"
+                                                               Panel.ZIndex="1"
+                                                               MouseEnter="ShowAssetTypesHandler"
+                                                               MouseLeave="HideAssetTypesHandler" 
+                                                               Margin="5,0,5,0"
+                                                               Loaded="OnAssetTypeSelectionChangedHandler"/>
+
+                        <customScrollViewers:SymbolSelector x:Name="symbol_selector"
+                                                            Grid.Column="1"
+                                                            Grid.Row="1"
+                                                            Grid.RowSpan="3"
+                                                            Height="32"
+                                                            Panel.ZIndex="1"
+                                                            MouseEnter="ShowSymbolsHandler" 
+                                                            MouseLeave="HideSymbolsHandler" 
+                                                            Margin="5,0,5,0"/>
+
+                        <TextBlock Grid.Row="2"
+                                   Grid.ColumnSpan="2"
+                                   Text="Goal"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+
+                        <TextBox x:Name="goal_field"
+                                 Grid.ColumnSpan="2"
+                                 Grid.Row="3"
+                                 Text="{Binding Path=GoalVM}"
+                                 Style="{StaticResource base_text_box_style}" 
+                                 Margin="0,0,0,19"/>
+                    </Grid>
+
+                    <TextBlock x:Name="input_error_textblock"
+                               Grid.ColumnSpan="2"
+                               Grid.Row="1"
+                               Text="{StaticResource add_strategy_window_duplicated_strategy_name_error}"
+                               Foreground="{StaticResource error_red_brush}"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"
+                               Style="{StaticResource base_textblock_style}"/>
+
+                    <customButtons:AddButton x:Name="add_strategy_button"
+                                             Grid.Row="2"
+                                             Grid.ColumnSpan="2" 
+                                             Margin="200,0,200,0" 
+                                             Click="AddStrategyClickHandler"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

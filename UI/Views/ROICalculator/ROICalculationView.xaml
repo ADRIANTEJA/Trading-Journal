@@ -69,7 +69,7 @@
         <calculatorButtons:ShortButton x:Name="short_button"
                                        Grid.Column="1"
                                        Grid.Row="5"
-                                       Margin="10,21,80,0" 
+                                       Margin="6,21,80,0" 
                                        Click="ShortOperationSelectionHandler"/>
 
         <calculatorButtons:CalculateButton x:Name="calculate_button"

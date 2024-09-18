@@ -6,7 +6,7 @@ namespace MainModule.Tests;
 public class SymbolDataAccessTests
 {
     private static readonly ConfigurationService dataAccessConfig = new();
-    private static readonly SymbolAcess dataAccess = new(dataAccessConfig);
+    private static readonly SymbolAccess dataAccess = new(dataAccessConfig);
 
     [Fact]
     public void InsertSymbol_ShouldInsert()
@@ -31,12 +31,23 @@ public class SymbolDataAccessTests
     }
 
     [Fact]
-    public void LoadSymbols_ShouldLoad()
+    public void QuerySymbols_ShouldLoadSymbols()
     {
         int expected = 1;
         int actual = 0;
 
         if (dataAccess.QuerySymbolsAsync().IsCompletedSuccessfully) actual = expected;
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void QuerySymbolsByAssetType_ShouldLoadSymbolsByAssetType()
+    {
+        int expected = 1;
+        int actual = 0;
+
+        if (dataAccess.QuerySymbolsByAssetTypeAsync("Forex").IsCompletedSuccessfully) actual = expected;
 
         Assert.Equal(expected, actual);
     }

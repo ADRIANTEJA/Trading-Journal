@@ -1,0 +1,94 @@
+﻿<Window x:Class="UI.Windows.AddAnalysisNoteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Windows"
+        xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
+        xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
+        xmlns:commonButtons="clr-namespace:UI.Controls.Buttons.Common"
+        mc:Ignorable="d"
+        Title="Add Analysis Note"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanMinimize"
+        Height="400" 
+        Width="300">
+    
+    <Border Background="{StaticResource theme_background_brush}"
+            BorderBrush="{StaticResource green_brush}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="DragMoveHandler">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Add Analysis Note"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource base_textblock_style}" 
+                           Margin="64,0,0,0"/>
+
+                <mainWindowButtons:MinimizeButton Grid.Column="1"
+                                                  Click="MinimizeWindowHandler"/>
+                <mainWindowButtons:QuitButton Grid.Column="2"
+                                              Click="CloseWindowHandler"/>
+            </Grid>
+
+            <Border Grid.Row="1"
+                    Style="{StaticResource control_wrapper_border_style}">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <textBoxes:PlaceHolderTextBox x:Name="title_field"
+                                                  Grid.Row="1"
+                                                  Text="{Binding Path=TitleVM}"
+                                                  PlaceHolder="Title"
+                                                  MaxLength="15" 
+                                                  Margin="40,0,40,10"
+                                                  TextChanged="OnTitleFieldChangedHandler" 
+                                                  KeyDown="JumpToNextFieldHandler"/>
+
+                    <TextBlock Grid.Row="2"
+                               Text="Text:"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource base_textblock_style}" 
+                               Margin="0,0,187,0"/>
+
+                    <TextBox x:Name="text_field"
+                             Text="{Binding Path=TextVM}"
+                             Grid.Row="3"
+                             Style="{StaticResource base_text_box_style}"
+                             TextWrapping="Wrap"
+                             TextChanged="OnTextFieldChangedHandler"
+                             Margin="40,0,40,5"/>
+
+                    <commonButtons:AddButton x:Name="add_note_button"
+                                             Grid.Row="4" 
+                                             Margin="97,0,97,0" 
+                                             Click="AddAnalysisNoteClickHandler"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -18,8 +18,8 @@ public class TradeDataAccessTests
         {
             AccountId = 1,
             PairTraded = "USD/EUR",
-            OpenDate = DateTime.Now.Ticks.ToString(),
-            CloseDate = DateTime.Today.Ticks.ToString(),
+            OpenDate = DateTime.Now.Ticks,
+            CloseDate = DateTime.Now.Ticks,
             IsLong = 1,
             Volume = 50.0,
             IsOpen = 1,
@@ -42,7 +42,7 @@ public class TradeDataAccessTests
         {
             AccountId = 1,
             PairTraded = "USD/EUR",
-            OpenDate = DateTime.Now.Ticks.ToString(),
+            OpenDate = DateTime.Now.Ticks,
             IsLong = 1,
             IsOpen = 1,
             OpenPrice = 1.3,
@@ -65,7 +65,7 @@ public class TradeDataAccessTests
         {
             Id = 2,
             PairTraded = "USD/EUR",
-            OpenDate = DateTime.Now.Ticks.ToString(),
+            OpenDate = DateTime.Now.Ticks,
             IsLong = 1,
             IsOpen = 1,
             OpenPrice = 1.3,
@@ -77,8 +77,8 @@ public class TradeDataAccessTests
         {
             Id = 1,
             PairTraded = "USD/EUR",
-            OpenDate = DateTime.Now.Ticks.ToString(),
-            CloseDate = DateTime.Now.Ticks.ToString(),
+            OpenDate = DateTime.Now.Ticks,
+            CloseDate = DateTime.Now.Ticks,
             IsLong = 1,
             Volume = 50,
             IsOpen = 1,

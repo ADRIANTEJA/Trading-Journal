@@ -6,16 +6,13 @@
         xmlns:local="clr-namespace:UI.Controls.ScrollViewers.ListViewItems"
         xmlns:homeViewButton="clr-namespace:UI.Controls.Buttons.HomeView"
         mc:Ignorable="d" 
-        BorderBrush="{StaticResource green_brush}"
-        BorderThickness="1"
-        CornerRadius="3"
+        Style="{StaticResource listview_item_container_style}"
         Height="160" 
         d:DesignWidth="1000" 
-        Margin="0,0,0,10" 
-        MouseEnter="UpdateContextTradeHandler">
-    
-    <Grid>
+        MouseEnter="UpdateContextTradeHandler" 
+        Margin="0,0,10,10">
 
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32"/>
             <ColumnDefinition Width="96"/>
@@ -47,12 +44,27 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <TextBlock Grid.Column="1"
-                   Grid.Row="1"
-                   Text="{Binding Path=IsOpen}"
-                   VerticalAlignment="Center"
-                   Style="{StaticResource base_textblock_style}"/>
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                BorderThickness="2"
+                CornerRadius="3" 
+                Margin="15,10,15,10">
 
+            <Border.BorderBrush>
+                <MultiBinding Converter="{StaticResource binary_to_status_brush_converter}">
+                    <Binding Path="IsOpen"/>
+                    <Binding Path="OpenPrice"/>
+                    <Binding Path="ClosePrice"/>
+                    <Binding Path="IsLong"/>
+                </MultiBinding>
+            </Border.BorderBrush>
+            
+            <TextBlock x:Name="trade_status_textblock"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource base_textblock_style}" 
+                       Loaded="OnTradeStatusTextBlockLoaded"/>
+        </Border>
+        
         <Border Grid.Row="2"
                 Grid.ColumnSpan="10"
                 Background="{DynamicResource green_brush}"/>
@@ -63,12 +75,19 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <TextBlock Grid.Column="1"
-                   Grid.Row="4"
-                   Text="{Binding Path=IsLong}"
-                   VerticalAlignment="Center"
-                   Style="{StaticResource base_textblock_style}"/>
+        <Border Grid.Column="1"
+                Grid.Row="4"
+                BorderBrush="{Binding Path=IsLong, Converter={StaticResource binary_to_side_brush_converter}}"
+                BorderThickness="2"
+                CornerRadius="3"
+                Margin="15,10,15,10">
 
+            <TextBlock x:Name="trade_side_textblock"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource base_textblock_style}" 
+                       Loaded="OnTradeSideTextBlockLoaded"/>
+        </Border>
+        
         <TextBlock Grid.Column="2"
                    Text="Open date"
                    VerticalAlignment="Center"
@@ -76,13 +95,13 @@
 
         <TextBlock Grid.Column="2"
                    Grid.Row="4"
-                   Text="{Binding Path=CloseDate}"
+                   Text="{Binding Path=CloseDate, Converter={StaticResource date_to_ticks_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Column="2"
                    Grid.Row="1"
-                   Text="{Binding Path=OpenDate}"
+                   Text="{Binding Path=OpenDate, Converter={StaticResource date_to_ticks_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -111,7 +130,7 @@
 
         <TextBlock Grid.Column="3"
                    Grid.Row="4"
-                   Text="{Binding Path=ClosePrice}"
+                   Text="{Binding Path=ClosePrice, Converter={StaticResource zero_to_no_value_representation_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -184,7 +203,7 @@
                    Style="{StaticResource base_textblock_style}">
             
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0}   {1}%">
+                <MultiBinding StringFormat="{}{0} $ /{1}%">
                     <Binding Path="Roi"/>
                     <Binding Path="RoiPercentage"/>
                 </MultiBinding>

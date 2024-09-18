@@ -4,15 +4,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        BorderBrush="{DynamicResource green_brush}"
+        BorderBrush="{StaticResource green_brush}"
         BorderThickness="1"
         CornerRadius="3"
         Height="80" 
         d:DesignWidth="800"
         Margin="0,0,10,10">
-    
-    <Grid>
 
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="96"/>
             <ColumnDefinition Width="*"/>

@@ -6,6 +6,12 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <system:String x:Key="add_symbol_window_asset_type_error">选择资产类型</system:String>
+    <system:String x:Key="add_symbol_window_duplicated_symbol_name_error">这对资产已经注册</system:String>
+    <system:String x:Key="add_strategy_window_duplicated_strategy_name_error">已有一个叫这个名字的策略</system:String>
+    <!--also used in the add trade window for the asset type selector-->
+    <system:String x:Key="add_trade_window_asset_type_selector_header">资产类型</system:String>
+    <system:String x:Key="add_account_window_duplicated_account_error_message">已存在使用此名称的帐户</system:String>
     <!--also used for the window title-->
     <system:String x:Key="calculator_window_window_header">计算器</system:String>
     <system:String x:Key="calculator_window_target_price_button">目标价格</system:String>

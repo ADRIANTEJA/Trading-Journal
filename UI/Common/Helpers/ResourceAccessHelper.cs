@@ -23,6 +23,11 @@ public static class ResourceAccessHelper
 
     public static SolidColorBrush ErrorRedBrush => errorRedBrush;
 
+    private static readonly SolidColorBrush warningYellowBrush =
+        (SolidColorBrush)Application.Current.FindResource("warning_yellow_brush");
+
+    public static SolidColorBrush WarningYellowBrush => warningYellowBrush;
+
     private static readonly string themeChartAxisPaintKey = "theme_chart_axis_paint";
 
     public static string ThemeChartAxisPaintKey => themeChartAxisPaintKey;
@@ -48,4 +53,20 @@ public static class ResourceAccessHelper
     private static readonly string duplicatedAccountErrorMessageKey = "add_account_window_duplicated_account_error_message";
 
     public static string DuplicatedAccountErrorMessageKey => duplicatedAccountErrorMessageKey;
+
+    private static readonly string addSymbolWindowAssetTypeErrorMessageKey = "add_symbol_window_asset_type_error";
+
+    public static string AddSymbolWindowAssetTypeErrorMessageKey => addSymbolWindowAssetTypeErrorMessageKey;
+
+    private static readonly string addTradeWindowAssetTypeSelectorHeaderKey = "add_trade_window_asset_type_selector_header";
+
+    public static string AddTradeWindowAssetTypeSelectorHeaderKey => addTradeWindowAssetTypeSelectorHeaderKey;
+
+    private static readonly string duplicatedSymbolNameErrorKey = "add_symbol_window_duplicated_symbol_name_error";
+
+    public static string DuplicatedSymbolNameErrorKey => duplicatedSymbolNameErrorKey;
+
+    private static readonly string duplicatedStrategyNameErrorKey = "add_strategy_window_duplicated_strategy_name_error";
+
+    public static string DuplicatedStrategyNameErrorKey => duplicatedStrategyNameErrorKey;
 }

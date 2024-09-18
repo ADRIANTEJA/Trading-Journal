@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"  
         mc:Ignorable="d"
         Background="{DynamicResource theme_control_wrapper_background_brush}"
-        Style="{StaticResource highlightable_border_style}"
+        Style="{StaticResource selector_border_style}"
         Height="32"
         d:DesignHeight="32" 
         d:DesignWidth="100">

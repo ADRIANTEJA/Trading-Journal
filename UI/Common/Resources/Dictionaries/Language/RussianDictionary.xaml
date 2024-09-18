@@ -6,6 +6,12 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <system:String x:Key="add_symbol_window_asset_type_error">Выбор типа актива</system:String>
+    <system:String x:Key="add_symbol_window_duplicated_symbol_name_error">Эта пара активов уже зарегистрирована</system:String>
+    <system:String x:Key="add_strategy_window_duplicated_strategy_name_error">Уже есть стратегия с таким названием</system:String>
+    <!--also used in the add trade window for the asset type selector-->
+    <system:String x:Key="add_trade_window_asset_type_selector_header">Тип актива</system:String>
+    <system:String x:Key="add_account_window_duplicated_account_error_message">Учетная запись с таким именем уже существует</system:String>
     <!--also used for the window title-->
     <system:String x:Key="calculator_window_window_header">Калькулятор</system:String>
     <system:String x:Key="calculator_window_target_price_button">Целевая цена</system:String>

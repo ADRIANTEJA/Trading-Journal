@@ -24,7 +24,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
     public INavigationHelper MainNavigationHelper => _mainNavigationHelper;
 
-    private readonly AccountAccess _accountDataAccess;
+    private readonly AccountAccess _accountAccess;
 
     private PerformanceAccess _dayPerformanceDataAccess;
 
@@ -35,7 +35,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     [ObservableProperty]
     private Account selectedAccount;
 
-    public ObservableCollection<Account> Accounts { get; }
+    public ObservableCollection<Account> Accounts { get; } = [];
 
     [ObservableProperty]
     private string nameVM;
@@ -45,6 +45,18 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
     [ObservableProperty]
     public ChartValues<ObservablePoint> accountPerformance = [];
+
+    [RelayCommand]
+    private void LoadAccounts()
+    {
+        Accounts.Clear();
+
+        var tempDataReckords = _accountAccess.QueryAccountsAsync().Result;
+
+        foreach (var account in tempDataReckords) Accounts.Add(account);
+
+        SelectedAccount = Accounts.First(account => account.IsSelected == 1);
+    }
 
     [RelayCommand]
     private void AddAccount()
@@ -58,13 +70,14 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
         try 
         {
-            _accountDataAccess.InsertAccount(newAccount);
+            _accountAccess.InsertAccount(newAccount);
             Accounts.Add(newAccount);
             _eventAggregator.GetEvent<OnCreateAccountEvent>().Publish(true);
         }
         catch (SQLiteException) { _eventAggregator.GetEvent<OnCreateAccountEvent>().Publish(false); }   
     }
 
+    //TODO: fix this crap
     [RelayCommand]
     private void LoadDailyPerformance()
     {
@@ -109,17 +122,14 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         }
     }
 
-    public AccountViewModel(AccountAccess accountDataAccess,
+    public AccountViewModel(AccountAccess accountAccess,
                             PerformanceAccess dayPerformanceDataAccess,
                             INavigationHelper mainNavigationHelper,
                             IEventAggregator eventAggregator) 
     {
         _mainNavigationHelper = mainNavigationHelper;
-        _accountDataAccess = accountDataAccess;
+        _accountAccess = accountAccess;
         _dayPerformanceDataAccess = dayPerformanceDataAccess;
         _eventAggregator = eventAggregator;
-
-        Accounts = new(_accountDataAccess.QueryAccountsAsync().Result);
-        SelectedAccount = Accounts.First(account => account.IsSelected == 1);
     }
 }

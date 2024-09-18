@@ -5,15 +5,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
         xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
-        xmlns:addTradeWindowButtons="clr-namespace:UI.Controls.Buttons.AddTradeWindow"
         xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
+        xmlns:calculatorButtons="clr-namespace:UI.Controls.Buttons.CalculatorWindow"
+        xmlns:commonButtons="clr-namespace:UI.Controls.Buttons.Common"
         mc:Ignorable="d"
         Title="Add trade"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
         ResizeMode="NoResize"
-        Height="550" 
+        Height="600" 
         Width="500" 
         Loaded="OnAddTradeWindowLoaded">
     
@@ -89,7 +90,7 @@
             </Grid>
 
             <Border Grid.Row="1"
-                    Background="{DynamicResource theme_control_wrapper_background_brush}"
+                    Style="{StaticResource control_wrapper_border_style}"
                     Margin="5">
 
                 <Grid>
@@ -101,7 +102,8 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="43"/>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="42"/>
                     </Grid.RowDefinitions>
 
                     <ScrollViewer Margin="5">
@@ -120,61 +122,81 @@
                                 <RowDefinition Height="43"/>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="50"/>
-                                <RowDefinition Height="43"/>
                             </Grid.RowDefinitions>
 
-                            <textBoxes:PlaceHolderTextBox PlaceHolder="Volume"
+                            <textBoxes:PlaceHolderTextBox x:Name="volume_field"
+                                                          PlaceHolder="Volume"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="1"
+                            <textBoxes:PlaceHolderTextBox x:Name="open_price_field"
+                                                          Grid.Row="1"
                                                           PlaceHolder="Open price"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="2"
+                            <textBoxes:PlaceHolderTextBox x:Name="close_price_field"
+                                                          Grid.Row="2"
                                                           PlaceHolder="Close price"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="3"
-                                                          PlaceHolder="Open cost"
+                            <textBoxes:PlaceHolderTextBox x:Name="trade_cost_field"
+                                                          Grid.Row="3"
+                                                          PlaceHolder="Trade cost"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="4"
+                            <textBoxes:PlaceHolderTextBox x:Name="swap_field"
+                                                          Grid.Row="4"
                                                           PlaceHolder="Swap"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="5"
+                            <textBoxes:PlaceHolderTextBox x:Name="spread_field"
+                                                          Grid.Row="5"
                                                           PlaceHolder="Spread"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="6"
+                            <textBoxes:PlaceHolderTextBox x:Name="commissions_field"
+                                                          Grid.Row="6"
                                                           PlaceHolder="Commissions"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="7"
+                            <textBoxes:PlaceHolderTextBox x:Name="other_costs_field"
+                                                          Grid.Row="7"
                                                           PlaceHolder="Other costs"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="8"
+                            <textBoxes:PlaceHolderTextBox x:Name="take_profit_field"
+                                                          Grid.Row="8"
                                                           PlaceHolder="Take profit"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox Grid.Row="9"
+                            <textBoxes:PlaceHolderTextBox x:Name="stop_loss_field"
+                                                          Grid.Row="9"
                                                           PlaceHolder="Stop loss"
                                                           Margin="0,0,5,11"
+                                                          KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
 
-                            <DatePicker Grid.Row="10"
+                            <DatePicker x:Name="open_date_field"
+                                        Grid.Row="10"
                                         Tag="Open date"
                                         Style="{StaticResource base_date_picker_style}"
-                                        Margin="0,0,5,5"/>
+                                        Margin="0,0,5,5" 
+                                        Loaded="OnOpenDateFieldLoaded"/>
 
-                            <DatePicker Grid.Row="11"
+                            <DatePicker x:Name="close_date_field"
+                                        Grid.Row="11"
                                         Tag="Close date"
                                         Style="{StaticResource base_date_picker_style}"
-                                        Margin="0,0,5,5"/>
-
-                            <addTradeWindowButtons:AddImageButton Grid.Row="12" 
-                                                                  Margin="10,5,10,6"/>
+                                        Margin="0,0,5,5" 
+                                        Loaded="OnCloseDateFieldLoaded"/>
                         </Grid>
                     </ScrollViewer>
 
@@ -188,14 +210,18 @@
                             <RowDefinition Height="32"/>
                             <RowDefinition Height="32"/>
                             <RowDefinition Height="32"/>
-                            <RowDefinition Height="32"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="32"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="42"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.ColumnSpan="2"
-                                   Text="Market"
+                        <TextBlock Text="{DynamicResource add_trade_window_asset_type_selector_header}"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="Symbol"
                                    VerticalAlignment="Center"
                                    Style="{StaticResource base_textblock_style}"/>
 
@@ -205,7 +231,9 @@
                                                                Grid.Row="1"
                                                                Panel.ZIndex="1"
                                                                MouseEnter="ShowAssetTypesHandler"
-                                                               MouseLeave="HideAssetTypesHandler"/>
+                                                               MouseLeave="HideAssetTypesHandler" 
+                                                               Margin="5,0,5,0" 
+                                                               Loaded="OnAssetTypeSelectionChangedHandler"/>
                         <customScrollViewers:SymbolSelector x:Name="symbol_selector"
                                                             Height="32"
                                                             Grid.Column="1"
@@ -213,24 +241,66 @@
                                                             Grid.RowSpan="4"
                                                             Panel.ZIndex="1"
                                                             MouseEnter="ShowSymbolsHandler" 
-                                                            MouseLeave="HideSymbolsHandler" Loaded="OnSymbolSelectorLoaded"/>
+                                                            MouseLeave="HideSymbolsHandler" 
+                                                            Margin="5,0,5,0"/>
 
                         <TextBlock Grid.Row="2"
-                                   Text="{Binding Path=Tag, ElementName=asset_type_selector}"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource base_textblock_style}"/>
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="2"
-                                   Text="{Binding Path=Tag, ElementName=symbol_selector}"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource base_textblock_style}"/>
-
-                        <TextBlock Grid.Row="3"
                                    Grid.ColumnSpan="2"
                                    Text="Notes"
                                    VerticalAlignment="Center"
                                    Style="{StaticResource base_textblock_style}"/>
+
+                        <TextBox Name="notes_field"
+                                 Grid.Row="3"
+                                 Grid.ColumnSpan="2"
+                                 Text="{Binding Path=NotesVM}"
+                                 Style="{StaticResource base_text_box_style}"
+                                 KeyDown="JumpToNextFieldHandler"
+                                 Margin="5"/>
+
+                        <TextBlock Grid.Row="4"
+                                   Grid.ColumnSpan="2"
+                                   Text="Mistakes"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
+
+                        <TextBox x:Name="mistakes_field"
+                                 Grid.Row="5"
+                                 Grid.ColumnSpan="2"
+                                 Text="{Binding Path=MistakesVM}"
+                                 Style="{StaticResource base_text_box_style}"
+                                 Margin="5"/>
+
+                        <calculatorButtons:LongButton x:Name="long_button"
+                                                      Grid.Row="6" 
+                                                      Margin="20,5,5,5" 
+                                                      Loaded="OnLongButtonLoaded"
+                                                      Click="LongOperationSelectionHandler"/>
+                        <calculatorButtons:ShortButton x:Name="short_button"
+                                                       Grid.Column="1"
+                                                       Grid.Row="6" 
+                                                       Margin="5,5,20,5"
+                                                       Click="ShortOperationSelectionHandler"/>
+
+                        <TextBlock x:Name="selected_asset_textblock"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="5"
+                                   Style="{StaticResource base_textblock_style}"
+                                   VerticalAlignment="Center"/>
                     </Grid>
+
+                    <TextBlock x:Name="input_error_textblock"
+                               Grid.Row="1"
+                               Grid.ColumnSpan="2"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource error_red_brush}"
+                               Style="{StaticResource base_textblock_style}"/>
+
+                    <commonButtons:AddButton x:Name="add_trade_button"
+                                             Grid.Row="2"
+                                             Grid.ColumnSpan="2" 
+                                             Margin="200,5,200,5" 
+                                             Click="AddTradeClickHandler"/>
                 </Grid>
             </Border>
         </Grid>

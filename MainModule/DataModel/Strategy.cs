@@ -16,10 +16,10 @@ public class Strategy
     /// </summary>
     public string? Goal { get; set; }
     /// <summary>
-    /// symbol pair id to be the strategy's main focus on investment,
+    /// symbol pair's id to be the strategy's main focus on investment,
     /// it may be none
     /// </summary>
-    public int? Market { get; set; }
+    public string Market { get; set; }
     /// <summary>
     /// represents the broker or exchange the user its using to operate
     /// </summary>

@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <Storyboard x:Key="show_symbol_categories_storyboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_category_display_control" Storyboard.TargetProperty="(FrameworkElement.Width)">
-                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="800">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="900">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseInOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
@@ -161,8 +161,8 @@
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="{Binding Path=AccountViewModel.SelectedAccount.Name}"
@@ -212,12 +212,13 @@
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="116"/>
-                        <ColumnDefinition Width="116"/>
-                        <ColumnDefinition Width="116"/>
-                        <ColumnDefinition Width="116"/>
-                        <ColumnDefinition Width="116"/>
-                        <ColumnDefinition Width="116"/>
+                        <ColumnDefinition Width="121"/>
+                        <ColumnDefinition Width="121"/>
+                        <ColumnDefinition Width="121"/>
+                        <ColumnDefinition Width="121"/>
+                        <ColumnDefinition Width="121"/>
+                        <ColumnDefinition Width="121"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -234,11 +235,12 @@
                     <Border x:Name="crypto_expander"
                             Grid.Column="1"
                             Grid.RowSpan="2"
-                            Style="{StaticResource highlightable_border_style}"
+                            Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
                             Height="32" 
                             MouseEnter="ShowSymbolCategoryFiltersHandller"
-                            MouseLeave="HideSymbolCategoryFiltersHandller">
+                            MouseLeave="HideSymbolCategoryFiltersHandller" 
+                            Margin="5,0,0,0">
 
                         <Grid>
                             <Grid.RowDefinitions>
@@ -282,9 +284,10 @@
                     <Border x:Name="forex_expander"
                             Grid.Column="2"
                             Grid.RowSpan="2"
-                            Style="{StaticResource highlightable_border_style}"
+                            Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
                             Height="32"
+                            Margin="5,0,0,0"
                             MouseEnter="ShowSymbolCategoryFiltersHandller"
                             MouseLeave="HideSymbolCategoryFiltersHandller">
 
@@ -327,9 +330,10 @@
                     <Border x:Name="indices_expander"
                             Grid.Column="3"
                             Grid.RowSpan="2"
-                            Style="{StaticResource highlightable_border_style}"
+                            Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
                             Height="32"
+                            Margin="5,0,0,0"
                             MouseEnter="ShowSymbolCategoryFiltersHandller"
                             MouseLeave="HideSymbolCategoryFiltersHandller">
 
@@ -375,9 +379,10 @@
                     <Border x:Name="etfs_expander"
                             Grid.Column="4"
                             Grid.RowSpan="2"
-                            Style="{StaticResource highlightable_border_style}"
+                            Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
                             Height="32"
+                            Margin="5,0,0,0"
                             MouseEnter="ShowSymbolCategoryFiltersHandller"
                             MouseLeave="HideSymbolCategoryFiltersHandller">
 
@@ -423,9 +428,10 @@
                     <Border x:Name="stocks_expander"
                             Grid.Column="5"
                             Grid.RowSpan="2"
-                            Style="{StaticResource highlightable_border_style}"
+                            Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
                             Height="32"
+                            Margin="5,0,0,0"
                             MouseEnter="ShowSymbolCategoryFiltersHandller"
                             MouseLeave="HideSymbolCategoryFiltersHandller">
 
@@ -471,9 +477,10 @@
                     <Border x:Name="commodities_expander"
                             Grid.Column="6"
                             Grid.RowSpan="2"
-                            Style="{StaticResource highlightable_border_style}"
+                            Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
                             Height="32"
+                            Margin="5,0,0,0"
                             MouseEnter="ShowSymbolCategoryFiltersHandller" 
                             MouseLeave="HideSymbolCategoryFiltersHandller">
 
@@ -522,7 +529,7 @@
                           Style="{StaticResource base_listview_style}"
                           ItemContainerStyle="{StaticResource trades_listview_item_style}"
                           ItemsSource="{Binding Path=Trades}" 
-                          Margin="0,10,0,0"/>
+                          Margin="10"/>
             </Grid>
         </Border>
         
