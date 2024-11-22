@@ -6,6 +6,7 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <system:String x:Key="add_trade_window_missing_symbol_error">Seleziona un attivo</system:String>
     <system:String x:Key="add_symbol_window_asset_type_error">Seleziona un tipo di risorsa</system:String>
     <system:String x:Key="add_symbol_window_duplicated_symbol_name_error">Tale coppia di asset è già registrata</system:String>
     <system:String x:Key="add_strategy_window_duplicated_strategy_name_error">C'è già una strategia con quel nome</system:String>
@@ -24,7 +25,7 @@
     <system:String x:Key="main_window_switch_theme_button">Tema</system:String>
     <system:String x:Key="main_window_font_size_slider">Dimensione del font</system:String>
     <system:String x:Key="main_window_account_button">Account</system:String>
-    <system:String x:Key="main_window_strategy_button">Strategia</system:String>
+	<system:String x:Key="main_window_strategy_button">Gestione del rischio</system:String>
     <system:String x:Key="main_window_add_trade_button">Aggiungi operazione</system:String>
     <system:String x:Key="ROI_calculation_view_margin_field">Importo da investire</system:String>
     <system:String x:Key="ROI_calculation_view_open_price_field">Prezzo d'ingresso</system:String>

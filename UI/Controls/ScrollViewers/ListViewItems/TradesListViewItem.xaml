@@ -16,13 +16,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32"/>
             <ColumnDefinition Width="96"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="96"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="96"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="96"/>
-            <ColumnDefinition Width="96"/>
+            <ColumnDefinition Width="140"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -112,7 +113,7 @@
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Column="3"
-                   Text="Open Price"
+                   Text="Open price"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -232,24 +233,48 @@
                                              Margin="32,0,32,0" 
                                              Click="OpenTradeNotesWindowHandler"/>
 
-        <TextBlock Grid.Column="9"
+        <TextBlock Grid.Column="8"
                    Text="Edit"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <homeViewButton:EditTradeButton Grid.Column="9"
+        <homeViewButton:EditTradeButton Grid.Column="8"
                                         Grid.Row="1" 
                                         Margin="32,0,32,0"/>
 
-        <TextBlock Grid.Column="9"
+        <TextBlock Grid.Column="8"
                    Grid.Row="2"
                    Text="Mistakes"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <homeViewButton:OpenTradeMistakesButton Grid.Column="9"
+        <homeViewButton:OpenTradeMistakesButton Grid.Column="8"
                                                 Grid.Row="4" 
                                                 Margin="32,0,32,0" 
                                                 Click="OpenTradeMistakesWindowHandler"/>
+
+        <TextBlock Grid.Column="9"
+                   Text="Risk management"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Column="9"
+                   Grid.Row="1"
+                   Text="{Binding Path=StrategyName}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Row="2"
+                   Grid.Column="9"
+                   Text="Leverage"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
+
+        <TextBlock Grid.Row="3"
+                   Grid.Column="9"
+                   Text="{Binding Path=Leverage, StringFormat=x{0}, 
+                   Converter={StaticResource zero_to_one_value_converter}}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource base_textblock_style}"/>
     </Grid>
 </Border>

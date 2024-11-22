@@ -144,7 +144,7 @@
     <Grid Background="{DynamicResource theme_background_brush}">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
@@ -544,7 +544,7 @@
 
                 <charts:AccountPerformanceLineChart.Series>
 
-                    <liveCharts:LineSeries Values="{Binding Path=AccountViewModel.AccountPerformance}"
+                    <liveCharts:LineSeries Values="{Binding Path=AccountViewModel.PerformanceViewModel.AccountPerformance}"
                                            Style="{StaticResource account_performance_line_series_style}"/>
                 </charts:AccountPerformanceLineChart.Series>
             </charts:AccountPerformanceLineChart>

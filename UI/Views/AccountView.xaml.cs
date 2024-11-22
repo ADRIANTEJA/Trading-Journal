@@ -42,6 +42,6 @@ public partial class AccountView : UserControl
     private void OnAccountViewLoadedHandler(object sender, RoutedEventArgs e)
     {
         var dataContext = (AccountViewModel)DataContext;
-        dataContext.LoadDailyPerformanceCommand.Execute(null);
+        dataContext.FireLoadPerformanceEventCommandCommand.Execute(null);
     }
 }

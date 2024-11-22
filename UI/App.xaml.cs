@@ -11,7 +11,6 @@ using MainModule.Services;
 using System.IO;
 using MainModule.Common;
 using API;
-using Prism.Events;
 
 namespace UI;
 
@@ -139,7 +138,8 @@ public partial class App : Application
                                                                       provider.GetRequiredService<INavigationHelper>(),
                                                                       provider.GetRequiredService<IEventAggregator>()));
 
-                services.AddSingleton<DayPerformanceViewModel>();
+                services.AddSingleton(provider => new PerformanceViewModel(provider.GetRequiredService<PerformanceAccess>(),
+                                                                           provider.GetRequiredService<IEventAggregator>()));
 
                 services.AddSingleton(provider => new AnalysisNoteViewModel(provider.GetRequiredService<INavigationHelper>(),
                                                                             provider.GetRequiredService<StrategyViewModel>(),
@@ -147,6 +147,8 @@ public partial class App : Application
 
                 services.AddSingleton(provider => new HomeViewModel(provider.GetRequiredService<AccountViewModel>(),
                                                                     provider.GetRequiredService<SymbolViewModel>(),
+                                                                    provider.GetRequiredService<StrategyViewModel>(),
+                                                                    provider.GetRequiredService<PerformanceViewModel>(),
                                                                     provider.GetRequiredService<TradeAccess>(),
                                                                     provider.GetRequiredService<IEventAggregator>(),
                                                                     provider.GetRequiredService<INavigationHelper>()));
@@ -157,7 +159,7 @@ public partial class App : Application
                                                                           provider.GetRequiredService<IEventAggregator>()));
 
                 services.AddSingleton(provider => new AccountViewModel(provider.GetRequiredService<AccountAccess>(),
-                                                                       provider.GetRequiredService<PerformanceAccess>(),
+                                                                       provider.GetRequiredService<PerformanceViewModel>(),
                                                                        provider.GetRequiredService<INavigationHelper>(),
                                                                        provider.GetRequiredService<IEventAggregator>()));
             }).Build();

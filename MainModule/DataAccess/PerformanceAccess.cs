@@ -14,13 +14,13 @@ public class PerformanceAccess
         _dataAccessConfig = dataAccessConfig; 
     }
 
-    public async Task<int> InsertDayPerformanceAsync(Performance dayPerformance)
+    public int InsertDayPerformance(Performance dayPerformance)
     {
         string command = @"INSERT INTO Performance (accountId, date, roi, roiPercentage)
                            VALUES (@AccountId, @Date, @ROI, @ROIPercentage)";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        return await connection.ExecuteAsync(command, dayPerformance);
+        return connection.Execute(command, dayPerformance);
     }
 
     public async Task<List<Performance>> QueryDayPerformanceByAccountIdAsync(int accountId)

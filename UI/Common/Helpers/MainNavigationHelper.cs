@@ -104,17 +104,17 @@ public partial class MainNavigationHelper : ObservableObject, INavigationHelper
 
     private ICommand? navigateToHomeCommand;
 
-    public ICommand NavigateToHomeCommand => navigateToHomeCommand ??= new DelegateCommand
+    public ICommand NavigateToHomeCommand => navigateToHomeCommand ??= new MainModule.Common.Utils.DelegateCommand
        (o => Navigation.NavigateToAsync<HomeViewModel>(), CanNavigateToHome);
 
     private ICommand? navigateToAccountCommand;
 
-    public ICommand NavigateToAccountCommand => navigateToAccountCommand ??= new DelegateCommand
+    public ICommand NavigateToAccountCommand => navigateToAccountCommand ??= new MainModule.Common.Utils.DelegateCommand
         (o => Navigation.NavigateToAsync<AccountViewModel>(), CanNavigateToAccount);
 
     public ICommand? navigateToStrategyCommand;
 
-    public ICommand? NavigateToStrategyCommand => navigateToStrategyCommand ??= new DelegateCommand
+    public ICommand? NavigateToStrategyCommand => navigateToStrategyCommand ??= new MainModule.Common.Utils.DelegateCommand
         (o => Navigation.NavigateToAsync<StrategyViewModel>(), CanNavigateToSrategy);
 
     private bool CanNavigateToHome(object? parameter) => Flags.IsThreadSafe;

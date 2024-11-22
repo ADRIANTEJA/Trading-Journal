@@ -1,6 +1,5 @@
 ﻿using API.Events;
 using MainModule.ViewModels;
-using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,7 +15,7 @@ public partial class AddSymbolWindow : Window
     public AddSymbolWindow(IEventAggregator eventAggregator)
     {
         InitializeComponent();
-        eventAggregator.GetEvent<OnCreateSymbolEvent>().Subscribe(SymbolCreationHandler);
+        eventAggregator.GetEvent<CreateSymbolEvent>().Subscribe(SymbolCreationHandler);
     }
 
     private void DragMoveHandler(object sender, MouseButtonEventArgs e)

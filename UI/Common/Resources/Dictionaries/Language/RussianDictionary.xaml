@@ -6,6 +6,7 @@
         and the name of the control, should the string be used in more than one control it will
         be specified in a comment above it, keys are also organized alphabetically-->
 
+    <system:String x:Key="add_trade_window_missing_symbol_error">Выберите актив</system:String>
     <system:String x:Key="add_symbol_window_asset_type_error">Выбор типа актива</system:String>
     <system:String x:Key="add_symbol_window_duplicated_symbol_name_error">Эта пара активов уже зарегистрирована</system:String>
     <system:String x:Key="add_strategy_window_duplicated_strategy_name_error">Уже есть стратегия с таким названием</system:String>

@@ -69,4 +69,8 @@ public static class ResourceAccessHelper
     private static readonly string duplicatedStrategyNameErrorKey = "add_strategy_window_duplicated_strategy_name_error";
 
     public static string DuplicatedStrategyNameErrorKey => duplicatedStrategyNameErrorKey;
+
+    private static readonly string missingSymbolErrorKey = "add_trade_window_missing_symbol_error";
+
+    public static string MissingSymbolErrorKey => missingSymbolErrorKey;
 }

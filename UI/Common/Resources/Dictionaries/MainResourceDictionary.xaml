@@ -18,12 +18,12 @@
 
     <system:Double x:Key="font_size">14</system:Double>
     <system:String x:Key="application_name">Asset Ops</system:String>
-    <system:String x:Key="null_field_fallback_value">--</system:String>
 
     <converters:LongToDateConverter x:Key="date_to_ticks_converter"/>
     <converters:BinaryToStatusBrushConverter x:Key="binary_to_status_brush_converter"/>
     <converters:BinaryToSideBrushConverter x:Key="binary_to_side_brush_converter"/>
     <converters:ZeroToNoValueRepresentationConverter x:Key="zero_to_no_value_representation_converter"/>
+    <converters:ZeroToOneValueConverter x:Key="zero_to_one_value_converter"/>
 
     <BitmapImage x:Key="application_logo_icon"
                  UriSource="\Common\Resources\Assets\Icons\app_logo_icon.png"/>
@@ -304,6 +304,128 @@
         </Setter>
     </Style>
 
+    <Style x:Key="base_calendar_button_style" TargetType="{x:Type CalendarButton}">
+        <Setter Property="MinWidth"
+                Value="40" />
+        <Setter Property="MinHeight"
+                Value="42" />
+        <Setter Property="FontSize"
+                Value="10" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CalendarButton}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.1" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState Name="Normal" />
+                                <VisualState Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Background"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To=".5"
+                                                         Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Background"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To=".5"
+                                                         Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup Name="SelectionStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState Name="Unselected" />
+                                <VisualState Name="Selected">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBackground"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To=".75"
+                                                         Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup Name="ActiveStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState Name="Active" />
+                                <VisualState Name="Inactive">
+                                    <Storyboard>
+                                        <ColorAnimation Duration="0"
+                                                        Storyboard.TargetName="NormalText"
+                                                        Storyboard.TargetProperty="(TextElement.Foreground).
+                                                                                   (SolidColorBrush.Color)"
+                                                        To="#FF777777" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup Name="CalendarButtonFocusStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState Name="CalendarButtonFocused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0"
+                                                 Storyboard.TargetName="CalendarButtonFocusVisual"
+                                                 Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="CalendarButtonUnfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="SelectedBackground"
+                                   RadiusX="1"
+                                   RadiusY="1"
+                                   Opacity="0"
+                                   Fill="{StaticResource green_brush}">
+                        </Rectangle>
+                        <Rectangle x:Name="Background"
+                                   RadiusX="1"
+                                   RadiusY="1"
+                                   Opacity="0"
+                                   Fill="{StaticResource green_brush}">
+                        </Rectangle>
+                        <ContentPresenter x:Name="NormalText"
+                                          TextElement.Foreground="{DynamicResource theme_font_brush}"
+                                          TextElement.FontFamily="Calibri"
+                                          TextElement.FontSize="{DynamicResource font_size}"
+                                          TextElement.FontWeight="DemiBold"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="1,0,1,1">
+                        </ContentPresenter>
+                        <Rectangle x:Name="CalendarButtonFocusVisual"
+                                   Visibility="Collapsed"
+                                   IsHitTestVisible="false"
+                                   RadiusX="1"
+                                   RadiusY="1"
+                                   Stroke="{StaticResource green_brush}">
+                        </Rectangle>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
     <Style x:Key="base_calendar_item_style" TargetType="{x:Type CalendarItem}">
         <Setter Property="Template">
             <Setter.Value>
@@ -525,6 +647,7 @@
 
     <Style x:Key="datepicker_calendar_style" TargetType="{x:Type Calendar}">
         <Setter Property="CalendarDayButtonStyle" Value="{StaticResource base_calendar_day_button_style}"/>
+        <Setter Property="CalendarButtonStyle" Value="{StaticResource base_calendar_button_style}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Calendar}">
@@ -544,6 +667,7 @@
         <Setter Property="DisplayDateStart" Value="1/1/1999"/>
         <Setter Property="DisplayDateEnd" Value="12/31/2099"/>
         <Setter Property="CalendarStyle" Value="{StaticResource datepicker_calendar_style}"/>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DatePicker}">
@@ -579,10 +703,10 @@
                             </Button>
                             <textBoxes:PlaceHolderTextBox x:Name="PART_TextBox"
                                                           PlaceHolder="{TemplateBinding Tag}"
+                                                          MaxLength="20"
                                                           Text="{Binding Path=SelectedDate, 
-                                                                 StringFormat='dd/MM/yyyy hh.mm tt', 
-                                                                 RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, 
-                                                                 Mode=TwoWay}" 
+                                                                 StringFormat='dd/MM/yyyy hh.mm tt',
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}"
                                                           Margin="-3,5,-15,0"/>
                             <Grid x:Name="PART_DisabledVisual"
                                   Grid.ColumnSpan="2"

@@ -13,17 +13,13 @@ public class PerformanceAccessTests
     public void InsertDayPerformanceAsync_ShouldInsertDayPerformance()
     {
         int expected = 1;
-        int actual = 0;
-
-        var performance = new Performance()
+        int actual = dataAccess.InsertDayPerformance(new Performance()
         {
             AccountId = 1,
             Date = 9999999999999999,
             ROI = 45.32,
             ROIPercentage = 4.12
-        };
-
-        if (dataAccess.InsertDayPerformanceAsync(performance).IsCompletedSuccessfully) actual = expected;
+        });
 
         Assert.Equal(expected, actual);
     }

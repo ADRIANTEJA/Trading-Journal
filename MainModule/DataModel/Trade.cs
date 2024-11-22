@@ -1,5 +1,4 @@
-﻿
-namespace MainModule.DataModel;
+﻿namespace MainModule.DataModel;
 
 public class Trade
 {
@@ -12,9 +11,13 @@ public class Trade
     /// </summary>
     public int AccountId { get; set; }
     /// <summary>
-    /// the pairVM of assets traded
+    /// represents the pair of asset used to trade
     /// </summary>
     public string PairTraded { get; set; }
+    /// <summary>
+    /// represents the market or asset type of the pair of assets traded
+    /// </summary>
+    public string PairMarket { get; set; }
     /// <summary>
     /// represents the date and hour the position(trade) was opened
     /// </summary>
@@ -92,4 +95,22 @@ public class Trade
     /// while operating
     /// </summary>
     public string? Notes { get; set; }
+    /// <summary>
+    /// the Trade foreign key associated to a strategy
+    /// </summary>
+    public string? StrategyName {  get; set; }
+    /// <summary>
+    /// represents weather the MaxDailyLoss parameter of the strategy this trade is using
+    /// is compromised or not
+    /// </summary>
+    public int? MaxDLCompromised { get; set; }
+    /// <summary>
+    /// represents weather the MaxTradeRiks parameter of the strategy this trade is using
+    /// is compromised or not
+    /// </summary>
+    public int? MaxTRCompromised { get; set; }
+    /// <summary>
+    /// represents the amount of leverage used in the trade
+    /// </summary>
+    public int Leverage { get; set; }
 }

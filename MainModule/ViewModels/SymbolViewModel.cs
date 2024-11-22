@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MainModule.DataAccess;
 using MainModule.DataModel;
-using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 
@@ -67,9 +66,9 @@ public partial class SymbolViewModel : ObservableObject, IViewModel
         {
             _symbolAccess.InsertSymbol(newSymbol);
             Symbols.Add(newSymbol);
-            _eventAggregator.GetEvent<OnCreateSymbolEvent>().Publish(true);
+            _eventAggregator.GetEvent<CreateSymbolEvent>().Publish(true);
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<OnCreateSymbolEvent>().Publish(false); }
+        catch (SQLiteException) { _eventAggregator.GetEvent<CreateSymbolEvent>().Publish(false); }
     }
 
     public SymbolViewModel(SymbolAccess dataAccess, 

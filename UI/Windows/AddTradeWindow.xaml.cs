@@ -1,5 +1,5 @@
-﻿using MainModule.ViewModels;
-using Prism.Events;
+﻿using API.Events;
+using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,13 +14,14 @@ namespace UI.Windows;
 
 public partial class AddTradeWindow : Window
 {
-    private bool isLongTrade = true;
+    private int isLongTrade = 1;
 
     public AddTradeWindow(IEventAggregator eventAggregator)
     {
         InitializeComponent();
         eventAggregator.GetEvent<OnUILanguageChangedEvent>().Subscribe(ChangeWindowCultureHandler);
         eventAggregator.GetEvent<OnUILanguageChangedEvent>().Publish();
+        eventAggregator.GetEvent<CreateTradeEvent>().Subscribe(TradeCreationHandler);
     }
 
     private void MinimizeWindowHandler(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
@@ -65,6 +66,18 @@ public partial class AddTradeWindow : Window
     private void HideSymbolsHandler(object sender, MouseEventArgs e)
     {
         var sBoard = (Storyboard)Resources["hide_symbols_storyboard"];
+        sBoard.Begin();
+    }
+
+    private void ShowStrategiesHandler(object sender, MouseEventArgs e)
+    {
+        var sBoard = (Storyboard)Resources["show_strategies_storyboard"];
+        sBoard.Begin();
+    }
+
+    private void HideStrategiesHandler(object sender, MouseEventArgs e)
+    {
+        var sBoard = (Storyboard)Resources["hide_strategies_storyboard"];
         sBoard.Begin();
     }
 
@@ -114,11 +127,6 @@ public partial class AddTradeWindow : Window
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(open_date_field.Text))
-        {
-            open_date_field.Tag = ResourceAccessHelper.ErrorRedBrush;
-            isValid = false;
-        }
         return isValid;
     }
 
@@ -161,20 +169,14 @@ public partial class AddTradeWindow : Window
     {
         long_button.Background = ResourceAccessHelper.GreenBrushRef;
         short_button.Background = null;
-        isLongTrade = true;
+        isLongTrade = 1;
     }
 
     private void ShortOperationSelectionHandler(object sender, RoutedEventArgs e)
     {
         short_button.Background = ResourceAccessHelper.SalmonBrushRef;
         long_button.Background = null;
-        isLongTrade = false;
-    }
-
-    private bool IsSymbolListNotEmpty()
-    {
-        var symbolListRef = (ListView)symbol_selector.FindName("options_listview");
-        return symbolListRef.Items.Count > 0;
+        isLongTrade = 0;
     }
 
     private bool AreDatesValid()
@@ -183,7 +185,6 @@ public partial class AddTradeWindow : Window
 
         var openDateTextBoxRef = (TextBox)open_date_field.Template.FindName("PART_TextBox", open_date_field);
         var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
-
 
         if (string.IsNullOrEmpty(openDateTextBoxRef.Text))
         {
@@ -213,14 +214,12 @@ public partial class AddTradeWindow : Window
 
     private void AddTradeClickHandler(object sender, RoutedEventArgs e)
     {
+        var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
+        var dataContext = (HomeViewModel)DataContext;
+
         if (!IsInputValid())
         {
             add_trade_button.Focus();
-            return;
-        }
-        if (!IsSymbolListNotEmpty())
-        {
-            MessageBox.Show("symbol error");
             return;
         }
         if (!AreDatesValid())
@@ -228,8 +227,23 @@ public partial class AddTradeWindow : Window
             add_trade_button.Focus();
             return;
         }
-        
-        
+
+        if (string.IsNullOrEmpty(closeDateTextBoxRef.Text) || string.IsNullOrEmpty(close_price_field.Text))
+        {
+            dataContext.AddOpenTradeCommand.Execute(isLongTrade);
+        }
+        else { dataContext.AddClosedTradeCommand.Execute(isLongTrade); }
+    }
+
+    private void TradeCreationHandler(bool success)
+    {
+        if (success) Close();
+        else
+        {
+            input_error_textblock.Text =
+            Application.Current.FindResource(ResourceAccessHelper.MissingSymbolErrorKey).ToString();
+            input_error_textblock.Visibility = Visibility.Visible;
+        }
     }
 
     private void OnOpenDateFieldLoaded(object sender, RoutedEventArgs e)
@@ -250,7 +264,10 @@ public partial class AddTradeWindow : Window
 
         if (!string.IsNullOrEmpty(openDateTextBoxRef.Text))
             openDateTextBoxRef.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);
-    }
+
+        try { open_date_field.SelectedDate = DateTime.ParseExact(openDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null); }
+        catch(FormatException) { }
+    }   
 
     private void CloseDateFieldChangedHandler(object sender, TextChangedEventArgs e)
     {
@@ -258,5 +275,19 @@ public partial class AddTradeWindow : Window
 
         if (!string.IsNullOrEmpty(closeDateTextBoxRef.Text))
             closeDateTextBoxRef.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);
+
+        try { close_date_field.SelectedDate = DateTime.ParseExact(closeDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null); }
+        catch (FormatException) { }
+    }
+
+    private void OnLeverageSliderLoaded(object sender, RoutedEventArgs e)
+    {
+        var leverageSliderRef = (Slider)trade_leverage_slider.FindName("leverage_slider");
+        var binding = new Binding("LeverageVM")
+        {
+            Mode = BindingMode.OneWayToSource
+        };
+
+        leverageSliderRef.SetBinding(Slider.ValueProperty, binding);
     }
 }

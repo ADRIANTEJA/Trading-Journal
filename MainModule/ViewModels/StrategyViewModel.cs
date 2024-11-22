@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MainModule.DataAccess;
 using MainModule.DataModel;
-using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 
@@ -57,6 +56,9 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
     [ObservableProperty]
     private int lossesVM;
 
+    [ObservableProperty]
+    private Strategy? selectedStrategyVM;
+
     public ObservableCollection<Strategy> Strategies { get; } = [];
 
     [RelayCommand]
@@ -88,9 +90,9 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         {
             _strategyAccess.InsertStrategy(newStrategy);
             Strategies.Add(newStrategy);
-            _eventAggregator.GetEvent<OnCreateStrategyEvent>().Publish(true);
+            _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(true);
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<OnCreateStrategyEvent>().Publish(false); }
+        catch (SQLiteException) { _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(false); }
     }
 
     public StrategyViewModel(IEventAggregator eventAggregator,
@@ -103,8 +105,8 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         _navigationHelper = navigationHelper;
         _symbolViewModel = symbolViewModel;
 
-        _eventAggregator.GetEvent<OnLoadAnalysisNotesClickEvent>().Subscribe(OpenAnalysisNotesHandler);
-        _eventAggregator.GetEvent<OnSelectedStrategyItemChangedEvent>().Subscribe(UpdateSelectedStrategyHandler);
+        _eventAggregator.GetEvent<LoadAnalysisNotesClickEvent>().Subscribe(OpenAnalysisNotesHandler);
+        _eventAggregator.GetEvent<SelectedStrategyItemChangedEvent>().Subscribe(UpdateSelectedStrategyHandler);
     }
 
     private void OpenAnalysisNotesHandler()

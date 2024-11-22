@@ -10,7 +10,7 @@ public class BinaryToStatusBrushConverter : IMultiValueConverter
     {
         int IsOpen = (int)values[0];
         double OpenPrice = (double)values[1];
-        double ClosePrice = (double)values[2];
+        double? ClosePrice = values[2] as double?;
         int IsLong = (int)values[3];
 
         if (IsOpen == 1) return ResourceAccessHelper.WarningYellowBrush;

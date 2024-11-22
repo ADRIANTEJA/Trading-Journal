@@ -18,6 +18,7 @@ public class TradeDataAccessTests
         {
             AccountId = 1,
             PairTraded = "USD/EUR",
+            PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
             CloseDate = DateTime.Now.Ticks,
             IsLong = 1,
@@ -35,13 +36,18 @@ public class TradeDataAccessTests
             Roi = 4.0,
             RoiPercentage = 20,
             Mistakes = "some mistakes",
-            Notes = "some notes"
+            Notes = "some notes",
+            StrategyName = "test Strategy",
+            MaxDLCompromised = 0,
+            MaxTRCompromised = 0,
+            Leverage = 1
         };
 
         Trade newPartialTrade = new()
         {
             AccountId = 1,
             PairTraded = "USD/EUR",
+            PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
             IsLong = 1,
             IsOpen = 1,
@@ -65,6 +71,7 @@ public class TradeDataAccessTests
         {
             Id = 2,
             PairTraded = "USD/EUR",
+            PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
             IsLong = 1,
             IsOpen = 1,
@@ -77,6 +84,7 @@ public class TradeDataAccessTests
         {
             Id = 1,
             PairTraded = "USD/EUR",
+            PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
             CloseDate = DateTime.Now.Ticks,
             IsLong = 1,
@@ -94,7 +102,10 @@ public class TradeDataAccessTests
             Roi = 4,
             RoiPercentage = 10,
             Mistakes = "some mistakes",
-            Notes = "some notes"
+            Notes = "some notes",
+            StrategyName = "test Strategy",
+            MaxTRCompromised = 0,
+            MaxDLCompromised = 0,
         };
 
         if (dataAccess.UpdateTrade(partiallyUpdatedTrade) == 1

@@ -1,5 +1,4 @@
-﻿
-namespace MainModule.DataModel;
+﻿namespace MainModule.DataModel;
 
 public class Strategy
 {
@@ -25,13 +24,13 @@ public class Strategy
     /// </summary>
     public string? Intermediary { get; set;}
     /// <summary>
-    /// represents the % of the beneficts over the investment expected in every trade
+    /// represents the % of the beneficts against the investment expected in every trade
     /// </summary>
     public double RiskRewardRatio { get; set; }
     /// <summary>
     /// represents the maximun % of capital risked in individual trades
     /// </summary>
-    public double MaxTradeRisk { get; set;}
+    public double MaxTradeRisk { get; set; }
     /// <summary>
     /// represents the % expected to be earned daily usign the strategy
     /// </summary>
@@ -44,9 +43,9 @@ public class Strategy
     /// <summary>
     /// represents the nomber of won trades operating with the strategy 
     /// </summary>
-    public int Wins { get; set;}
+    public int Wins { get; set; }
     /// <summary>
     /// represents the nomber of lost trades operating with the strategy
     /// </summary>
-    public double Losses { get;}
+    public double Losses { get; }
 }

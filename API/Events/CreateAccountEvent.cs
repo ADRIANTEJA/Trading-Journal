@@ -6,7 +6,7 @@ namespace API.Events;
 /// it takes a boolean parameter to notify weather the account was created succesfully
 /// or not
 /// </summary>
-public class OnCreateAccountEvent : PubSubEvent<bool>
+public class CreateAccountEvent : PubSubEvent<bool>
 {
 
 }

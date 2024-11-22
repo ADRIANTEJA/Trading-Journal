@@ -3,16 +3,16 @@ using System.Windows.Data;
 
 namespace UI.Common.Converters;
 
-public class ZeroToNoValueRepresentationConverter : IValueConverter
+public class ZeroToOneValueConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if ((double?)value == 0 || value == null) return "--";
+        if ((int)value == 0) return 1;
         else return value;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotSupportedException("Cannnot convert back");
+        throw new NotSupportedException("Not supported");
     }
 }

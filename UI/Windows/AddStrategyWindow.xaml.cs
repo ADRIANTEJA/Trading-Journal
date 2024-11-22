@@ -17,7 +17,7 @@ public partial class AddStrategyWindow : Window
     public AddStrategyWindow(IEventAggregator eventAggregator)
     {
         InitializeComponent();
-        eventAggregator.GetEvent<OnCreateStrategyEvent>().Subscribe(StrategyCreationHandler);
+        eventAggregator.GetEvent<CreateStrategyEvent>().Subscribe(StrategyCreationHandler);
     }
 
     private void MinimizeWindowHandler(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;

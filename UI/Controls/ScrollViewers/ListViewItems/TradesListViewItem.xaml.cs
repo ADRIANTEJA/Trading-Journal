@@ -1,12 +1,9 @@
 ﻿using API.Events;
 using MainModule.DataModel;
 using Microsoft.Extensions.DependencyInjection;
-using Prism.Events;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using UI.Common.Helpers;
 
 namespace UI.Controls.ScrollViewers.ListViewItems;
 /// <summary>
@@ -23,22 +20,22 @@ public partial class TradesListViewItem : Border
     }
 
     private void OpenTradeImagesWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<OnLoadTradeImagesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeImagesClickEvent>().Publish();
 
     private void UpdateContextTradeHandler(object sender, MouseEventArgs e)
     {
         var contextTrade = (Trade)DataContext;
-        _eventAggregator.GetEvent<OnSelectedTradeItemChangedEvent>().Publish(contextTrade);
+        _eventAggregator.GetEvent<SelectedTradeItemChangedEvent>().Publish(contextTrade);
     }
 
     private void OpenTradeNotesWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<OnLoadTradeNotesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeNotesClickEvent>().Publish();
 
     private void OpenTradeMistakesWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<OnLoadTradeMistakesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeMistakesClickEvent>().Publish();
 
     private void OpenTradeCostsWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<OnLoadTradeCostsClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeCostsClickEvent>().Publish();
 
     private void OnTradeStatusTextBlockLoaded(object sender, RoutedEventArgs e)
     {
@@ -50,7 +47,7 @@ public partial class TradesListViewItem : Border
             switch (contextTrade.IsLong)
             {
                 case 1:
-                    if (contextTrade.ClosePrice >= contextTrade.OpenPrice) trade_side_textblock.Text = "WIN";
+                    if (contextTrade.ClosePrice >= contextTrade.OpenPrice) trade_status_textblock.Text = "WIN";
                     else trade_status_textblock.Text = "LOSS";
                     break;
                 case 0:

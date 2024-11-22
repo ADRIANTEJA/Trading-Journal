@@ -18,10 +18,11 @@ public partial class HomeView : UserControl
     private void OnHomeViewLoadedHandler(object sender, RoutedEventArgs e)
     {
         var dataContext = (HomeViewModel)DataContext;
-        dataContext.AccountViewModel.LoadDailyPerformanceCommand.Execute(null);
         dataContext.AccountViewModel.LoadAccountsCommand.Execute(null);
         dataContext.LoadTradesCommand.Execute(null);
         dataContext.SymbolViewModel.LoadSymbolsCommand.Execute(null);
+        dataContext.StrategyViewModel.LoadStrategiesCommand.Execute(null);
+        dataContext.FireLoadPerformanceEventCommandCommand.Execute(dataContext.AccountViewModel.SelectedAccount.Id);
     }
 
     private void ShowSymbolCategoryHandler(object sender, RoutedEventArgs e)

@@ -394,6 +394,10 @@
         <TextBlock Text="{Binding Path=Pair}"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="selected_strategy_name_template">
+        <TextBlock Text="{Binding Path=Name}"/>
+    </DataTemplate>
+
     <DataTemplate x:Key="selected_strategy_goal_textblock_template">
         <TextBlock Text="{Binding Path=Goal}"
                    TextWrapping="Wrap"/>
@@ -423,6 +427,35 @@
                                                Style="{StaticResource base_textblock_style}">
                                         <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
                                                           ContentTemplate="{StaticResource selected_symbol_pair_template}"/>
+                                    </TextBlock>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="strategy_name_listview_style" 
+           TargetType="{x:Type ListView}"
+           BasedOn="{StaticResource base_listview_style}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border Height="32"
+                                        Style="{StaticResource selectable_container_style}"
+                                        Cursor="Hand"
+                                        CornerRadius="3" 
+                                        Margin="1,0,1,5">
+
+                                    <TextBlock VerticalAlignment="Center"
+                                               Style="{StaticResource base_textblock_style}">
+                                    <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                                      ContentTemplate="{StaticResource selected_strategy_name_template}"/>
                                     </TextBlock>
                                 </Border>
                             </ControlTemplate>

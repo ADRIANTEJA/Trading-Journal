@@ -17,7 +17,7 @@ public partial class AddAccountWindow : Window
     public AddAccountWindow(IEventAggregator eventAggregator)
     {
         InitializeComponent();
-        eventAggregator.GetEvent<OnCreateAccountEvent>().Subscribe(AccountCreationHandler);
+        eventAggregator.GetEvent<CreateAccountEvent>().Subscribe(AccountCreationHandler);
     }
 
     private void CloseWindowHandler(object sender, RoutedEventArgs e) => Close();

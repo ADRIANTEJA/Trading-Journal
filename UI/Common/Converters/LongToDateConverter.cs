@@ -7,6 +7,8 @@ public class LongToDateConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        if (value == null) return "--";
+
         var dateTicks = (long)value;
 
         if (dateTicks == 0) return "--";

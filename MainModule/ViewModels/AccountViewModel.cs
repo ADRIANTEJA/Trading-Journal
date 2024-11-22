@@ -2,14 +2,10 @@
 using API.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LiveCharts;
-using LiveCharts.Defaults;
 using MainModule.DataAccess;
 using MainModule.DataModel;
-using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
-using static MainModule.Common.Enums;
 
 namespace MainModule.ViewModels;
 
@@ -26,11 +22,9 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
     private readonly AccountAccess _accountAccess;
 
-    private PerformanceAccess _dayPerformanceDataAccess;
+    private readonly PerformanceViewModel _performanceViewModel;
 
-    private ROIFormat roiFormat = ROIFormat.Value;
-
-    private PerfomanceTimeFrame performanceTimeFrame = PerfomanceTimeFrame.Daily;
+    public PerformanceViewModel PerformanceViewModel => _performanceViewModel;
 
     [ObservableProperty]
     private Account selectedAccount;
@@ -42,9 +36,6 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
     [ObservableProperty]
     private double initialBalanceVM;
-
-    [ObservableProperty]
-    public ChartValues<ObservablePoint> accountPerformance = [];
 
     [RelayCommand]
     private void LoadAccounts()
@@ -72,64 +63,23 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         {
             _accountAccess.InsertAccount(newAccount);
             Accounts.Add(newAccount);
-            _eventAggregator.GetEvent<OnCreateAccountEvent>().Publish(true);
+            _eventAggregator.GetEvent<CreateAccountEvent>().Publish(true);
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<OnCreateAccountEvent>().Publish(false); }   
+        catch (SQLiteException) { _eventAggregator.GetEvent<CreateAccountEvent>().Publish(false); }   
     }
 
-    //TODO: fix this crap
     [RelayCommand]
-    private void LoadDailyPerformance()
-    {
-        if (SelectedAccount == null) return;
-
-        AccountPerformance.Clear();
-
-        var tempReckordsList = _dayPerformanceDataAccess.QueryDayPerformanceByAccountIdAsync(SelectedAccount.Id).Result;
-
-        List<Performance> performance = [];
-
-        switch (performanceTimeFrame)
-        {
-            case PerfomanceTimeFrame.Daily:
-
-                performance = tempReckordsList;
-                break;
-            case PerfomanceTimeFrame.Monthly:
-
-                performance = tempReckordsList
-                    .Select(x => new { Date = new DateTime(x.Date), x.ROI, x.ROIPercentage })
-                    .GroupBy(x => new { x.Date.Month, x.Date.Year })
-                    .Select(g => new Performance
-                    {
-                        Date = new DateTime(g.Key.Year, g.Key.Month, 1).Ticks,
-                        ROI = g.Sum(x => x.ROI),
-                        ROIPercentage = g.Sum(x => x.ROIPercentage) //Fix the ROI percentage calculation formula
-                    }).ToList();
-                break;
-        }
-
-        switch (roiFormat)
-        {
-            case ROIFormat.Value:
-
-                foreach (var i in performance) AccountPerformance.Add(new(DateTime.Now.Ticks, i.ROI)); 
-                break;
-            case ROIFormat.Percentage:
-
-                foreach (var i in performance) AccountPerformance.Add(new(DateTime.Now.Ticks, i.ROIPercentage));
-                break;
-        }
-    }
+    private void FireLoadPerformanceEventCommand() => 
+        _eventAggregator.GetEvent<CreatePerformanceEvent>().Publish(SelectedAccount.Id);
 
     public AccountViewModel(AccountAccess accountAccess,
-                            PerformanceAccess dayPerformanceDataAccess,
+                            PerformanceViewModel performanceViewModel,
                             INavigationHelper mainNavigationHelper,
                             IEventAggregator eventAggregator) 
     {
         _mainNavigationHelper = mainNavigationHelper;
         _accountAccess = accountAccess;
-        _dayPerformanceDataAccess = dayPerformanceDataAccess;
+        _performanceViewModel = performanceViewModel;
         _eventAggregator = eventAggregator;
     }
 }

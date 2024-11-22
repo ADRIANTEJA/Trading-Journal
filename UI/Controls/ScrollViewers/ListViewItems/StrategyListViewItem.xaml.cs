@@ -22,11 +22,11 @@ public partial class StrategyListViewItem : Border
     }
 
     private void OpenAnalysisNotesClickHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<OnLoadAnalysisNotesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadAnalysisNotesClickEvent>().Publish();
 
     private void UpdateContextStrategyHandler(object sender, MouseEventArgs e)
     {
         var contextStrategy = (Strategy)DataContext;
-        _eventAggregator.GetEvent<OnSelectedStrategyItemChangedEvent>().Publish(contextStrategy);
+        _eventAggregator.GetEvent<SelectedStrategyItemChangedEvent>().Publish(contextStrategy);
     }
 }

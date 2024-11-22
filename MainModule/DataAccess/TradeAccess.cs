@@ -16,22 +16,24 @@ public class TradeAccess
 
     public int InsertTrade(Trade trade)
     {
-        string command = @"INSERT INTO Trade (accountId, pairTraded, openDate, closeDate, isLong, volume, isOpen,
+        string command = @"INSERT INTO Trade (accountId, pairTraded, pairMarket, openDate, closeDate, isLong, volume, isOpen,
                            openPrice, closePrice, tradeCost, swap, spread, commission, otherCosts, takeProfit,
-                           stopLoss, roi, roiPercentage, mistakes, notes)
-                           VALUES (@AccountId, @PairTraded, @OpenDate, @CloseDate, @IsLong, @Volume, @IsOpen,
+                           stopLoss, roi, roiPercentage, mistakes, notes, strategyName, maxDLCompromised, maxTRCompromised,
+                           leverage)
+                           VALUES (@AccountId, @PairTraded, @PairMarket, @OpenDate, @CloseDate, @IsLong, @Volume, @IsOpen,
                            @OpenPrice, @ClosePrice, @TradeCost, @Swap, @Spread, @Commission, @OtherCosts, @TakeProfit,
-                           @StopLoss, @Roi, @RoiPercentage, @Mistakes, @Notes)";
+                           @StopLoss, @Roi, @RoiPercentage, @Mistakes, @Notes, @StrategyName, @MaxDLCompromised, @MaxDLCompromised,
+                           @Leverage)";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         return connection.Execute(command, trade);
     }
 
-    
+    //NEEDS ADJUSTMENTS
     public int UpdateTrade(Trade trade)
     {
         string command = @"UPDATE Trade 
-                           SET pairTraded = @PairTraded, openDate = @OpenDate, closeDate = @CloseDate,
+                           SET pairTraded = @PairTraded, pairMarket = @PairMarket, openDate = @OpenDate, closeDate = @CloseDate,
                            isLong = @IsLong, volume = @Volume, isOpen = @IsOpen, openPrice = @OpenPrice, closePrice = @ClosePrice,
                            tradeCost = @TradeCost, swap = @Swap, spread = @Spread, commission = @Commission,
                            otherCosts = @OtherCosts, takeProfit = @TakeProfit, stopLoss = @StopLoss,

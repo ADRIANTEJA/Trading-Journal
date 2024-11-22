@@ -13,8 +13,6 @@ public partial class AnalysisNoteViewModel : ObservableObject, IViewModel
 
     public INavigationHelper NavigationHelper => _navigationHelper;
 
-    private readonly HomeViewModel _homeViewModel;
-
     private readonly AnalysisNoteAccess _noteAccess;
 
     private readonly StrategyViewModel _strategyViewModel;

@@ -64,14 +64,15 @@
 
         <TextBlock Grid.Column="2"
                    Grid.Row="1"
-                   Text="{Binding Path=Intermediary, TargetNullValue={StaticResource empty_textblock_target_null_value}}"
+                   Text="{Binding Path=Intermediary}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
         <strategyViewButtons:OpenAnalysisNotesButton Grid.Column="3"
                                                      Grid.Row="1"
                                                      Width="32"
-                                                     HorizontalAlignment="Center" Click="OpenAnalysisNotesClickHandler"/>
+                                                     HorizontalAlignment="Center" 
+                                                     Click="OpenAnalysisNotesClickHandler"/>
 
         <strategyViewButtons:EditStrategyButton Grid.Column="4"
                                                 Grid.Row="1" 
