@@ -540,11 +540,13 @@
                 Margin="5">
 
             <charts:AccountPerformanceLineChart x:Name="account_performance_line_chart"
-                                                Margin="5">
+                                                Margin="5"
+                                                Loaded="OnAccountPerformanceChartLoaded">
 
                 <charts:AccountPerformanceLineChart.Series>
 
-                    <liveCharts:LineSeries Values="{Binding Path=AccountViewModel.PerformanceViewModel.AccountPerformance}"
+                    <liveCharts:LineSeries Values="{Binding Path=AccountViewModel.PerformanceViewModel.AccountPerformance,
+                                                    Mode=Default}"
                                            Style="{StaticResource account_performance_line_series_style}"/>
                 </charts:AccountPerformanceLineChart.Series>
             </charts:AccountPerformanceLineChart>

@@ -57,7 +57,7 @@ public partial class LanguageRadioButton : Grid
         }
 
         var eventAggregator = App.AppHost!.Services.GetRequiredService<IEventAggregator>();
-        eventAggregator.GetEvent<OnUILanguageChangedEvent>().Publish();
+        eventAggregator.GetEvent<UILanguageChangedEvent>().Publish();
     }
     /// <summary>
     /// Apply and saves language configurations based on settings written in the user UI settings

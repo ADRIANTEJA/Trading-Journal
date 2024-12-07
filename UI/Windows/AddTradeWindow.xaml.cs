@@ -19,8 +19,8 @@ public partial class AddTradeWindow : Window
     public AddTradeWindow(IEventAggregator eventAggregator)
     {
         InitializeComponent();
-        eventAggregator.GetEvent<OnUILanguageChangedEvent>().Subscribe(ChangeWindowCultureHandler);
-        eventAggregator.GetEvent<OnUILanguageChangedEvent>().Publish();
+        eventAggregator.GetEvent<UILanguageChangedEvent>().Subscribe(ChangeWindowCultureHandler);
+        eventAggregator.GetEvent<UILanguageChangedEvent>().Publish();
         eventAggregator.GetEvent<CreateTradeEvent>().Subscribe(TradeCreationHandler);
     }
 
@@ -121,12 +121,6 @@ public partial class AddTradeWindow : Window
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(trade_cost_field.Text))
-        {
-            trade_cost_field.Tag = ResourceAccessHelper.ErrorRedBrush;
-            isValid = false;
-        }
-
         return isValid;
     }
 
@@ -142,9 +136,7 @@ public partial class AddTradeWindow : Window
                 if (senderRef.Name == "open_price_field"
                     && !string.IsNullOrEmpty(open_price_field.Text)) Keyboard.Focus(close_price_field);
                 if (senderRef.Name == "close_price_field"
-                    && !string.IsNullOrEmpty(close_price_field.Text)) Keyboard.Focus(trade_cost_field);
-                if (senderRef.Name == "trade_cost_field"
-                    && !string.IsNullOrEmpty(trade_cost_field.Text)) Keyboard.Focus(swap_field);
+                    && !string.IsNullOrEmpty(close_price_field.Text)) Keyboard.Focus(swap_field);
                 if (senderRef.Name == "swap_field"
                     && !string.IsNullOrEmpty(swap_field.Text)) Keyboard.Focus(spread_field);
                 if (senderRef.Name == "spread_field"

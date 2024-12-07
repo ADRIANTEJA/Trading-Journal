@@ -6,7 +6,7 @@
                     xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
                     xmlns:converters="clr-namespace:UI.Common.Converters">
 
-    <SolidColorBrush x:Key="green_brush" Color="#00735C"/>
+<SolidColorBrush x:Key="green_brush" Color="#00735C"/>
     <SolidColorBrush x:Key="green_highlight_brush" Color="#FF1E917A"/>
     <SolidColorBrush x:Key="positive_hightlight_brush" Color="#1FFF1F"/>
     <SolidColorBrush x:Key="warning_yellow_brush" Color="#FFC000"/>
@@ -24,6 +24,7 @@
     <converters:BinaryToSideBrushConverter x:Key="binary_to_side_brush_converter"/>
     <converters:ZeroToNoValueRepresentationConverter x:Key="zero_to_no_value_representation_converter"/>
     <converters:ZeroToOneValueConverter x:Key="zero_to_one_value_converter"/>
+    <converters:PerformanceDateTimeFrameConverter x:Key="performance_date_timeframe_converter"/>
 
     <BitmapImage x:Key="application_logo_icon"
                  UriSource="\Common\Resources\Assets\Icons\app_logo_icon.png"/>
@@ -675,13 +676,13 @@
                             Padding="{TemplateBinding Padding}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Normal"/>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
                                         <DoubleAnimation Duration="0"
                                                          To="1"
                                                          Storyboard.TargetProperty="Opacity"
-                                                         Storyboard.TargetName="PART_DisabledVisual" />
+                                                         Storyboard.TargetName="PART_DisabledVisual"/>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -1064,7 +1065,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource green_brush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="3"/>
-        
+
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="BorderThickness" Value="3"/>

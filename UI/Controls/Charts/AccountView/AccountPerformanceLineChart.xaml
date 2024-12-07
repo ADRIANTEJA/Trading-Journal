@@ -9,14 +9,15 @@
                            Zoom="X"
                            Pan="None"
                            ZoomingSpeed="0.5"
-                           DisableAnimations="True"
-                           d:DesignHeight="450" 
-                           d:DesignWidth="800">
+                           DisableAnimations="False"
+                           d:DesignHeight="450"
+                           d:DesignWidth="800"
+                           Loaded="OnPerformanceChartLoadedHandler">
 
     <liveCharts:CartesianChart.AxisX>
 
-        <liveCharts:Axis Title="Days"
-                         LabelFormatter="{Binding Path=TicksToDateConverter}"
+        <liveCharts:Axis x:Name="x_axis"
+                         Title="Date"
                          ShowLabels="False"
                          FontSize="{DynamicResource font_size}"
                          FontFamily="Calibri">
@@ -39,9 +40,21 @@
             <liveCharts:Axis.Separator>
                 <liveCharts:Separator Stroke="{StaticResource theme_button_highlight_brush}"
                                       StrokeThickness="0.5"
-                                      Step="10"/>
+                                      Step="10000"/>
             </liveCharts:Axis.Separator>
             
         </liveCharts:Axis>
     </liveCharts:CartesianChart.AxisY>
+
+    <liveCharts:CartesianChart.DataTooltip>
+        <liveCharts:DefaultTooltip Background="{StaticResource theme_background_brush}"
+                                   BorderBrush="{StaticResource green_brush}"
+                                   BorderThickness="2"
+                                   Visibility="Visible"
+                                   Foreground="{StaticResource theme_font_brush}"
+                                   FontSize="{StaticResource font_size}"
+                                   CornerRadius="3"
+                                   SelectionMode="OnlySender"
+                                   FontFamily="Calibri"/>
+    </liveCharts:CartesianChart.DataTooltip>
 </liveCharts:CartesianChart>

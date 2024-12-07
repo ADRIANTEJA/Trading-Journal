@@ -38,34 +38,6 @@
                   BorderBrush="Transparent"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   IsSynchronizedWithCurrentItem="True"
-                  Style="{StaticResource expander_option_list_items_style}">
-
-            <ListView.Items>
-                <system:String>January</system:String>
-                <system:String>February</system:String>
-                <system:String>March</system:String>
-                <system:String>April</system:String>
-                <system:String>May</system:String>
-                <system:String>June</system:String>
-                <system:String>July</system:String>
-                <system:String>August</system:String>
-                <system:String>September</system:String>
-                <system:String>October</system:String>
-                <system:String>November</system:String>
-                <system:String>December</system:String>
-                <system:String>January</system:String>
-                <system:String>February</system:String>
-                <system:String>March</system:String>
-                <system:String>April</system:String>
-                <system:String>May</system:String>
-                <system:String>June</system:String>
-                <system:String>July</system:String>
-                <system:String>August</system:String>
-                <system:String>September</system:String>
-                <system:String>October</system:String>
-                <system:String>November</system:String>
-                <system:String>December</system:String>
-            </ListView.Items>
-        </ListView>
+                  Style="{StaticResource performance_date_filter_listview_style}"/>
     </Grid>
 </Border>

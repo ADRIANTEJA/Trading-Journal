@@ -1,8 +1,12 @@
-﻿using Microsoft.Win32;
+﻿using LiveCharts;
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static MainModule.Common.Enums;
 
 namespace UI.Common.Utils;
 
@@ -38,7 +42,6 @@ public static class MiscFunctions
 
         return bitmap;
     }
-
     /// <summary>
     /// opens a dialog interface and returns the selected image file
     /// path, else returns a empty string

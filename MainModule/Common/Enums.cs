@@ -19,6 +19,7 @@ public static class Enums
     public enum PerfomanceTimeFrame
     {
         Daily,
-        Monthly
+        Monthly,
+        Yearly
     }
 }

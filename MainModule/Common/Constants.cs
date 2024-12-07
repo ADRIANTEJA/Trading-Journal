@@ -85,4 +85,8 @@ public static class Constants
 	/// source of the folder where the languages xaml resource files are storaged
 	/// </summary>
 	public static string LanguageDictionariesFolderPath => languageDictionariesFolderPath;
+
+	private static readonly string specificStyleDictionarySourcePath = "Common/Resources/Dictionaries/SpecificStyleDictionary.xaml";
+
+	public static string SpecificStyleDictionarySourcePath => specificStyleDictionarySourcePath;
 }

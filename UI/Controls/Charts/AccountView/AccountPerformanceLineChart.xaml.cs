@@ -1,4 +1,5 @@
 ﻿using LiveCharts.Wpf;
+using System.Windows;
 
 namespace UI.Controls.Charts.AccountView;
 /// <summary>
@@ -9,5 +10,10 @@ public partial class AccountPerformanceLineChart : CartesianChart
     public AccountPerformanceLineChart()
     {
         InitializeComponent();
+    }
+
+    private void OnPerformanceChartLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        x_axis.MaxValue = long.MaxValue;
     }
 }

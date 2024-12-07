@@ -22,7 +22,7 @@ public partial class TradeImageWindow : Window
         InitializeComponent();
 
         _eventAggragator = App.AppHost!.Services.GetRequiredService<IEventAggregator>();
-        _eventAggragator.GetEvent<OnTradeImageDeletedEvent>().Subscribe(LoadTradeImagesOnGallery);
+        _eventAggragator.GetEvent<TradeImageDeletedEvent>().Subscribe(LoadTradeImagesOnGallery);
 
         var grid = new Grid();
 

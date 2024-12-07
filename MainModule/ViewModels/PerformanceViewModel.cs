@@ -1,12 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using LiveCharts.Defaults;
 using LiveCharts;
 using MainModule.DataAccess;
 using MainModule.DataModel;
-using System.Collections.ObjectModel;
 using static MainModule.Common.Enums;
-using API.Events;
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace MainModule.ViewModels;
 
@@ -14,88 +13,97 @@ public partial class PerformanceViewModel : ObservableObject, IViewModel
 {
     private PerformanceAccess _performanceAccess;
 
+    //Remenber to delete if unused
     private IEventAggregator _eventAggregator;
 
+    [ObservableProperty]
     private ROIFormat roiFormat = ROIFormat.Value;
 
-    private PerfomanceTimeFrame performanceTimeFrame = PerfomanceTimeFrame.Daily;
-
     [ObservableProperty]
-    private DateTime date;
+    private PerfomanceTimeFrame accountPerformanceTimeFrame = PerfomanceTimeFrame.Daily;
 
-    [ObservableProperty]
-    private double _ROI;
+    public ChartValues<ObservablePoint> AccountPerformance { get; } = [];
 
-    [ObservableProperty]
-    private double _ROIPercentage;
-
-    public ObservableCollection<Performance> PerformanceRecords { get; } = [];
-
-    [ObservableProperty]
-    private ChartValues<ObservablePoint> accountPerformance = [];
-
-    public PerformanceViewModel(PerformanceAccess performanceAccess, 
-                                IEventAggregator eventAggregator)
+    [RelayCommand]
+    public void LoadDailyPerformance(int accountId)
     {
-        _performanceAccess = performanceAccess;
-        _eventAggregator = eventAggregator;
-
-        _eventAggregator.GetEvent<CreatePerformanceEvent>().Subscribe(LoadDailyPerformanceHandler);
-    }
-
-    //Fix this crap
-    private void LoadDailyPerformanceHandler(int accountId)
-    {
-        PerformanceRecords.Clear();
+        AccountPerformance.Clear();
 
         var tempReckordsList = _performanceAccess.QueryDayPerformanceByAccountIdAsync(accountId).Result;
 
         List<Performance> performance = [];
 
-        switch (performanceTimeFrame)
+        switch (AccountPerformanceTimeFrame)
         {
             case PerfomanceTimeFrame.Daily:
 
-                performance = tempReckordsList;
+                performance = tempReckordsList
+                    .Select(x => new { Date = new DateTime(x.Date), x.ROI, x.ROIPercentage, x.Cost })
+                    .GroupBy(x => new { x.Date.Year, x.Date.Month, x.Date.Day })
+                    .Select(g => new Performance
+                    {
+                        Date = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day).Ticks,
+                        ROI = g.Sum(x => x.ROI),
+                        Cost = g.Sum(x => x.Cost),
+                        ROIPercentage = g.Sum(x => x.ROI) / g.Sum(x => x.Cost) * 100
+                    }).ToList(); 
                 break;
             case PerfomanceTimeFrame.Monthly:
 
                 performance = tempReckordsList
-                    .Select(x => new { Date = new DateTime(x.Date), x.ROI, x.ROIPercentage })
+                    .Select(x => new { Date = new DateTime(x.Date), x.ROI, x.ROIPercentage, x.Cost })
                     .GroupBy(x => new { x.Date.Month, x.Date.Year })
                     .Select(g => new Performance
                     {
                         Date = new DateTime(g.Key.Year, g.Key.Month, 1).Ticks,
                         ROI = g.Sum(x => x.ROI),
-                        ROIPercentage = g.Sum(x => x.ROIPercentage) //Fix the ROI percentage calculation formula
+                        Cost = g.Sum(x => x.Cost),
+                        ROIPercentage = g.Sum(x => x.ROI) / g.Sum(x => x.Cost) * 100
+                    }).ToList();
+                break;
+            case PerfomanceTimeFrame.Yearly:
+
+                performance = tempReckordsList
+                    .Select(x => new { Date = new DateTime(x.Date), x.ROI, x.ROIPercentage, x.Cost })
+                    .GroupBy(x => new { x.Date.Year })
+                    .Select(g => new Performance
+                    {
+                        Date = new DateTime(g.Key.Year, 1, 1).Ticks,
+                        ROI = g.Sum(x => x.ROI),
+                        Cost = g.Sum(x => x.Cost),
+                        ROIPercentage = g.Sum(x => x.ROI) / g.Sum(x => x.Cost) * 100
                     }).ToList();
                 break;
         }
 
-        switch (roiFormat)
-        {
-            case ROIFormat.Value:
+        foreach (var i in performance) AccountPerformance.Add(new(i.Date, i.ROIPercentage));
+    }
+    [RelayCommand]
+    private void FilterAccountPeroformanceByDate(long dateTicks)
+    {
+        ObservablePoint performancePoint = null!;
 
-                foreach (var i in performance) AccountPerformance.Add(new(DateTime.Now.Ticks, i.ROI));
-                break;
-            case ROIFormat.Percentage:
+        performancePoint = (from point in AccountPerformance
+                            where point.X == dateTicks
+                            select new ObservablePoint
+                            {
+                                X = point.X,
+                                Y = point.Y,
+                            }).ToList()[0];
 
-                foreach (var i in performance) AccountPerformance.Add(new(DateTime.Now.Ticks, i.ROIPercentage));
-                break;
-        }
+        AccountPerformance.Clear();
+        AccountPerformance.Add(performancePoint);
     }
 
-    public void AddAccountPerformanceRecord(int accountId, long date, double roi, double roiPercentage)
+    public PerformanceViewModel(PerformanceAccess performanceAccess,
+                                IEventAggregator eventAggregator)
     {
-        var newPerformanceRecord = new Performance
-        {
-            AccountId = accountId,
-            Date = date,
-            ROI = roi,
-            ROIPercentage = roiPercentage
-        };
+        _performanceAccess = performanceAccess;
+        _eventAggregator = eventAggregator;
+    }
 
+    public void AddAccountPerformanceRecord(Performance newPerformanceRecord)
+    {
         _performanceAccess.InsertDayPerformance(newPerformanceRecord);
-        PerformanceRecords.Add(newPerformanceRecord);
     }
 }

@@ -284,16 +284,15 @@
     </Style>
 
     <Style x:Key="account_performance_line_series_style" TargetType="{x:Type liveCharts:LineSeries}">
-        <Setter Property="Title" Value="Performance"/>
+        <Setter Property="Title" Value=""/>
         <Setter Property="Fill" Value="Transparent"/>
-        <Setter Property="Stroke" Value="{StaticResource positive_hightlight_brush}"/>
+        <Setter Property="Stroke" Value="{StaticResource green_highlight_brush}"/>
         <Setter Property="Foreground" Value="{DynamicResource theme_font_brush}"/>
         <Setter Property="FontFamily" Value="Calibri"/>
         <Setter Property="FontSize" Value="{DynamicResource font_size}"/>
         <Setter Property="PointGeometrySize" Value="5"/>
         <Setter Property="LineSmoothness" Value="0"/>
         <Setter Property="DataLabels" Value="True"/>
-        <Setter Property="LabelPoint" Value="{StaticResource daily_performance_label_formatter}"/>
     </Style>
 
     <Style x:Key="symbol_category_button_expand_style"
@@ -407,6 +406,12 @@
         <TextBlock Text="{Binding Path=Text}"
                    TextWrapping="Wrap"/>
     </DataTemplate>
+
+    <!--<Style x:Key="performance_date_textblock_style"
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource base_textblock_style}">
+        <Setter Property="Text" Value="{Binding Path=X}"/>
+    </Style>-->
 
     <Style x:Key="symbol_pair_listview_style" 
            TargetType="{x:Type ListView}"

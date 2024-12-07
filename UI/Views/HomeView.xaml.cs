@@ -1,8 +1,12 @@
-﻿using MainModule.ViewModels;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using static MainModule.Common.Enums;
 
 namespace UI.Views;
 /// <summary>
@@ -10,9 +14,25 @@ namespace UI.Views;
 /// </summary>
 public partial class HomeView : UserControl
 {
+    private static Func<ChartPoint, string> _performanceLabelFormatter;
+
     public HomeView()
     {
         InitializeComponent();
+
+        _performanceLabelFormatter = (point) =>
+        {
+            switch (Tag)
+            {
+                case PerfomanceTimeFrame.Daily:
+                    return Math.Round(point.Y, 2).ToString() + " % " + new DateTime((long)point.X).ToString("- MM/dd/yyyy");
+                case PerfomanceTimeFrame.Monthly:
+                    return Math.Round(point.Y, 2).ToString() + " % " + new DateTime((long)point.X).ToString("- MM/yyyy");
+                case PerfomanceTimeFrame.Yearly:
+                    return Math.Round(point.Y, 2).ToString() + " % " + new DateTime((long)point.X).ToString("- yyyy");
+            }
+            throw new Exception("it should return one of the previous, else...something went really wrong");
+        };
     }
 
     private void OnHomeViewLoadedHandler(object sender, RoutedEventArgs e)
@@ -22,7 +42,13 @@ public partial class HomeView : UserControl
         dataContext.LoadTradesCommand.Execute(null);
         dataContext.SymbolViewModel.LoadSymbolsCommand.Execute(null);
         dataContext.StrategyViewModel.LoadStrategiesCommand.Execute(null);
-        dataContext.FireLoadPerformanceEventCommandCommand.Execute(dataContext.AccountViewModel.SelectedAccount.Id);
+        dataContext.PerformanceViewModel.LoadDailyPerformanceCommand
+            .Execute(dataContext.AccountViewModel.SelectedAccount.Id);
+
+        SetBinding(TagProperty, new Binding("PerformanceViewModel.AccountPerformanceTimeFrame")
+        {
+            Mode = BindingMode.OneWay
+        });
     }
 
     private void ShowSymbolCategoryHandler(object sender, RoutedEventArgs e)
@@ -111,5 +137,12 @@ public partial class HomeView : UserControl
                 sBoard.Begin();
                 break;
         }
+    }
+    // find a way of changing the line series label formatter
+    private void OnAccountPerformanceChartLoaded(object sender, RoutedEventArgs e)
+    {
+        var performanceLineSeries = (LineSeries)account_performance_line_chart.Series[0];
+
+        performanceLineSeries.LabelPoint = _performanceLabelFormatter;
     }
 }

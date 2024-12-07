@@ -15,6 +15,41 @@
              Loaded="OnAccountViewLoadedHandler">
 
     <UserControl.Resources>
+
+        <Style x:Key="performance_date_filter_listview_style" 
+               TargetType="{x:Type ListView}"
+               BasedOn="{StaticResource base_listview_style}">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border Height="32"
+                                            Style="{StaticResource selectable_container_style}"
+                                            Cursor="Hand"
+                                            CornerRadius="3" 
+                                            Margin="1,0,1,5">
+
+                                        <TextBlock x:Name="performance_date_filter_textblock"
+                                                   VerticalAlignment="Center"
+                                                   Tag="{Binding Path=X}"
+                                                   Cursor="Hand"
+                                                   Text="{Binding Path=X, 
+                                                          Converter={StaticResource performance_date_timeframe_converter}, 
+                                                          ConverterParameter={x:Reference options_list_view}}"
+                                                   Style="{StaticResource base_textblock_style}" 
+                                                   MouseDown="OnSelectedDateFilterHandler"/>
+
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Storyboard x:Key="expand_filter_performance_by_date_control_storyboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="filter_performance_by_date_control" 
                                            Storyboard.TargetProperty="(FrameworkElement.Height)">
@@ -131,7 +166,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="130"/>
                 </Grid.ColumnDefinitions>
@@ -141,21 +176,20 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <accountViewButtons:DailyPerformanceButton Margin="0,0,5,0"/>
-                <accountViewButtons:MonthlyPerformanceButton Grid.Column="1" 
-                                                             Margin="0,0,5,0"/>
+                <accountViewButtons:DailyPerformanceButton x:Name="daily_performance_button"
+                                                           Margin="0,0,5,0"
+                                                           Click="HoldTimeFrameButtonHighlightHandler"/>
+                <accountViewButtons:MonthlyPerformanceButton x:Name="monthly_performance_button"
+                                                             Grid.Column="1" 
+                                                             Margin="0,0,5,0"
+                                                             Click="HoldTimeFrameButtonHighlightHandler"/>
+                <accountViewButtons:YearlyPerformanceButton x:Name="yearly_performance_button"
+                                                            Grid.Column="2"
+                                                            Margin="0,0,5,0"
+                                                            Click="HoldTimeFrameButtonHighlightHandler"/>
 
-                <customScrollViewers:ROIFormatSelector x:Name="roi_format_options_selector"
-                                                       Grid.Column="2"
-                                                       Grid.RowSpan="2"
-                                                       Panel.ZIndex="1"
-                                                       VerticalAlignment="Top" 
-                                                       Margin="5,5,0,0"
-                                                       MouseEnter="ShowROIFormatOptionsHandler" 
-                                                       MouseLeave="HideROIFormatOptionsHandler"/>
-
-                <customScrollViewers:FilterPerformanceByDateControl x:Name="filter_performance_by_date_control" 
-                                                                    Grid.Column="4"
+                <!--<customScrollViewers:FilterPerformanceByDateControl x:Name="filter_performance_by_date_control" 
+                                                                    Grid.Column="5"
                                                                     Grid.RowSpan="2"
                                                                     HorizontalAlignment="Left"
                                                                     VerticalAlignment="Top"
@@ -165,12 +199,63 @@
                                                                     MouseLeave="HideFilterPerformanceByDateOptionsHandler" 
                                                                     Margin="0,5,0,5"
                                                                     Height="32"
-                                                                    Width="125"/>
+                                                                    Width="125" 
+                                                                    Loaded="OnFilterPerformanceControlLoaded"/>-->
 
-                <charts:AccountPerformanceLineChart x:Name="accountPerformanceLineChart" 
-                                                      Grid.ColumnSpan="5"
-                                                      Grid.Row="1"
-                                                      Margin="5">
+                <Border x:Name="filter_performance_by_date_control" 
+                        Grid.Column="5"
+                        Grid.RowSpan="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Panel.ZIndex="1"
+                        MouseEnter="ShowFilterPerformanceByDateOptionsHandler"
+                        MaxWidth="{Binding ElementName=performance_control_bar_grid}" 
+                        MouseLeave="HideFilterPerformanceByDateOptionsHandler" 
+                        Margin="0,5,0,5"
+                        Height="32"
+                        Width="125"
+                        Background="{DynamicResource theme_control_wrapper_background_brush}"
+                        Style="{StaticResource selector_border_style}">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Filter by date"
+                                       Style="{StaticResource base_textblock_style}"
+                                       VerticalAlignment="Center"/>
+
+                            <Polygon x:Name="toggle_icon"
+                                     Grid.Column="1"
+                                     Style="{StaticResource vector_down_icon_style}" 
+                                     Margin="0,9,0,0"/>
+                        </Grid>
+
+                        <ListView x:Name="options_list_view"
+                                  Grid.Row="1"
+                                  Tag="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}"
+                                  Background="Transparent"
+                                  BorderBrush="Transparent"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  Style="{StaticResource performance_date_filter_listview_style}" 
+                                  Loaded="OnFilterPerformanceControlLoaded"/>
+                    </Grid>
+                </Border>
+
+                <charts:AccountPerformanceLineChart x:Name="account_performance_line_chart" 
+                                                    Grid.ColumnSpan="6"
+                                                    Grid.Row="1"
+                                                    Margin="5" 
+                                                    Loaded="OnAccountPerformanceChartLoadedHandler">
 
                     <charts:AccountPerformanceLineChart.Series>
 

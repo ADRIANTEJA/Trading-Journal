@@ -139,7 +139,6 @@
                                 <RowDefinition Height="43"/>
                                 <RowDefinition Height="43"/>
                                 <RowDefinition Height="43"/>
-                                <RowDefinition Height="43"/>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
@@ -164,50 +163,43 @@
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
-                            <textBoxes:PlaceHolderTextBox x:Name="trade_cost_field"
-                                                          Grid.Row="3"
-                                                          Text="{Binding Path=TradeCostVM, Mode=OneWayToSource}"
-                                                          PlaceHolder="Trade cost"
-                                                          Margin="0,0,5,11"
-                                                          KeyDown="JumpToNextFieldHandler"
-                                                          TextChanged="ValidateNumericValueHandler"/>
                             <textBoxes:PlaceHolderTextBox x:Name="swap_field"
-                                                          Grid.Row="4"
+                                                          Grid.Row="3"
                                                           Text="{Binding Path=SwapVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Swap"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
                             <textBoxes:PlaceHolderTextBox x:Name="spread_field"
-                                                          Grid.Row="5"
+                                                          Grid.Row="4"
                                                           Text="{Binding Path=SpreadVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Spread"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
                             <textBoxes:PlaceHolderTextBox x:Name="commissions_field"
-                                                          Grid.Row="6"
+                                                          Grid.Row="5"
                                                           Text="{Binding Path=CommissionVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Commissions"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
                             <textBoxes:PlaceHolderTextBox x:Name="other_costs_field"
-                                                          Grid.Row="7"
+                                                          Grid.Row="6"
                                                           Text="{Binding Path=OtherCostsVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Other costs"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
                             <textBoxes:PlaceHolderTextBox x:Name="take_profit_field"
-                                                          Grid.Row="8"
+                                                          Grid.Row="7"
                                                           Text="{Binding Path=TakeProfitVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Take profit"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
                             <textBoxes:PlaceHolderTextBox x:Name="stop_loss_field"
-                                                          Grid.Row="9"
+                                                          Grid.Row="8"
                                                           Text="{Binding Path=StopLossVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Stop loss"
                                                           Margin="0,0,5,11"
@@ -215,7 +207,7 @@
                                                           TextChanged="ValidateNumericValueHandler"/>
 
                             <DatePicker x:Name="open_date_field"
-                                        Grid.Row="10"
+                                        Grid.Row="9"
                                         SelectedDate="{Binding Path=OpenDateVM, Mode=OneWayToSource}"
                                         Tag="Open date"
                                         Style="{StaticResource base_date_picker_style}"
@@ -223,7 +215,7 @@
                                         Loaded="OnOpenDateFieldLoaded"/>
 
                             <DatePicker x:Name="close_date_field"
-                                        Grid.Row="11"
+                                        Grid.Row="10"
                                         SelectedDate="{Binding Path=CloseDateVM, Mode=OneWayToSource}"
                                         Tag="Close date"
                                         Style="{StaticResource base_date_picker_style}"

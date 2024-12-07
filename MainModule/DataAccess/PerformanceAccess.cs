@@ -14,13 +14,13 @@ public class PerformanceAccess
         _dataAccessConfig = dataAccessConfig; 
     }
 
-    public int InsertDayPerformance(Performance dayPerformance)
+    public int InsertDayPerformance(Performance performanceRecord)
     {
-        string command = @"INSERT INTO Performance (accountId, date, roi, roiPercentage)
-                           VALUES (@AccountId, @Date, @ROI, @ROIPercentage)";
+        string command = @"INSERT INTO Performance (accountId, date, roi, roiPercentage, cost)
+                           VALUES (@AccountId, @Date, @ROI, @ROIPercentage, @Cost)";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        return connection.Execute(command, dayPerformance);
+        return connection.Execute(command, performanceRecord);
     }
 
     public async Task<List<Performance>> QueryDayPerformanceByAccountIdAsync(int accountId)
@@ -29,7 +29,7 @@ public class PerformanceAccess
                             WHERE accountId = @accountId";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        var dayPerformance = await connection.QueryAsync<Performance>(commmand, new { accountId });
-        return dayPerformance.ToList();
+        var performanceRecords = await connection.QueryAsync<Performance>(commmand, new { accountId });
+        return performanceRecords.ToList();
     }
 }

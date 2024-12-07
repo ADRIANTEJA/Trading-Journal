@@ -68,10 +68,6 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         catch (SQLiteException) { _eventAggregator.GetEvent<CreateAccountEvent>().Publish(false); }   
     }
 
-    [RelayCommand]
-    private void FireLoadPerformanceEventCommand() => 
-        _eventAggregator.GetEvent<CreatePerformanceEvent>().Publish(SelectedAccount.Id);
-
     public AccountViewModel(AccountAccess accountAccess,
                             PerformanceViewModel performanceViewModel,
                             INavigationHelper mainNavigationHelper,

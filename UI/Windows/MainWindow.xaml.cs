@@ -1,5 +1,4 @@
 ﻿using MainModule.Common;
-using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -35,7 +34,7 @@ public partial class MainWindow : Window
 
         //fires an event to load the culture settings related to language
         //at startup
-        _eventAggregator.GetEvent<OnUILanguageChangedEvent>().Publish();
+        _eventAggregator.GetEvent<UILanguageChangedEvent>().Publish();
     }
 
     public void ApplyUIPreferencesOnStartup()

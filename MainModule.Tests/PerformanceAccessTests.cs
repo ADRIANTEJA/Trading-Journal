@@ -16,9 +16,10 @@ public class PerformanceAccessTests
         int actual = dataAccess.InsertDayPerformance(new Performance()
         {
             AccountId = 1,
-            Date = 9999999999999999,
+            Date = DateTime.Now.Ticks,
             ROI = 45.32,
-            ROIPercentage = 4.12
+            ROIPercentage = 4.12,
+            Cost = 100
         });
 
         Assert.Equal(expected, actual);

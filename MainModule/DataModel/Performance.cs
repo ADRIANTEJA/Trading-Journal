@@ -1,4 +1,6 @@
-﻿namespace MainModule.DataModel;
+﻿using static MainModule.Common.Enums;
+
+namespace MainModule.DataModel;
 
 public class Performance
 {
@@ -18,4 +20,14 @@ public class Performance
     /// represents the return on investment in the day with a percentage format
     /// </summary>
     public double ROIPercentage { get; set; }
+    /// <summary>
+    /// represents the total sum of costs of trades made in this instance Date
+    /// </summary>
+    public double Cost { get; set; }
+    /// <summary>
+    /// represents the time frame(daily, monthly or yearly) the performance
+    /// record should be shown in the UI and its only set before the records are grouped
+    /// and about to be displayed
+    /// </summary>
+    public PerfomanceTimeFrame? PerfomanceTimeFrame { get; set; }
 }
