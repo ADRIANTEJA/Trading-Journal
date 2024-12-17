@@ -61,6 +61,8 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
 
     public ObservableCollection<Strategy> Strategies { get; } = [];
 
+    public ObservableCollection<StrategyPerformanceDataBundle> StrategyPerformance { get; } = [];
+
     [RelayCommand]
     private void LoadStrategies()
     {
@@ -95,6 +97,18 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         catch (SQLiteException) { _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(false); }
     }
 
+    [RelayCommand]
+    private void UpdateStrategyWonTrades(string strategyName)
+    {
+        if (_strategyAccess.UpdateStrategyWonTrades(strategyName) > 0) LoadStrategies();
+    }
+
+    [RelayCommand]
+    private void UpdateStrategyLostTrades(string strategyName)
+    {
+        if (_strategyAccess.UpdateStrategyLostTrades(strategyName) > 0) LoadStrategies();
+    }
+
     public StrategyViewModel(IEventAggregator eventAggregator,
                              StrategyAccess strategyAccess,
                              INavigationHelper navigationHelper,
@@ -107,6 +121,7 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
 
         _eventAggregator.GetEvent<LoadAnalysisNotesClickEvent>().Subscribe(OpenAnalysisNotesHandler);
         _eventAggregator.GetEvent<SelectedStrategyItemChangedEvent>().Subscribe(UpdateSelectedStrategyHandler);
+        _eventAggregator.GetEvent<StrategyPerformanceDataRequiredEvent>().Subscribe(ProcessStrategyPerformanceHandler);
     }
 
     private void OpenAnalysisNotesHandler()
@@ -120,4 +135,9 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
     }
 
     private void UpdateSelectedStrategyHandler(object strategy) => SelectedStrategy = (Strategy)strategy;
+
+    private void ProcessStrategyPerformanceHandler(List<StrategyPerformanceDataBundle> strategyPerformance)
+    {
+        foreach (var performance in strategyPerformance) StrategyPerformance.Add(performance);
+    }
 }

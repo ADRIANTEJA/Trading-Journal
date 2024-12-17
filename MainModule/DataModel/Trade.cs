@@ -34,7 +34,7 @@ public class Trade
     /// <summary>
     /// represents the volume of the asset operated e.g 100 BTC
     /// </summary>
-    public double? Volume { get; set; }
+    public double Volume { get; set; }
     /// <summary>
     /// represents wether position(trade) is open or closed
     /// </summary>

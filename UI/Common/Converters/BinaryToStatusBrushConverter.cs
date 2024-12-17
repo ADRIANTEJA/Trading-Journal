@@ -12,17 +12,24 @@ public class BinaryToStatusBrushConverter : IMultiValueConverter
         double OpenPrice = (double)values[1];
         double? ClosePrice = values[2] as double?;
         int IsLong = (int)values[3];
+        double volume = (double)values[4];
+        double swap = (double)values[5];
+        double spread = (double)values[6];
+        double commission = (double)values[7];
+        double otherCosts = (double)values[8];
 
         if (IsOpen == 1) return ResourceAccessHelper.WarningYellowBrush;
         else
         {
-            switch(IsLong)
+            switch (IsLong)
             {
                 case 1:
-                    if (ClosePrice >= OpenPrice) return ResourceAccessHelper.GreenBrushRef;
+                    if (volume * ClosePrice >= (volume * OpenPrice) + swap + spread + commission + otherCosts) 
+                        return ResourceAccessHelper.GreenBrushRef;
                     else return ResourceAccessHelper.SalmonBrushRef;
                 case 0:
-                    if (ClosePrice <= OpenPrice) return ResourceAccessHelper.GreenBrushRef;
+                    if (volume * ClosePrice <= (volume * OpenPrice) + swap + spread + commission + otherCosts) 
+                        return ResourceAccessHelper.GreenBrushRef;
                     else return ResourceAccessHelper.SalmonBrushRef;
             }
         }

@@ -4,6 +4,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
                     xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
+                    xmlns:liveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
                     xmlns:converters="clr-namespace:UI.Common.Converters">
 
 <SolidColorBrush x:Key="green_brush" Color="#00735C"/>
@@ -25,6 +26,9 @@
     <converters:ZeroToNoValueRepresentationConverter x:Key="zero_to_no_value_representation_converter"/>
     <converters:ZeroToOneValueConverter x:Key="zero_to_one_value_converter"/>
     <converters:PerformanceDateTimeFrameConverter x:Key="performance_date_timeframe_converter"/>
+    <converters:CollectionToLastValueConverter x:Key="collection_to_last_value_converter"/>
+    <converters:StrategyPerformanceConverter x:Key="strategy_performance_converter"/>
+
 
     <BitmapImage x:Key="application_logo_icon"
                  UriSource="\Common\Resources\Assets\Icons\app_logo_icon.png"/>
@@ -48,6 +52,8 @@
                  UriSource="\Common\Resources\Assets\Icons\japanese_icon.png"/>
     <BitmapImage x:Key="delete_cross_icon"
                  UriSource="\Common\Resources\Assets\Icons\delete_cross_icon.png"/>
+    <BitmapImage x:Key="reset_button_icon"
+                 UriSource="\Common\Resources\Assets\Icons\reset_button_icon.png"/>
 
     <Style x:Key="base_text_box_style" TargetType="{x:Type TextBox}">
         <Setter Property="TextWrapping" Value="Wrap"/>

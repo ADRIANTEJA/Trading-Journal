@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:strategyViewButtons="clr-namespace:UI.Controls.Buttons.StrategyView"
+             xmlns:charts="clr-namespace:UI.Controls.Charts.StrategyView"
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
              d:DesignWidth="1916">
@@ -67,8 +68,13 @@
                 Grid.RowSpan="2"
                 Style="{StaticResource control_wrapper_border_style}"
                 Margin="5">
-            
-            
+
+            <charts:StrategyPerformancePieChart x:Name="strategy_performance_pie_chart"
+                                                Series="{Binding Path=SelectedValue, ElementName=strategies_listview,
+                                                         Converter={StaticResource strategy_performance_converter},
+                                                         TargetNullValue={x:Null}}"
+                                                Margin="40,40,10,40"
+                                                Loaded="OnStrategyPerformancePieChartLoadedHandler"/>
         </Border>
 
         <Border Grid.Column="1"

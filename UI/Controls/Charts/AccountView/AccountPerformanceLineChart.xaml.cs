@@ -11,9 +11,4 @@ public partial class AccountPerformanceLineChart : CartesianChart
     {
         InitializeComponent();
     }
-
-    private void OnPerformanceChartLoadedHandler(object sender, RoutedEventArgs e)
-    {
-        x_axis.MaxValue = long.MaxValue;
-    }
 }

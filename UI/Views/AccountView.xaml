@@ -168,6 +168,7 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="37"/>
                     <ColumnDefinition Width="130"/>
                 </Grid.ColumnDefinitions>
 
@@ -188,19 +189,10 @@
                                                             Margin="0,0,5,0"
                                                             Click="HoldTimeFrameButtonHighlightHandler"/>
 
-                <!--<customScrollViewers:FilterPerformanceByDateControl x:Name="filter_performance_by_date_control" 
-                                                                    Grid.Column="5"
-                                                                    Grid.RowSpan="2"
-                                                                    HorizontalAlignment="Left"
-                                                                    VerticalAlignment="Top"
-                                                                    Panel.ZIndex="1"
-                                                                    MouseEnter="ShowFilterPerformanceByDateOptionsHandler"
-                                                                    MaxWidth="{Binding ElementName=performance_control_bar_grid}" 
-                                                                    MouseLeave="HideFilterPerformanceByDateOptionsHandler" 
-                                                                    Margin="0,5,0,5"
-                                                                    Height="32"
-                                                                    Width="125" 
-                                                                    Loaded="OnFilterPerformanceControlLoaded"/>-->
+                <accountViewButtons:ResetButton x:Name="reset_chart_button"
+                                                Grid.Column="4" 
+                                                Margin="0,0,5,0" 
+                                                Click="ResetPerformanceChartButtonHandler"/>
 
                 <Border x:Name="filter_performance_by_date_control" 
                         Grid.Column="5"
@@ -259,7 +251,8 @@
 
                     <charts:AccountPerformanceLineChart.Series>
 
-                        <liveCharts:LineSeries Values="{Binding Path=PerformanceViewModel.AccountPerformance}"
+                        <liveCharts:LineSeries Values="{Binding Path=PerformanceViewModel.AccountPerformance,
+                                                                Mode=OneWay}"
                                                Style="{StaticResource account_performance_line_series_style}"/>
                     </charts:AccountPerformanceLineChart.Series>
                 </charts:AccountPerformanceLineChart>
@@ -271,7 +264,11 @@
                 Style="{StaticResource control_wrapper_border_style}"
                 Margin="5">
 
-            <charts:StrategyUsePieChart Margin="100,100,30,100"/>
+            <charts:StrategyUsePieChart x:Name="strategy_use_pie_chart"
+                                        Series="{Binding Path=StrategyUsageSeries, Mode=OneWay}"
+                                        Margin="40,40,10,40" 
+                                        Loaded="OnStrategyUsePieChartLoadedHandler" 
+                                        Unloaded="OnStrategyUsePieChartUnloadedHandler"/>
         </Border>
     </Grid>
 </UserControl>

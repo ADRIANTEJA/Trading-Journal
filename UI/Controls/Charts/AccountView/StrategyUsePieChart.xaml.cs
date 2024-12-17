@@ -10,6 +10,4 @@ public partial class StrategyUsePieChart : PieChart
     {
         InitializeComponent();
     }
-
-
 }

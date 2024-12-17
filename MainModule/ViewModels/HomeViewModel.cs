@@ -20,6 +20,8 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
     private readonly IEventAggregator _eventAggregator;
 
+    public IEventAggregator EventAggregator => _eventAggregator;
+
     private readonly AccountViewModel _accountViewModel;
 
     public AccountViewModel AccountViewModel => _accountViewModel;
@@ -95,6 +97,8 @@ public partial class HomeViewModel : ObservableObject, IViewModel
             _tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result;
 
         foreach (var trade in tempDataReckords) Trades.Add(trade);
+
+        _eventAggregator.GetEvent<StrategyPerformanceDataRequiredEvent>().Publish(GetSrategyPerformanceData());
     }
 
     [RelayCommand]
@@ -102,7 +106,8 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     {
         string strategyName;
 
-        if (StrategyViewModel.SelectedStrategyVM == null) strategyName = "";
+        if (StrategyViewModel.SelectedStrategyVM == null
+            || StrategyViewModel.SelectedStrategyVM.Name.Length < 0) strategyName = null;
         else strategyName = StrategyViewModel.SelectedStrategyVM.Name;
 
         var openTrade = new Trade
@@ -125,7 +130,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
             Mistakes = MistakesVM,
             Notes = NotesVM,
             StrategyName = strategyName,
-            Leverage = LeverageVM,
+            Leverage = LeverageVM
         };
 
         try
@@ -143,7 +148,8 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     {
         string strategyName;
 
-        if (StrategyViewModel.SelectedStrategyVM == null) strategyName = "";
+        if (StrategyViewModel.SelectedStrategyVM == null
+            || StrategyViewModel.SelectedStrategyVM.Name.Length < 0) strategyName = null;
         else strategyName = StrategyViewModel.SelectedStrategyVM.Name;
 
         var closedTrade = new Trade()
@@ -177,6 +183,12 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         {
             _tradeAccess.InsertTrade(closedTrade);
             Trades.Add(closedTrade);
+
+            if (closedTrade.StrategyName != null && IsWonTrade(closedTrade))
+                _strategyViewModel.UpdateStrategyWonTradesCommand.Execute(closedTrade);
+            else if (closedTrade.StrategyName != null)
+                _strategyViewModel.UpdateStrategyLostTradesCommand.Execute(closedTrade);
+
             _eventAggregator.GetEvent<CreateTradeEvent>().Publish(true);
 
             Performance performance = new Performance()
@@ -189,7 +201,8 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
             _performanceViewModel.AddAccountPerformanceRecord(performance);
             _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
-            
+            //_eventAggregator.GetEvent<StrategyUsageDataRequiredEvent>().Publish(GetStrategyUsageData());
+
             CleanVMData();
         }
         catch (SQLiteException){ _eventAggregator.GetEvent<CreateTradeEvent>().Publish(false); }
@@ -216,6 +229,12 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         _eventAggregator.GetEvent<LoadTradeNotesClickEvent>().Subscribe(OpenTradeNotesHandler);
         _eventAggregator.GetEvent<LoadTradeMistakesClickEvent>().Subscribe(OpenTradeMistakesHandler);
         _eventAggregator.GetEvent<LoadTradeCostsClickEvent>().Subscribe(OpenTradeCostsHandler);
+        _eventAggregator.GetEvent<StrategyDataRquiredIntermediaryEvent>().Subscribe(FireRequiredStrategyUsageDataEventHandler);
+    }
+
+    private void FireRequiredStrategyUsageDataEventHandler()
+    {
+        _eventAggregator.GetEvent<StrategyUsageDataRequiredEvent>().Publish(GetStrategyUsageData());
     }
 
     private void UpdateSelectedTradeHandler(object trade) => SelectedTrade = (Trade)trade;
@@ -293,5 +312,62 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
             foreach (var i in tempDataReckords) Trades.Add(i);
         }
+    }
+
+    private List<StrategyUsageDataBundle> GetStrategyUsageData()
+    {
+        List<Trade> tradesWithStrategy = (from trade in Trades
+                                          where trade.StrategyName != null
+                                          select trade).ToList();
+
+        return tradesWithStrategy
+                .GroupBy(x => x.StrategyName)
+                .Select(g => new StrategyUsageDataBundle
+                {
+                    StrategyName = g.Key!,
+                    NumberOfUses = g.Count()
+                }).ToList();
+    }
+
+    private List<StrategyPerformanceDataBundle> GetSrategyPerformanceData()
+    {
+        List<Trade> tradesWithStrategy = (from trade in Trades
+                                          where trade.StrategyName != null
+                                          select trade).ToList();
+
+        return tradesWithStrategy
+                .Select(x => new StrategyPerformanceDataBundle
+                {
+                    StrategyName = x.StrategyName,
+                    IsLong = x.IsLong,
+                    IsOpen = x.IsOpen,
+                    OpenPrice = x.OpenPrice,
+                    ClosePrice = x.ClosePrice,
+                    Swap = x.Swap,
+                    Spread = x.Spread,
+                    Commission = x.Commission,
+                    OtherCosts = x.OtherCosts,
+                }).ToList();
+    }
+
+    private bool IsWonTrade(Trade trade)
+    {
+        switch (trade.IsLong)
+        {
+            case 1:
+                if (trade.Volume * trade.ClosePrice >= (trade.Volume * trade.OpenPrice)
+                    + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
+                    return true;
+
+                else return false;
+            case 2:
+                if (trade.Volume * trade.ClosePrice <= (trade.Volume * trade.OpenPrice)
+                    + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
+                    return true;
+
+                else return false;
+        }
+
+        return false;
     }
 }

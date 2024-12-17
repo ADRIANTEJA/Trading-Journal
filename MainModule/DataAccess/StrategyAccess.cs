@@ -37,24 +37,24 @@ public class StrategyAccess
         return connection.Execute(command, strategy);
     }
 
-    public int UpdateStrategyWonTrades(int id)
+    public int UpdateStrategyWonTrades(string name)
     {
         string command = @"UPDATE Strategy
                         SET wins = wins + 1
-                        WHERE id = @id";
+                        WHERE name = @name";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        return connection.Execute(command, new { id });
+        return connection.Execute(command, new { name });
     }
 
-    public int UpdateStrategyLostTrades(int id)
+    public int UpdateStrategyLostTrades(string name)
     {
         string command = @"UPDATE Strategy
                            SET losses = losses + 1
-                           WHERE id = @id";
+                           WHERE name = @name";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        return connection.Execute(command, new { id });
+        return connection.Execute(command, new { name });
     }
 
     public int DeleteStrategy(int id)

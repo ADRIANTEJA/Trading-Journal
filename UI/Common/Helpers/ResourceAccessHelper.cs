@@ -8,7 +8,12 @@ namespace UI.Common.Helpers;
 /// </summary>
 public static class ResourceAccessHelper
 {
-	private static readonly SolidColorBrush greenBrushRef = 
+    private static readonly object strategyPerformanceLabelFormaterRef =
+        Application.Current.FindResource("strategy_performance_label_formater");
+
+    public static object StrategyPerformanceLabelFormaterRef => strategyPerformanceLabelFormaterRef;
+
+    private static readonly SolidColorBrush greenBrushRef = 
 		(SolidColorBrush)Application.Current.FindResource("green_brush");
 
 	public static SolidColorBrush GreenBrushRef => greenBrushRef;
@@ -28,6 +33,10 @@ public static class ResourceAccessHelper
 
     public static SolidColorBrush WarningYellowBrush => warningYellowBrush;
 
+    private static double fontSize = (double)Application.Current.FindResource("font_size");
+
+    public static double FontSize => fontSize;
+
     private static readonly string themeChartAxisPaintKey = "theme_chart_axis_paint";
 
     public static string ThemeChartAxisPaintKey => themeChartAxisPaintKey;
@@ -44,7 +53,7 @@ public static class ResourceAccessHelper
 		(FrameworkElement)Application.Current.FindResource("grab_cursor_dummy");
 
 	public static FrameworkElement GrabCursorDummy => grabCursorDummy;
-
+    
     private static readonly FrameworkElement grabbingCursorDummy =
         (FrameworkElement)Application.Current.FindResource("grabbing_cursor_dummy");
 

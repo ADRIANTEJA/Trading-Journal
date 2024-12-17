@@ -5,7 +5,6 @@ using MainModule.DataAccess;
 using MainModule.DataModel;
 using static MainModule.Common.Enums;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
 
 namespace MainModule.ViewModels;
 
@@ -79,7 +78,7 @@ public partial class PerformanceViewModel : ObservableObject, IViewModel
         foreach (var i in performance) AccountPerformance.Add(new(i.Date, i.ROIPercentage));
     }
     [RelayCommand]
-    private void FilterAccountPeroformanceByDate(long dateTicks)
+    private void FilterAccountPerformanceByDate(long dateTicks)
     {
         ObservablePoint performancePoint = null!;
 

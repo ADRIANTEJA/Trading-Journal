@@ -60,6 +60,7 @@
     <None Remove="Common\Resources\Assets\Icons\light_theme_light_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_theme_settings_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\portuguese_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\reset_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\russian_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\spanish_icon.png" />
     <None Remove="DataBase.db" />
@@ -139,6 +140,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Common\Resources\Assets\Icons\portuguese_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\reset_button_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\russian_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\spanish_icon.png" />
   </ItemGroup>

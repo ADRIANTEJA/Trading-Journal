@@ -285,14 +285,16 @@
 
     <Style x:Key="account_performance_line_series_style" TargetType="{x:Type liveCharts:LineSeries}">
         <Setter Property="Title" Value=""/>
+        <Setter Property="AllowDrop" Value="True"/>
         <Setter Property="Fill" Value="Transparent"/>
         <Setter Property="Stroke" Value="{StaticResource green_highlight_brush}"/>
         <Setter Property="Foreground" Value="{DynamicResource theme_font_brush}"/>
         <Setter Property="FontFamily" Value="Calibri"/>
         <Setter Property="FontSize" Value="{DynamicResource font_size}"/>
-        <Setter Property="PointGeometrySize" Value="5"/>
+        <Setter Property="PointGeometrySize" Value="8"/>
         <Setter Property="LineSmoothness" Value="0"/>
         <Setter Property="DataLabels" Value="True"/>
+        <Setter Property="Configuration" Value="{StaticResource performance_line_series_mapper}"/>
     </Style>
 
     <Style x:Key="symbol_category_button_expand_style"

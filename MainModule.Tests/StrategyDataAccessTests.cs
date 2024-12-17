@@ -50,7 +50,7 @@ public class StrategyDataAccessTests
     public void UpdateStrategyWonTrades_ShouldUpdateWins()
     {
         int expected = 1;
-        int actual = dataAccess.UpdateStrategyWonTrades(1);
+        int actual = dataAccess.UpdateStrategyWonTrades("testStrategy");
 
         Assert.Equal(expected, actual);
     }
@@ -59,7 +59,7 @@ public class StrategyDataAccessTests
     public void UpdateStrategyLostTrades_ShouldUpdateLosses()
     {
         int expected = 1;
-        int actual = dataAccess.UpdateStrategyLostTrades(1);
+        int actual = dataAccess.UpdateStrategyLostTrades("testStratey");
 
         Assert.Equal(expected, actual);
     }

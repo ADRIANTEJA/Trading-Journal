@@ -57,6 +57,11 @@
                     <Binding Path="OpenPrice"/>
                     <Binding Path="ClosePrice"/>
                     <Binding Path="IsLong"/>
+                    <Binding Path="Volume"/>
+                    <Binding Path="Swap"/>
+                    <Binding Path="Spread"/>
+                    <Binding Path="Commission"/>
+                    <Binding Path="OtherCosts"/>
                 </MultiBinding>
             </Border.BorderBrush>
             
