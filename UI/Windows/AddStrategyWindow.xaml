@@ -122,7 +122,8 @@
                                                       Text="{Binding Path=NameVM, Mode=OneWayToSource}"
                                                       PlaceHolder="Name"
                                                       Margin="0,0,10,10" 
-                                                      KeyDown="JumpToNextFieldHandler" TextChanged="OnNameFieldChangedHandler"/>
+                                                      KeyDown="JumpToNextFieldHandler" 
+                                                      TextChanged="OnNameFieldChangedHandler"/>
                         <textBoxes:PlaceHolderTextBox x:Name="intermediary_field"
                                                       Grid.Row="1"
                                                       Text="{Binding Path=IntermediaryVM, Mode=OneWayToSource}"
@@ -173,34 +174,7 @@
                             <RowDefinition Height="180.8"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Asset type"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource base_textblock_style}"/>
-
-                        <TextBlock Grid.Column="1"
-                                   Text="Symbol"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource base_textblock_style}"/>
-
-                        <customScrollViewers:AssetTypeSelector x:Name="asset_type_selector"
-                                                               Grid.Row="1"
-                                                               Grid.RowSpan="3"
-                                                               Height="32"
-                                                               Panel.ZIndex="1"
-                                                               MouseEnter="ShowAssetTypesHandler"
-                                                               MouseLeave="HideAssetTypesHandler" 
-                                                               Margin="5,0,5,0"
-                                                               Loaded="OnAssetTypeSelectionChangedHandler"/>
-
-                        <customScrollViewers:SymbolSelector x:Name="symbol_selector"
-                                                            Grid.Column="1"
-                                                            Grid.Row="1"
-                                                            Grid.RowSpan="3"
-                                                            Height="32"
-                                                            Panel.ZIndex="1"
-                                                            MouseEnter="ShowSymbolsHandler" 
-                                                            MouseLeave="HideSymbolsHandler" 
-                                                            Margin="5,0,5,0"/>
+                        
 
                         <TextBlock Grid.Row="2"
                                    Grid.ColumnSpan="2"

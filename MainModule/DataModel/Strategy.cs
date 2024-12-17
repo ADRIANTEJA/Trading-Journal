@@ -15,11 +15,6 @@ public class Strategy
     /// </summary>
     public string? Goal { get; set; }
     /// <summary>
-    /// symbol pair's id to be the strategy's main focus on investment,
-    /// it may be none
-    /// </summary>
-    public string Market { get; set; }
-    /// <summary>
     /// represents the broker or exchange the user its using to operate
     /// </summary>
     public string? Intermediary { get; set;}

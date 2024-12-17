@@ -25,8 +25,4 @@ public partial class StrategyView : UserControl
     private void StrategySelectionChangedHandler(object sender, SelectionChangedEventArgs e)
     {
     }
-
-    private void OnStrategyPerformancePieChartLoadedHandler(object sender, RoutedEventArgs e)
-    {
-    }
 }

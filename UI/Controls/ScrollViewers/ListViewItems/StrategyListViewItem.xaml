@@ -36,17 +36,13 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <TextBlock Grid.Column="1"
-                   Text="Market"
-                   VerticalAlignment="Center"
-                   Style="{StaticResource base_textblock_style}"/>
 
-        <TextBlock Grid.Column="2"
+        <TextBlock Grid.Column="1"
                    Text="Intermediary"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <TextBlock Grid.Column="3"
+        <TextBlock Grid.Column="2"
                    Text="Analysis Notes"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
@@ -58,27 +54,21 @@
 
         <TextBlock Grid.Column="1"
                    Grid.Row="1"
-                   Text="{Binding Path=Market}"
-                   VerticalAlignment="Center"
-                   Style="{StaticResource base_textblock_style}"/>
-
-        <TextBlock Grid.Column="2"
-                   Grid.Row="1"
                    Text="{Binding Path=Intermediary}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <strategyViewButtons:OpenAnalysisNotesButton Grid.Column="3"
+        <strategyViewButtons:OpenAnalysisNotesButton Grid.Column="2"
                                                      Grid.Row="1"
                                                      Width="32"
                                                      HorizontalAlignment="Center" 
                                                      Click="OpenAnalysisNotesClickHandler"/>
 
-        <strategyViewButtons:EditStrategyButton Grid.Column="4"
+        <strategyViewButtons:EditStrategyButton Grid.Column="3"
                                                 Grid.Row="1" 
                                                 Margin="34,0,34,0"/>
 
-        <TextBlock Grid.Column="4"
+        <TextBlock Grid.Column="3"
                    Text="Edit"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
@@ -134,7 +124,7 @@
                    Style="{StaticResource base_textblock_style}"/>
 
         <commonButtons:DeleteItemButton Grid.Column="4"
-                                        Grid.Row="3" 
+                                        Grid.Row="1" 
                                         Margin="34,0,34,0"/>
     </Grid>
 </Border>

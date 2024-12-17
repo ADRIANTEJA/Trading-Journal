@@ -73,8 +73,7 @@
                                                 Series="{Binding Path=SelectedValue, ElementName=strategies_listview,
                                                          Converter={StaticResource strategy_performance_converter},
                                                          TargetNullValue={x:Null}}"
-                                                Margin="40,40,10,40"
-                                                Loaded="OnStrategyPerformancePieChartLoadedHandler"/>
+                                                Margin="40,90,201,90"/>
         </Border>
 
         <Border Grid.Column="1"

@@ -266,7 +266,7 @@
 
             <charts:StrategyUsePieChart x:Name="strategy_use_pie_chart"
                                         Series="{Binding Path=StrategyUsageSeries, Mode=OneWay}"
-                                        Margin="40,40,10,40" 
+                                        Margin="40,40,160,40" 
                                         Loaded="OnStrategyUsePieChartLoadedHandler" 
                                         Unloaded="OnStrategyUsePieChartUnloadedHandler"/>
         </Border>

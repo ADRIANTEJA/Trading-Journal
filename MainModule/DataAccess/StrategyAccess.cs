@@ -16,9 +16,9 @@ public class StrategyAccess
 
     public int InsertStrategy(Strategy strategy)
     {
-        string command = @"INSERT INTO Strategy (name, goal, market, intermediary, riskRewardRatio, maxTradeRisk,
+        string command = @"INSERT INTO Strategy (name, goal, intermediary, riskRewardRatio, maxTradeRisk,
                         dailyGoal, maxDailyLoss)
-                        VALUES (@Name, @Goal, @Market, @Intermediary, @RiskRewardRatio, @MaxTradeRisk, @DailyGoal,
+                        VALUES (@Name, @Goal, @Intermediary, @RiskRewardRatio, @MaxTradeRisk, @DailyGoal,
                         @MaxDailyLoss)";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
@@ -28,7 +28,7 @@ public class StrategyAccess
     public int UpdateStrategy(Strategy strategy)
     {
         string command = @"UPDATE Strategy 
-                        SET name = @Name, goal = @Goal, market = @Market, intermediary = @Intermediary,
+                        SET name = @Name, goal = @Goal, intermediary = @Intermediary,
                         riskRewardRatio = @RiskRewardRatio, maxTradeRisk = @MaxTradeRisk, dailyGoal = @DailyGoal,
                         maxDailyLoss = @MaxDailyLoss
                         WHERE id = @Id";

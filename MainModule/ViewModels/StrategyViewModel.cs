@@ -19,10 +19,6 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
 
     public INavigationHelper NavigationHelper => _navigationHelper;
 
-    private readonly SymbolViewModel _symbolViewModel;
-
-    public SymbolViewModel SymbolViewModel => _symbolViewModel;
-
     [ObservableProperty]
     private Strategy selectedStrategy;
 
@@ -84,8 +80,7 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
             RiskRewardRatio = RiskRewardRatioVM,
             MaxTradeRisk = MaxTradeRiskVM,
             DailyGoal = DailyGoalVM,
-            MaxDailyLoss = MaxDailyLossVM,
-            Market = SymbolViewModel.SelectedSymbolVM.Pair
+            MaxDailyLoss = MaxDailyLossVM
         };
 
         try
@@ -111,13 +106,11 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
 
     public StrategyViewModel(IEventAggregator eventAggregator,
                              StrategyAccess strategyAccess,
-                             INavigationHelper navigationHelper,
-                             SymbolViewModel symbolViewModel)
+                             INavigationHelper navigationHelper)
     {
         _eventAggregator = eventAggregator;
         _strategyAccess = strategyAccess;
         _navigationHelper = navigationHelper;
-        _symbolViewModel = symbolViewModel;
 
         _eventAggregator.GetEvent<LoadAnalysisNotesClickEvent>().Subscribe(OpenAnalysisNotesHandler);
         _eventAggregator.GetEvent<SelectedStrategyItemChangedEvent>().Subscribe(UpdateSelectedStrategyHandler);

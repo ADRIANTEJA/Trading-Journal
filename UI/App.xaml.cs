@@ -131,8 +131,7 @@ public partial class App : Application
                 //ViewModels
                 services.AddSingleton(provider => new StrategyViewModel(provider.GetRequiredService<IEventAggregator>(),
                                                                         provider.GetRequiredService<StrategyAccess>(),
-                                                                        provider.GetRequiredService<INavigationHelper>(),
-                                                                        provider.GetRequiredService<SymbolViewModel>()));
+                                                                        provider.GetRequiredService<INavigationHelper>()));
 
                 services.AddSingleton(provider => new SymbolViewModel(provider.GetRequiredService<SymbolAccess>(),
                                                                       provider.GetRequiredService<INavigationHelper>(),

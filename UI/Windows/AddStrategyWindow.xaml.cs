@@ -3,7 +3,6 @@ using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using UI.Common.Helpers;
 using UI.Common.Utils;
 
@@ -26,30 +25,6 @@ public partial class AddStrategyWindow : Window
     private void DragMoveHandler(object sender, MouseButtonEventArgs e)
     {
         if (e.ChangedButton == MouseButton.Left) DragMove();
-    }
-
-    private void ShowAssetTypesHandler(object sender, MouseEventArgs e)
-    {
-        var sBoard = (Storyboard)Resources["show_asset_types_storyboard"];
-        sBoard.Begin();
-    }
-
-    private void HideAssetTypesHandler(object sender, MouseEventArgs e)
-    {
-        var sBoard = (Storyboard)Resources["hide_asset_types_storyboard"];
-        sBoard.Begin();
-    }
-
-    private void ShowSymbolsHandler(object sender, MouseEventArgs e)
-    {
-        var sBoard = (Storyboard)Resources["show_symbols_storyboard"];
-        sBoard.Begin();
-    }
-
-    private void HideSymbolsHandler(object sender, MouseEventArgs e)
-    {
-        var sBoard = (Storyboard)Resources["hide_symbols_storyboard"];
-        sBoard.Begin();
     }
 
     private void StrategyCreationHandler(bool success)
@@ -143,19 +118,5 @@ public partial class AddStrategyWindow : Window
     {
         if (!string.IsNullOrEmpty(name_field.Text))
             name_field.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);
-    }
-
-    private void OnAssetTypeSelectionChangedHandler(object sender, RoutedEventArgs e)
-    {
-        var optionsListRef = (ListView)asset_type_selector.FindName("options_listview");
-        optionsListRef.SelectionChanged += AssetTypeChangedHandler;
-    }
-
-    private void AssetTypeChangedHandler(object sender, SelectionChangedEventArgs e)
-    {
-        var optionsListRef = (ListView)asset_type_selector.FindName("options_listview");
-
-        var dataContext = (StrategyViewModel)DataContext;
-        dataContext.SymbolViewModel.LoadSymbolsByAssetTypeCommand.Execute(optionsListRef.SelectedValue.ToString());
     }
 }
