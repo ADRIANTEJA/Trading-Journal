@@ -62,11 +62,13 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
     [RelayCommand]
     private void LoadStrategies()
     {
-        Strategies.Clear();
+        Strategies.Clear(); 
 
         var tempDataReckords = _strategyAccess.QueryStrategiesAsync().Result;
 
         foreach (var strategy in tempDataReckords) Strategies.Add(strategy);
+
+        if (Strategies.Count > 0) SelectedStrategy = Strategies.First();
     }
 
     [RelayCommand]
@@ -104,6 +106,15 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         if (_strategyAccess.UpdateStrategyLostTrades(strategyName) > 0) LoadStrategies();
     }
 
+    [RelayCommand]
+    private void UpdateStrategy(Strategy updatedStrategy)
+    {
+        _strategyAccess.UpdateStrategy(updatedStrategy);
+        _eventAggregator.GetEvent<StrategyUpdatedEvent>().Publish();
+
+        LoadStrategies();
+    }
+
     public StrategyViewModel(IEventAggregator eventAggregator,
                              StrategyAccess strategyAccess,
                              INavigationHelper navigationHelper)
@@ -112,7 +123,8 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         _strategyAccess = strategyAccess;
         _navigationHelper = navigationHelper;
 
-        _eventAggregator.GetEvent<LoadAnalysisNotesClickEvent>().Subscribe(OpenAnalysisNotesHandler);
+        _eventAggregator.GetEvent<LoadAnalysisNotesEvent>().Subscribe(OpenAnalysisNotesHandler);
+        _eventAggregator.GetEvent<EditStrategyEvent>().Subscribe(OpenEditStrategyWindowHandler);
         _eventAggregator.GetEvent<SelectedStrategyItemChangedEvent>().Subscribe(UpdateSelectedStrategyHandler);
         _eventAggregator.GetEvent<StrategyPerformanceDataRequiredEvent>().Subscribe(ProcessStrategyPerformanceHandler);
     }
@@ -125,6 +137,12 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         //implementation
         dynamic navHelperRef = _navigationHelper;
         navHelperRef.NavigateToAnalysisNotesCommand.Execute(null);
+    }
+
+    private void OpenEditStrategyWindowHandler()
+    {
+        dynamic navHelperRef = _navigationHelper;
+        navHelperRef.NavigateToEditStrategyCommand.Execute(null);
     }
 
     private void UpdateSelectedStrategyHandler(object strategy) => SelectedStrategy = (Strategy)strategy;

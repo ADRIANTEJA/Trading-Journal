@@ -93,12 +93,15 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     {
         Trades.Clear();
 
-        var tempDataReckords =
-            _tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result;
+        if (_accountViewModel.SelectedAccount != null)
+        {
+            var tempDataReckords =
+                _tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result;
 
-        foreach (var trade in tempDataReckords) Trades.Add(trade);
+            foreach (var trade in tempDataReckords) Trades.Add(trade);
 
-        _eventAggregator.GetEvent<StrategyPerformanceDataRequiredEvent>().Publish(GetSrategyPerformanceData());
+            _eventAggregator.GetEvent<StrategyPerformanceDataRequiredEvent>().Publish(GetStrategyPerformanceData());
+        }
     }
 
     [RelayCommand]
@@ -136,7 +139,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         try
         {
             _tradeAccess.InsertTrade(openTrade);
-            Trades.Add(openTrade);
+            LoadTrades();
             _eventAggregator.GetEvent<CreateTradeEvent>().Publish(true);
             CleanVMData();
         }
@@ -173,8 +176,22 @@ public partial class HomeViewModel : ObservableObject, IViewModel
             StopLoss = StopLossVM,
             Mistakes = MistakesVM,
             Notes = NotesVM,
-            Roi = CalculateReturnOnInvestment(isLongTrade)[0],
-            RoiPercentage = CalculateReturnOnInvestment(isLongTrade)[1],
+            Roi = CalculateReturnOnInvestment(isLongTrade,
+                                              VolumeVM,
+                                              OpenPriceVM,
+                                              ClosePriceVM,
+                                              SwapVM,
+                                              SpreadVM,
+                                              CommissionVM,
+                                              OtherCostsVM)[0],
+            RoiPercentage = CalculateReturnOnInvestment(isLongTrade,
+                                              VolumeVM,
+                                              OpenPriceVM,
+                                              ClosePriceVM,
+                                              SwapVM,
+                                              SpreadVM,
+                                              CommissionVM,
+                                              OtherCostsVM)[1],
             StrategyName = strategyName,
             Leverage = LeverageVM,
         };
@@ -182,30 +199,72 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         try
         {
             _tradeAccess.InsertTrade(closedTrade);
-            Trades.Add(closedTrade);
+            LoadTrades();
 
             if (closedTrade.StrategyName != null && IsWonTrade(closedTrade))
-                _strategyViewModel.UpdateStrategyWonTradesCommand.Execute(closedTrade);
+                _strategyViewModel.UpdateStrategyWonTradesCommand.Execute(closedTrade.StrategyName);
             else if (closedTrade.StrategyName != null)
-                _strategyViewModel.UpdateStrategyLostTradesCommand.Execute(closedTrade);
+                _strategyViewModel.UpdateStrategyLostTradesCommand.Execute(closedTrade.StrategyName);
 
             _eventAggregator.GetEvent<CreateTradeEvent>().Publish(true);
 
-            Performance performance = new Performance()
+            var performance = new Performance
             {
                 AccountId = AccountViewModel.SelectedAccount.Id,
                 Date = CloseDateVM.Ticks,
-                ROI = CalculateReturnOnInvestment(isLongTrade)[0],
+                ROI = CalculateReturnOnInvestment(isLongTrade,
+                                                  VolumeVM,
+                                                  OpenPriceVM,
+                                                  ClosePriceVM,
+                                                  SwapVM,
+                                                  SpreadVM,
+                                                  CommissionVM,
+                                                  OtherCostsVM)[0],
                 Cost = (VolumeVM * OpenPriceVM) + SwapVM + SpreadVM + CommissionVM + OtherCostsVM
             };
 
             _performanceViewModel.AddAccountPerformanceRecord(performance);
             _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
-            //_eventAggregator.GetEvent<StrategyUsageDataRequiredEvent>().Publish(GetStrategyUsageData());
+            //_eventAggregator.GetEvent<StrategyUsageDataRequiredEvent>().Publish(GetStrategyUsageData()); 
+            //delete if unused
 
             CleanVMData();
         }
-        catch (SQLiteException){ _eventAggregator.GetEvent<CreateTradeEvent>().Publish(false); }
+        catch (SQLiteException) { _eventAggregator.GetEvent<CreateTradeEvent>().Publish(false); }
+    }
+
+    [RelayCommand]
+    private void UpdateTrade(Trade updatedTrade)
+    {
+        if (updatedTrade.IsOpen == 0)
+        {
+            _performanceViewModel.DeletePerformanceByDate((long)updatedTrade.CloseDate!);
+
+            var updatedPerformance = new Performance
+            {
+                AccountId = _accountViewModel.SelectedAccount.Id,
+                Date = (long)updatedTrade.CloseDate,
+                ROI = CalculateReturnOnInvestment(updatedTrade.IsLong,
+                                                  updatedTrade.Volume,
+                                                  updatedTrade.OpenPrice,
+                                                  (double)updatedTrade.ClosePrice!,
+                                                  updatedTrade.Swap,
+                                                  updatedTrade.Spread,
+                                                  updatedTrade.Commission,
+                                                  updatedTrade.OtherCosts)[0],
+                Cost = (updatedTrade.Volume * updatedTrade.OpenPrice) 
+                + updatedTrade.Swap + updatedTrade.Spread + updatedTrade.Commission + updatedTrade.OtherCosts
+            };
+
+            _performanceViewModel.AddAccountPerformanceRecord(updatedPerformance);
+            _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
+
+            _tradeAccess.UpdateTrade(updatedTrade);
+            LoadTrades();
+        }
+
+        _tradeAccess.UpdateTrade(updatedTrade);
+        LoadTrades();
     }
 
     public HomeViewModel(AccountViewModel accountViewModel,
@@ -225,12 +284,16 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         _eventAggregator = eventAggregator;
 
         _eventAggregator.GetEvent<SelectedTradeItemChangedEvent>().Subscribe(UpdateSelectedTradeHandler);
-        _eventAggregator.GetEvent<LoadTradeImagesClickEvent>().Subscribe(OpenTradeImagesHandler);
-        _eventAggregator.GetEvent<LoadTradeNotesClickEvent>().Subscribe(OpenTradeNotesHandler);
-        _eventAggregator.GetEvent<LoadTradeMistakesClickEvent>().Subscribe(OpenTradeMistakesHandler);
-        _eventAggregator.GetEvent<LoadTradeCostsClickEvent>().Subscribe(OpenTradeCostsHandler);
+        _eventAggregator.GetEvent<LoadTradeImagesEvent>().Subscribe(OpenTradeImagesHandler);
+        _eventAggregator.GetEvent<LoadTradeNotesEvent>().Subscribe(OpenTradeNotesHandler);
+        _eventAggregator.GetEvent<LoadTradeMistakesEvent>().Subscribe(OpenTradeMistakesHandler);
+        _eventAggregator.GetEvent<LoadTradeCostsEvent>().Subscribe(OpenTradeCostsHandler);
+        _eventAggregator.GetEvent<EditTradeEvent>().Subscribe(OpenEditTradeWindowHandler);
         _eventAggregator.GetEvent<StrategyDataRquiredIntermediaryEvent>().Subscribe(FireRequiredStrategyUsageDataEventHandler);
+        _eventAggregator.GetEvent<StrategyUpdatedEvent>().Subscribe(UpdateTradesStrategyNameHandler);
     }
+
+    private void UpdateTradesStrategyNameHandler() => LoadTrades();
 
     private void FireRequiredStrategyUsageDataEventHandler()
     {
@@ -267,15 +330,28 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         navHelperRef.NavigateToTradeCostsCommand.Execute(null);
     }
 
-    private double[] CalculateReturnOnInvestment(int isLongTrade)
+    private void OpenEditTradeWindowHandler()
+    {
+        dynamic navHelperRef = _mainNavigationHelper;
+        navHelperRef.NavigateToEditTradeCommand.Execute(null);
+    }
+
+    private double[] CalculateReturnOnInvestment(int isLongTrade,
+                                                 double volume,
+                                                 double openPrice,
+                                                 double closePrice,
+                                                 double swap,
+                                                 double spread,
+                                                 double commission,
+                                                 double otherCosts)
     {
         int leverage;
 
         if (LeverageVM == 0) leverage = 1;
         else leverage = LeverageVM;
 
-        double TradeCost = OpenPriceVM * VolumeVM / leverage;
-        double profit = TradeCost / OpenPriceVM * (ClosePriceVM - OpenPriceVM) - SwapVM - SpreadVM - CommissionVM - OtherCostsVM;
+        double TradeCost = openPrice * volume / leverage;
+        double profit = TradeCost / openPrice * (closePrice - openPrice) - swap - spread - commission - otherCosts;
         double ROI = profit / TradeCost * 100;
 
         if (isLongTrade == 0)
@@ -329,7 +405,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                 }).ToList();
     }
 
-    private List<StrategyPerformanceDataBundle> GetSrategyPerformanceData()
+    private List<StrategyPerformanceDataBundle> GetStrategyPerformanceData()
     {
         List<Trade> tradesWithStrategy = (from trade in Trades
                                           where trade.StrategyName != null

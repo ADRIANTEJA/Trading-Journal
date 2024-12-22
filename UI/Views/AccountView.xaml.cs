@@ -1,6 +1,5 @@
 ﻿using API.Events;
 using LiveCharts;
-using LiveCharts.Definitions.Charts;
 using LiveCharts.Wpf;
 using MainModule.ViewModels;
 using System.Collections.Specialized;
@@ -10,7 +9,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using UI.Common.Converters;
 using UI.Common.Helpers;
 using static MainModule.Common.Enums;
 
@@ -155,7 +153,7 @@ public partial class AccountView : UserControl
 
         //chartAxis.SetBinding(Axis.MaxRangeProperty, maxValueBinding);
 
-        
+
         //chartAxis.MaxValue = 662688000000000000;
     }
 

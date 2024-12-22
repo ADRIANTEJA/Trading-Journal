@@ -1,5 +1,8 @@
-﻿using LiveCharts.Wpf;
+﻿using API.Events;
+using MainModule.DataAccess;
+using MainModule.DataModel;
 using MainModule.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,15 +17,20 @@ public partial class StrategyView : UserControl
         InitializeComponent();
     }
 
-    private void OnStrategyViewLoaded(object sender, RoutedEventArgs e)
+    private void OnStrategiesListLoaded(object sender, RoutedEventArgs e)
     {
         var dataContext = (StrategyViewModel)DataContext;
         dataContext.LoadStrategiesCommand.Execute(null);
-        
-        if (strategies_listview.Items.Count > 0) strategies_listview.SelectedValue = strategies_listview.Items[0];
     }
-    //remenber to delete if unused
-    private void StrategySelectionChangedHandler(object sender, SelectionChangedEventArgs e)
+
+    private void OnDailyLossConstraintVWarningLoaded(object sender, RoutedEventArgs e)
     {
+        var listView = (ListView)daily_loss_constraint_warning.FindName("dates_listview");
+
+        var binding = new Binding("SelectedStrategy")
+        {
+            Converter = new DailyLossConstraintDatesConverter()
+        };
+        listView.SetBinding(ListView.ItemsSourceProperty, binding);
     }
 }

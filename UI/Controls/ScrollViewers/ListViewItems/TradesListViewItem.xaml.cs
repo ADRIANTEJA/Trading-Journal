@@ -20,7 +20,7 @@ public partial class TradesListViewItem : Border
     }
 
     private void OpenTradeImagesWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<LoadTradeImagesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeImagesEvent>().Publish();
 
     private void UpdateContextTradeHandler(object sender, MouseEventArgs e)
     {
@@ -29,13 +29,16 @@ public partial class TradesListViewItem : Border
     }
 
     private void OpenTradeNotesWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<LoadTradeNotesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeNotesEvent>().Publish();
 
     private void OpenTradeMistakesWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<LoadTradeMistakesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeMistakesEvent>().Publish();
 
     private void OpenTradeCostsWindowHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<LoadTradeCostsClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadTradeCostsEvent>().Publish();
+
+    private void OpenEditTradeWindowHandler(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<EditTradeEvent>().Publish();
 
     private void OnTradeStatusTextBlockLoaded(object sender, RoutedEventArgs e)
     {
@@ -64,5 +67,16 @@ public partial class TradesListViewItem : Border
 
         if (contextTrade.IsLong == 1) trade_side_textblock.Text = "LONG";
         else trade_side_textblock.Text = "SHORT";
+    }
+
+    private void OnTradeRiskWarningMouseEnterHandler(object sender, MouseEventArgs e)
+    {
+        trade_risk_constraint_warning.Visibility = Visibility.Visible;
+    }
+
+    private void OnTradeRiskWarningMouseLeaveHandler(object sender, MouseEventArgs e)
+    {
+        if (!trade_risk_constraint_warning.IsMouseOver)
+            trade_risk_constraint_warning.Visibility = Visibility.Hidden;
     }
 }

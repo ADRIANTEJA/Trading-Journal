@@ -14,7 +14,7 @@ public class PerformanceAccess
         _dataAccessConfig = dataAccessConfig; 
     }
 
-    public int InsertDayPerformance(Performance performanceRecord)
+    public int InsertPerformance(Performance performanceRecord)
     {
         string command = @"INSERT INTO Performance (accountId, date, roi, roiPercentage, cost)
                            VALUES (@AccountId, @Date, @ROI, @ROIPercentage, @Cost)";
@@ -23,7 +23,16 @@ public class PerformanceAccess
         return connection.Execute(command, performanceRecord);
     }
 
-    public async Task<List<Performance>> QueryDayPerformanceByAccountIdAsync(int accountId)
+    public int DeletePerformanceByDate(long dateTicks)
+    {
+        string command = @"DELETE FROM Performance
+                           WHERE date = @dateTicks";
+
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(command, new { dateTicks });
+    }
+
+    public async Task<List<Performance>> QueryPerformanceByAccountIdAsync(int accountId)
     {
         string commmand = @"SELECT * FROM Performance
                             WHERE accountId = @accountId";

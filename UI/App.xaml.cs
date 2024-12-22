@@ -71,6 +71,14 @@ public partial class App : Application
                 {
                     DataContext = provider.GetRequiredService<AccountViewModel>()
                 });
+                services.AddTransient(provider => new EditTradeWindow
+                {
+                    DataContext = provider.GetRequiredService<HomeViewModel>()
+                });
+                services.AddTransient(provider => new EditStrategyWindow
+                {
+                    DataContext = provider.GetRequiredService<StrategyViewModel>()
+                });
                 services.AddTransient(provider => new TradeImageWindow
                 {
                     DataContext = provider.GetRequiredService<TradeImageViewModel>()

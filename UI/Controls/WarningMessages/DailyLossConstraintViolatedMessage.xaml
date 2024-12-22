@@ -1,0 +1,32 @@
+﻿<Border x:Class="UI.Controls.WarningMessages.DailyLossConstraintViolatedMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:UI.Controls.WarningMessages"
+        Background="{DynamicResource theme_background_brush}"
+        BorderBrush="{StaticResource theme_font_brush}"
+        BorderThickness="1"
+        mc:Ignorable="d" 
+        Height="200" 
+        Width="150">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Max daily loss directive violated on the dates:"
+                   TextWrapping="Wrap"
+                   Style="{StaticResource base_textblock_style}"
+                   Margin="5"/>
+
+        <ListView x:Name="dates_listview"
+                  Grid.Row="1"
+                  Style="{StaticResource daily_loss_violation_dates_listView_style}"
+                  Margin="5"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+    </Grid>
+</Border>

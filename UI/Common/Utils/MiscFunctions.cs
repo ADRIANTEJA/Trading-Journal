@@ -1,4 +1,5 @@
 ﻿using LiveCharts;
+using MainModule.DataModel;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
@@ -56,5 +57,26 @@ public static class MiscFunctions
 
         if (dlg.ShowDialog() == true) return dlg.FileName;
         else return "";
+    }
+
+    public static bool IsWonTrade(Trade trade)
+    {
+        switch (trade.IsLong)
+        {
+            case 1:
+                if (trade.Volume * trade.ClosePrice >= (trade.Volume * trade.OpenPrice)
+                    + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
+                    return true;
+
+                else return false;
+            case 2:
+                if (trade.Volume * trade.ClosePrice <= (trade.Volume * trade.OpenPrice)
+                    + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
+                    return true;
+
+                else return false;
+        }
+
+        return false;
     }
 }

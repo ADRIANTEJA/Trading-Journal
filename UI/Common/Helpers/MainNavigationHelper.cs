@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using UI.Services;
 using System.Windows.Input;
 using MainModule.ViewModels;
-using MainModule.Common.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Windows;
 using MainModule.Common;
@@ -100,6 +99,20 @@ public partial class MainNavigationHelper : ObservableObject, INavigationHelper
     {
         var addAnalysisNoteWindow = App.AppHost!.Services.GetRequiredService<AddAnalysisNoteWindow>();
         addAnalysisNoteWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToEditTrade()
+    {
+        var editTradeWindow = App.AppHost!.Services.GetRequiredService<EditTradeWindow>();
+        editTradeWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void NavigateToEditStrategy()
+    {
+        var editStrategyWindow = App.AppHost!.Services.GetRequiredService<EditStrategyWindow>();
+        editStrategyWindow.ShowDialog();
     }
 
     private ICommand? navigateToHomeCommand;

@@ -1,7 +1,6 @@
 ﻿using API.Events;
 using MainModule.DataModel;
 using Microsoft.Extensions.DependencyInjection;
-using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,7 +21,10 @@ public partial class StrategyListViewItem : Border
     }
 
     private void OpenAnalysisNotesClickHandler(object sender, RoutedEventArgs e) =>
-        _eventAggregator.GetEvent<LoadAnalysisNotesClickEvent>().Publish();
+        _eventAggregator.GetEvent<LoadAnalysisNotesEvent>().Publish();
+
+    private void OpenEditStrategyWindowHandler(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<EditStrategyEvent>().Publish();
 
     private void UpdateContextStrategyHandler(object sender, MouseEventArgs e)
     {

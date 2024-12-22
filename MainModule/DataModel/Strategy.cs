@@ -3,7 +3,7 @@
 public class Strategy
 {
     /// <summary>
-    /// the Strategy primary key
+    /// the UpdatedStrategy primary key
     /// </summary>
     public int Id { get; set; }
     /// <summary>
@@ -27,12 +27,12 @@ public class Strategy
     /// </summary>
     public double MaxTradeRisk { get; set; }
     /// <summary>
-    /// represents the % expected to be earned daily usign the strategy
+    /// represents the % expected to be earned daily usign the risk management plan
     /// </summary>
     public double DailyGoal { get; set; }
     /// <summary>
     /// represents the maximun % allowed to be loss in a day
-    /// whitout violating the strategy
+    /// whitout violating the risk management plan
     /// </summary>
     public double MaxDailyLoss { get; set; }
     /// <summary>

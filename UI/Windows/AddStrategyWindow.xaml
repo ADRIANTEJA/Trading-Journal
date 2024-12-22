@@ -144,6 +144,13 @@
                                                       Margin="0,0,10,11"
                                                       TextChanged="ValidateNumericValueHandler"
                                                       KeyDown="JumpToNextFieldHandler"/>
+                        <TextBlock Grid.Row="3"
+                                   Text="%"
+                                   Foreground="{DynamicResource theme_place_holder_brush}"
+                                   Style="{StaticResource base_textblock_style}"
+                                   VerticalAlignment="Top" 
+                                   Margin="190,7,11,0" 
+                                   Height="20"/>
                         <textBoxes:PlaceHolderTextBox x:Name="daily_goal_field"
                                                       Grid.Row="4"
                                                       Text="{Binding Path=DailyGoalVM, Mode=OneWayToSource}"
@@ -158,6 +165,13 @@
                                                       Margin="0,0,10,11"
                                                       TextChanged="ValidateNumericValueHandler"
                                                       KeyDown="JumpToNextFieldHandler"/>
+                        <TextBlock Grid.Row="5"
+                                   Text="%"
+                                   Foreground="{DynamicResource theme_place_holder_brush}"
+                                   Style="{StaticResource base_textblock_style}"
+                                   VerticalAlignment="Top" 
+                                   Margin="190,7,11,0" 
+                                   Height="20"/>
                     </Grid>
 
                     <Grid Grid.Column="1">
@@ -166,7 +180,7 @@
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Grid.RowDefinitions >
                             <RowDefinition Height="32"/>
                             <RowDefinition Height="32"/>
@@ -174,7 +188,7 @@
                             <RowDefinition Height="180.8"/>
                         </Grid.RowDefinitions>
 
-                        
+
 
                         <TextBlock Grid.Row="2"
                                    Grid.ColumnSpan="2"

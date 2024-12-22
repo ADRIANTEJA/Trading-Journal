@@ -29,12 +29,11 @@ public class TradeAccess
         return connection.Execute(command, trade);
     }
 
-    //NEEDS ADJUSTMENTS
     public int UpdateTrade(Trade trade)
     {
         string command = @"UPDATE Trade 
-                           SET pairTraded = @PairTraded, pairMarket = @PairMarket, openDate = @OpenDate, closeDate = @CloseDate,
-                           isLong = @IsLong, volume = @Volume, isOpen = @IsOpen, openPrice = @OpenPrice, closePrice = @ClosePrice,
+                           SET openDate = @OpenDate, closeDate = @CloseDate, 
+                           volume = @Volume, isOpen = @IsOpen, openPrice = @OpenPrice, closePrice = @ClosePrice,
                            tradeCost = @TradeCost, swap = @Swap, spread = @Spread, commission = @Commission,
                            otherCosts = @OtherCosts, takeProfit = @TakeProfit, stopLoss = @StopLoss,
                            roi = @Roi, roiPercentage = @RoiPercentage, mistakes = @Mistakes, notes = @Notes
@@ -42,6 +41,17 @@ public class TradeAccess
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         return connection.Execute(command, trade);
+    }
+
+    public int UpdateTradeStrategyName(string formerStrategyName, string newStrategyName)
+    {
+        string command = @"UPDATE Trade
+                           SET strategyName = @newStrategyName
+                           WHERE strategyName = @formerStrategyName";
+
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(command, new { newStrategyName, formerStrategyName });
+
     }
 
     public int DeleteTrade(int id)

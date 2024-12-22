@@ -59,6 +59,7 @@
         <TextBlock Grid.Column="1"
                    Grid.Row="3"
                    Text="%"
+                   Foreground="{DynamicResource theme_place_holder_brush}"
                    Style="{StaticResource base_textblock_style}" 
                    Margin="75,17,90,10"/>
 

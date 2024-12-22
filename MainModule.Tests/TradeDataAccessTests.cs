@@ -115,6 +115,12 @@ public class TradeDataAccessTests
     }
 
     [Fact]
+    public void UpdateTradeStrategyName_shouldUpdate()
+    {
+        Assert.True(dataAccess.UpdateTradeStrategyName("test Strategy", "newStrategyName") > 0);
+    }
+
+    [Fact]
     public void DeleteTrade_ShouldDelete()
     {
         int expected = 1;

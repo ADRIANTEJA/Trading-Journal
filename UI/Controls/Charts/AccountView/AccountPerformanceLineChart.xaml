@@ -18,7 +18,8 @@
 
         <liveCharts:Axis x:Name="x_axis"
                          Title="Date"
-                         MaxRange="{Binding Path=MaxValue, RelativeSource={RelativeSource Mode=Self}}"
+                         MaxValue="{Binding Path=PerformanceViewModel.AccountPerformance,
+                                    Converter={StaticResource collection_to_last_value_converter}}"
                          ShowLabels="False"
                          FontSize="{DynamicResource font_size}"
                          FontFamily="Calibri">

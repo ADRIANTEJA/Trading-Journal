@@ -28,7 +28,7 @@ public partial class PerformanceViewModel : ObservableObject, IViewModel
     {
         AccountPerformance.Clear();
 
-        var tempReckordsList = _performanceAccess.QueryDayPerformanceByAccountIdAsync(accountId).Result;
+        var tempReckordsList = _performanceAccess.QueryPerformanceByAccountIdAsync(accountId).Result;
 
         List<Performance> performance = [];
 
@@ -101,8 +101,13 @@ public partial class PerformanceViewModel : ObservableObject, IViewModel
         _eventAggregator = eventAggregator;
     }
 
+    public void DeletePerformanceByDate(long dateTicks)
+    {
+        _performanceAccess.DeletePerformanceByDate(dateTicks);
+    }
+
     public void AddAccountPerformanceRecord(Performance newPerformanceRecord)
     {
-        _performanceAccess.InsertDayPerformance(newPerformanceRecord);
+        _performanceAccess.InsertPerformance(newPerformanceRecord);
     }
 }

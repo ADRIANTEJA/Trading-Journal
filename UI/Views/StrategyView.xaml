@@ -5,21 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:strategyViewButtons="clr-namespace:UI.Controls.Buttons.StrategyView"
              xmlns:charts="clr-namespace:UI.Controls.Charts.StrategyView"
+             xmlns:warningMessages="clr-namespace:UI.Controls.WarningMessages"
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
              d:DesignWidth="1916">
-    
+
     <Grid Background="{DynamicResource theme_background_brush}">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="958"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="52"/>
             <RowDefinition Height="52"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="432"/>
             <RowDefinition Height="52"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -59,8 +60,7 @@
                       ItemContainerStyle="{StaticResource strategy_listview_item_style}"
                       ItemsSource="{Binding Path=Strategies}"
                       Margin="10"
-                      Loaded="OnStrategyViewLoaded" 
-                      SelectionChanged="StrategySelectionChangedHandler"/>
+                      Loaded="OnStrategiesListLoaded"/>
         </Border>
 
         <Border Grid.Column="1"
@@ -70,11 +70,22 @@
                 Margin="5">
 
             <charts:StrategyPerformancePieChart x:Name="strategy_performance_pie_chart"
-                                                Series="{Binding Path=SelectedValue, ElementName=strategies_listview,
+                                                Series="{Binding Path=SelectedStrategy,
                                                          Converter={StaticResource strategy_performance_converter},
                                                          TargetNullValue={x:Null}}"
                                                 Margin="40,90,201,90"/>
         </Border>
+
+        
+
+        <warningMessages:DailyLossConstraintViolatedMessage x:Name="daily_loss_constraint_warning"
+                                                            Grid.Column="1"
+                                                            Grid.Row="1"
+                                                            Grid.RowSpan="2"
+                                                            Height="200"
+                                                            Width="150" 
+                                                            Margin="798,10,10,274"
+                                                            Loaded="OnDailyLossConstraintVWarningLoaded"/>
 
         <Border Grid.Column="1"
                 Grid.Row="3"
@@ -96,7 +107,8 @@
                 <TextBlock TextAlignment="Justify"
                            Style="{StaticResource base_textblock_style}">
     
-                    <ContentPresenter Content="{Binding Path=SelectedValue, ElementName=strategies_listview}"
+                    <ContentPresenter x:Name="goal_textblock_content_presenter"
+                                      Content="{Binding Path=SelectedStrategy.Goal}"
                                       ContentTemplate="{StaticResource selected_strategy_goal_textblock_template}"/>
                 </TextBlock>
             </ScrollViewer>

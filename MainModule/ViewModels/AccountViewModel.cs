@@ -37,7 +37,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     public PerformanceViewModel PerformanceViewModel => _performanceViewModel;
 
     [ObservableProperty]
-    private Account selectedAccount;
+    private Account selectedAccount = null;
 
     public ObservableCollection<Account> Accounts { get; } = [];
 
@@ -58,7 +58,8 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
         foreach (var account in tempDataReckords) Accounts.Add(account);
 
-        SelectedAccount = Accounts.First(account => account.IsSelected == 1);
+        if (Accounts.Count > 0)
+            SelectedAccount = Accounts.First(account => account.IsSelected == 1);
     }
 
     [RelayCommand]

@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:UI.Controls.ScrollViewers.ListViewItems"
         xmlns:homeViewButton="clr-namespace:UI.Controls.Buttons.HomeView"
+        xmlns:warningMessages="clr-namespace:UI.Controls.WarningMessages"
         mc:Ignorable="d" 
         Style="{StaticResource listview_item_container_style}"
         Height="160" 
@@ -203,6 +204,27 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <!--Visibility="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext,
+             Converter={StaticResource trade_risk_constraint_warning_visibility_converter}}"-->
+        <Image Grid.Column="6"
+               Grid.Row="2"
+               Source="{StaticResource warning_icon}"
+               Margin="71,11,14,9" 
+               Width="12" 
+               Height="12" 
+               MouseEnter="OnTradeRiskWarningMouseEnterHandler" 
+               MouseLeave="OnTradeRiskWarningMouseLeaveHandler"/>
+
+        <warningMessages:TradeRiskConstraintViolated x:Name="trade_risk_constraint_warning"
+                                                     Grid.Column="6"
+                                                     Grid.ColumnSpan="4"
+                                                     Grid.Row="2"
+                                                     Grid.RowSpan="2"
+                                                     Visibility="Hidden"
+                                                     Panel.ZIndex="1"
+                                                     Margin="-23,2,14,19"
+                                                     MouseLeave="OnTradeRiskWarningMouseLeaveHandler"/>
+
         <TextBlock Grid.Column="6"
                    Grid.Row="4"
                    VerticalAlignment="Center"
@@ -245,7 +267,8 @@
 
         <homeViewButton:EditTradeButton Grid.Column="8"
                                         Grid.Row="1" 
-                                        Margin="32,0,32,0"/>
+                                        Margin="32,0,32,0" 
+                                        Click="OpenEditTradeWindowHandler"/>
 
         <TextBlock Grid.Column="8"
                    Grid.Row="2"
