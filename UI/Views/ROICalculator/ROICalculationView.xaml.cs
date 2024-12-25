@@ -91,19 +91,19 @@ public partial class ROICalculationView : Page
     {
         bool isValid = true;
 
-        if (string.IsNullOrEmpty(amount_field.Text))
+        if (string.IsNullOrEmpty(amount_field.Text) || double.Parse(amount_field.Text) == 0)
         { 
             amount_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(open_price_field.Text)) 
+        if (string.IsNullOrEmpty(open_price_field.Text) || double.Parse(open_price_field.Text) == 0) 
         {
             open_price_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(close_price_field.Text))
+        if (string.IsNullOrEmpty(close_price_field.Text) || double.Parse(close_price_field.Text) == 0)
         {
             close_price_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;

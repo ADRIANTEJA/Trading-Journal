@@ -82,7 +82,7 @@ public partial class TradeImageWindow : Window
 
         dataContext.AddTradeImageCommand.Execute(new() { Id = imageId, TradeId = 0, Image = imageBytes});
 
-        //it stores the Image Id value in the Tag Property so it can be
+        //it stores the Image TradeId value in the Tag Property so it can be
         //used to delete the image later
         tradeImageContainer.Tag = imageId;
 
@@ -158,7 +158,7 @@ public partial class TradeImageWindow : Window
             var imageControlRef = (Image)tradeImageContainer.FindName("image_control");
             imageControlRef.Source = MiscFunctions.ByteArrayToBitmapSource(image.Image);
 
-            //it stores the Image Id value in the Tag Property so it can be
+            //it stores the Image TradeId value in the Tag Property so it can be
             //used to delete the image later
             tradeImageContainer.Tag = image.Id;
 

@@ -16,7 +16,7 @@ public class TradeRiskConstraintWarningVisibilityConverter : IValueConverter
         //var strategyViewModel = App.AppHost!.Services.GetRequiredService<StrategyViewModel>();
 
         //var tempList = (from strategy in strategyViewModel.Strategies
-        //                where strategy.Name == contextTrade.StrategyName
+        //                where strategy.Name == contextTrade.NewStrategyName
         //                select strategy).ToList();
 
 

@@ -53,25 +53,25 @@ public partial class AddStrategyWindow : Window
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(risk_reward_ratio_field.Text))
+        if (string.IsNullOrEmpty(risk_reward_ratio_field.Text) || double.Parse(risk_reward_ratio_field.Text) == 0)
         {
             risk_reward_ratio_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(max_trade_risk_field.Text))
+        if (string.IsNullOrEmpty(max_trade_risk_field.Text) || double.Parse(max_trade_risk_field.Text) == 0)
         {
             max_trade_risk_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(daily_goal_field.Text))
+        if (string.IsNullOrEmpty(daily_goal_field.Text) || double.Parse(daily_goal_field.Text) == 0)
         {
             daily_goal_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(max_daily_loss_field.Text))
+        if (string.IsNullOrEmpty(max_daily_loss_field.Text) || double.Parse(max_daily_loss_field.Text) == 0)
         {
             max_daily_loss_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;

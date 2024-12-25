@@ -1,33 +1,34 @@
 ﻿using System.Windows.Input;
 
-namespace MainModule.Common.Utils;
-
-public class DelegateCommand : ICommand
+namespace MainModule.Common.Utils
 {
-    private readonly Action<object> _execute;
-    private readonly Predicate<object> _canExecute;
-
-    public DelegateCommand(Action<object> execute) : this(execute, null) { }
-
-    public DelegateCommand(Action<object> execute, Predicate<object> canExecute)
+    public class DelegateCommand : ICommand
     {
-        _execute = execute;
-        _canExecute = canExecute;
-    }
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
 
-    public event EventHandler CanExecuteChanged
-    {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
-    }
+        public DelegateCommand(Action<object> execute) : this(execute, null) { }
 
-    public bool CanExecute(object? parameter)
-    {
-        return _canExecute == null ? true : _canExecute(parameter);
-    }
+        public DelegateCommand(Action<object> execute, Predicate<object> canExecute)
+        {
+            _execute = execute;
+            _canExecute = canExecute;
+        }
 
-    public void Execute(object? parameter)
-    {
-        _execute(parameter);
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public bool CanExecute(object? parameter)
+        {
+            return _canExecute == null ? true : _canExecute(parameter);
+        }
+
+        public void Execute(object? parameter)
+        {
+            _execute(parameter);
+        }
     }
 }

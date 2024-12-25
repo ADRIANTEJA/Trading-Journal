@@ -2,6 +2,7 @@
 using LiveCharts;
 using LiveCharts.Wpf;
 using MainModule.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using UI.Common.Helpers;
+using UI.Events;
 using static MainModule.Common.Enums;
 
 namespace UI.Views;
@@ -18,6 +20,8 @@ namespace UI.Views;
 /// </summary>
 public partial class AccountView : UserControl
 {
+    private readonly IEventAggregator _eventAggregator;
+
     private static Func<ChartPoint, string> _performanceLabelFormatter;
 
     private static List<Color> existingColors = [];
@@ -27,6 +31,8 @@ public partial class AccountView : UserControl
     public AccountView()
     {
         InitializeComponent();
+
+        _eventAggregator = App.AppHost!.Services.GetRequiredService<IEventAggregator>();
 
         _performanceLabelFormatter = (point) =>
         {
@@ -268,4 +274,30 @@ public partial class AccountView : UserControl
         chartXAxis.MinValue = double.NaN;
         chartXAxis.MaxValue = double.NaN;
     }
+
+    private void OnAddAccountButtonLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (AccountViewModel)dataContextRef;
+        dataContext.Accounts.CollectionChanged += UpdateAddAccountButtonVisibiltyHandler;
+    }
+
+    private void UpdateAddAccountButtonVisibiltyHandler(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        var dataContext = (AccountViewModel)dataContextRef;
+
+        if (dataContext.Accounts.Count >= 5) add_account_button.Visibility = Visibility.Hidden;
+        else add_account_button.Visibility = Visibility.Visible;
+    }
+
+    private void OnAccountViewUnloadedHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (AccountViewModel)dataContextRef;
+        dataContext.Accounts.CollectionChanged -= UpdateAddAccountButtonVisibiltyHandler;
+    }
+
+    private void ChangeAccountButtonClickHandler(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<ChangeAccountClickEvent>().Publish();
+
+    private void OnDeleteAccountButtonClickHandler(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<DeleteAccountClickEvent>().Publish();
 }

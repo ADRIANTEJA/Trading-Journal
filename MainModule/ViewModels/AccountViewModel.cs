@@ -58,8 +58,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
         foreach (var account in tempDataReckords) Accounts.Add(account);
 
-        if (Accounts.Count > 0)
-            SelectedAccount = Accounts.First(account => account.IsSelected == 1);
+        if (Accounts.Count > 0) SelectedAccount = Accounts.First(account => account.IsSelected == 1);
     }
 
     [RelayCommand]
@@ -72,10 +71,12 @@ public partial class AccountViewModel : ObservableObject, IViewModel
             CurrentBalance = InitialBalanceVM,
         };
 
+        if (Accounts.Count == 0) newAccount.IsSelected = 1;
+
         try 
         {
             _accountAccess.InsertAccount(newAccount);
-            Accounts.Add(newAccount);
+            LoadAccounts();
             _eventAggregator.GetEvent<CreateAccountEvent>().Publish(true);
         }
         catch (SQLiteException) { _eventAggregator.GetEvent<CreateAccountEvent>().Publish(false); }   
@@ -92,6 +93,29 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         _eventAggregator = eventAggregator;
 
         _eventAggregator.GetEvent<StrategyUsageDataRequiredEvent>().Subscribe(OnRequestedTradesRecievedHandler);
+        _eventAggregator.GetEvent<SelectedAccountChangedEvent>().Subscribe(UpdateSelectedAccountHandler);
+        _eventAggregator.GetEvent<AccountDeletedEvent>().Subscribe(DeleteAccountHandler);
+    }
+
+    private void DeleteAccountHandler(int accountId)
+    {
+        if (SelectedAccount.Id == accountId && Accounts.Count > 1)
+        {
+            _accountAccess.DeleteAccount(accountId);
+            Accounts.Remove(Accounts.First(account => account.Id == accountId));
+            _accountAccess.UpdateAccountIsSelectedStatus(Accounts.First().Id, 1);
+        }
+        else  
+            _accountAccess.DeleteAccount(accountId);
+
+        LoadAccounts();
+    }
+
+    private void UpdateSelectedAccountHandler(int accountId)
+    {
+        if (_accountAccess.UpdateAccountIsSelectedStatus(SelectedAccount.Id, 0) == 1
+            && _accountAccess.UpdateAccountIsSelectedStatus(accountId, 1) == 1)
+        LoadAccounts();
     }
 
     private void OnRequestedTradesRecievedHandler(List<StrategyUsageDataBundle>? strategyUsageData)

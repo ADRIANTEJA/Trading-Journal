@@ -109,13 +109,13 @@ public partial class AddTradeWindow : Window
     {
         bool isValid = true;
 
-        if (string.IsNullOrEmpty(volume_field.Text))
+        if (string.IsNullOrEmpty(volume_field.Text) || double.Parse(volume_field.Text) == 0)
         {
             volume_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(open_price_field.Text))
+        if (string.IsNullOrEmpty(open_price_field.Text) || double.Parse(open_price_field.Text) == 0)
         {
             open_price_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;

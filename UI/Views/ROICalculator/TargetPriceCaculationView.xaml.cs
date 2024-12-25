@@ -101,21 +101,24 @@ public partial class TargetPriceCaculationView : Page
         bool isValid = true;
 
         if (!MiscFunctions.CheckInputIsNumeric(amount_field.Text)
-            || string.IsNullOrEmpty(amount_field.Text))
+            || string.IsNullOrEmpty(amount_field.Text)
+            || double.Parse(amount_field.Text) == 0)
         {
             amount_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
         if (!MiscFunctions.CheckInputIsNumeric(open_price_field.Text)
-            || string.IsNullOrEmpty(open_price_field.Text))
+            || string.IsNullOrEmpty(open_price_field.Text)
+            || double.Parse(open_price_field.Text) == 0)
         {
             open_price_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
         if (!MiscFunctions.CheckInputIsNumeric(ROI_field.Text)
-            || string.IsNullOrEmpty(ROI_field.Text))
+            || string.IsNullOrEmpty(ROI_field.Text)
+            || double.Parse(ROI_field.Text) == 0)
         {
             ROI_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;

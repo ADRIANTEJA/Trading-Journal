@@ -45,25 +45,25 @@ public partial class EditStrategyWindow : Window
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(risk_reward_ratio_field.Text))
+        if (string.IsNullOrEmpty(risk_reward_ratio_field.Text) || double.Parse(risk_reward_ratio_field.Text) == 0)
         {
             risk_reward_ratio_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(max_trade_risk_field.Text))
+        if (string.IsNullOrEmpty(max_trade_risk_field.Text) || double.Parse(max_trade_risk_field.Text) == 0)
         {
             max_trade_risk_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(daily_goal_field.Text))
+        if (string.IsNullOrEmpty(daily_goal_field.Text) || double.Parse(daily_goal_field.Text) == 0)
         {
             daily_goal_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(max_daily_loss_field.Text))
+        if (string.IsNullOrEmpty(max_daily_loss_field.Text) || double.Parse(max_daily_loss_field.Text) == 0)
         {
             max_daily_loss_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
@@ -82,6 +82,8 @@ public partial class EditStrategyWindow : Window
             return;
         }
 
+        string formerStrategyName = dataContext.SelectedStrategy.Name;
+
         var updatedStrategy = dataContext.SelectedStrategy;
         updatedStrategy.Name = name_field.Text;
 
@@ -95,7 +97,7 @@ public partial class EditStrategyWindow : Window
         updatedStrategy.DailyGoal = double.Parse(daily_goal_field.Text);
         updatedStrategy.MaxDailyLoss = double.Parse(max_daily_loss_field.Text);
 
-        dataContext.UpdateStrategyCommand.Execute(updatedStrategy);
+        dataContext.UpdateStrategyCommand.Execute(updatedStrategy, formerStrategyName);
 
         Close();
     }

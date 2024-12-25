@@ -6,6 +6,7 @@ using MainModule.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Windows;
 using MainModule.Common;
+using MainModule.Common.Utils;
 using API;
 
 namespace UI.Common.Helpers;

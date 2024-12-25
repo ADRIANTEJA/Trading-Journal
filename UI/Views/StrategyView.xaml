@@ -8,7 +8,8 @@
              xmlns:warningMessages="clr-namespace:UI.Controls.WarningMessages"
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
-             d:DesignWidth="1916">
+             d:DesignWidth="1916" 
+             Unloaded="OnStrategyViewUnloadedHandler" Loaded="OnStrategyViewLoaded">
 
     <Grid Background="{DynamicResource theme_background_brush}">
 
@@ -35,8 +36,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <strategyViewButtons:AddStrategyButton Command="{Binding Path=NavigationHelper.NavigateToAddStrategyCommand}" 
-                                                       Margin="5,0,0,0"/>
+                <strategyViewButtons:AddStrategyButton x:Name="add_strategy_button"
+                                                       Command="{Binding Path=NavigationHelper.NavigateToAddStrategyCommand}"
+                                                       Margin="5,0,0,0" 
+                                                       Loaded="OnStrategyViewLoadedHandler"/>
             </Grid>
         </Border>
 

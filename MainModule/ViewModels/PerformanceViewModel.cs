@@ -5,6 +5,7 @@ using MainModule.DataAccess;
 using MainModule.DataModel;
 using static MainModule.Common.Enums;
 using CommunityToolkit.Mvvm.Input;
+using API.Events;
 
 namespace MainModule.ViewModels;
 

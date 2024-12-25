@@ -148,7 +148,8 @@ public partial class App : Application
                 services.AddSingleton(provider => new PerformanceViewModel(provider.GetRequiredService<PerformanceAccess>(),
                                                                            provider.GetRequiredService<IEventAggregator>()));
 
-                services.AddSingleton(provider => new AnalysisNoteViewModel(provider.GetRequiredService<INavigationHelper>(),
+                services.AddSingleton(provider => new AnalysisNoteViewModel(provider.GetRequiredService<IEventAggregator>(),
+                                                                            provider.GetRequiredService<INavigationHelper>(),
                                                                             provider.GetRequiredService<StrategyViewModel>(),
                                                                             provider.GetRequiredService<AnalysisNoteAccess>()));
 

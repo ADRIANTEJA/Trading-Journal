@@ -2,6 +2,7 @@
 using API.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MainModule.Common.Utils;
 using MainModule.DataAccess;
 using MainModule.DataModel;
 using System.Collections.ObjectModel;
@@ -88,7 +89,7 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         try
         {
             _strategyAccess.InsertStrategy(newStrategy);
-            Strategies.Add(newStrategy);
+            LoadStrategies();
             _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(true);
         }
         catch (SQLiteException) { _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(false); }
@@ -106,11 +107,32 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         if (_strategyAccess.UpdateStrategyLostTrades(strategyName) > 0) LoadStrategies();
     }
 
-    [RelayCommand]
-    private void UpdateStrategy(Strategy updatedStrategy)
+    private IMultiParameterCommand updateStrategyCommand;
+
+    public IMultiParameterCommand UpdateStrategyCommand
     {
+        get
+        {
+            if (updateStrategyCommand == null)
+            {
+                updateStrategyCommand = new StrategyUpdateDelegateCommand(UpdateStrategy);
+            }
+            return updateStrategyCommand;
+        }
+    }
+
+    private void UpdateStrategy(object parameter1, object parameter2)
+    {
+        var updatedStrategy = (Strategy)parameter1;
+        string formerStrategyName = parameter2.ToString()!;
+
         _strategyAccess.UpdateStrategy(updatedStrategy);
-        _eventAggregator.GetEvent<StrategyUpdatedEvent>().Publish();
+
+        _eventAggregator.GetEvent<StrategyUpdatedEvent>().Publish(new()
+        {
+            NewStrategyName = updatedStrategy.Name,
+            FormerStrategyName = formerStrategyName
+        });
 
         LoadStrategies();
     }
@@ -127,7 +149,23 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         _eventAggregator.GetEvent<EditStrategyEvent>().Subscribe(OpenEditStrategyWindowHandler);
         _eventAggregator.GetEvent<SelectedStrategyItemChangedEvent>().Subscribe(UpdateSelectedStrategyHandler);
         _eventAggregator.GetEvent<StrategyPerformanceDataRequiredEvent>().Subscribe(ProcessStrategyPerformanceHandler);
+        _eventAggregator.GetEvent<DeleteStrategyClickEvent>().Subscribe(DeleteStrategyEventHandler);
     }
+
+    private void DeleteStrategyEventHandler(int strategyId)
+    {
+        var deletedStrategy = Strategies.First(strategy => strategy.Id == strategyId);
+
+        _eventAggregator.GetEvent<StrategyDeletedEvent>().Publish(new()
+        {
+            StrategyId = deletedStrategy.Id,
+            FormerStrategyName = deletedStrategy.Name
+        });
+
+        LoadStrategies();
+    }
+
+    public void DeleteStrategy(int strategyId) => _strategyAccess.DeleteStrategy(strategyId);
 
     private void OpenAnalysisNotesHandler()
     {

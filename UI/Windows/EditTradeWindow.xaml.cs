@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using UI.Common.Helpers;
 using UI.Common.Utils;
+using UI.Controls.Buttons.AccountView;
 
 namespace UI.Windows;
 /// <summary>
@@ -137,15 +138,21 @@ public partial class EditTradeWindow : Window
     {
         bool isValid = true;
 
-        if (string.IsNullOrEmpty(volume_field.Text))
+        if (string.IsNullOrEmpty(volume_field.Text) || double.Parse(volume_field.Text) == 0)
         {
             volume_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(open_price_field.Text))
+        if (string.IsNullOrEmpty(open_price_field.Text) || double.Parse(open_price_field.Text) == 0)
         {
             open_price_field.Tag = ResourceAccessHelper.ErrorRedBrush;
+            isValid = false;
+        }
+
+        if (double.Parse(close_price_field.Text) == 0)
+        {
+            close_price_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 

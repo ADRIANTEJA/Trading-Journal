@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using UI.Events;
 
 namespace UI.Controls.ScrollViewers.ListViewItems;
 /// <summary>
@@ -17,6 +18,11 @@ public partial class TradesListViewItem : Border
     {
         InitializeComponent();
         _eventAggregator = App.AppHost!.Services.GetRequiredService<IEventAggregator>();
+    }
+
+    private void OnTradeListViewItemLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        _eventAggregator.GetEvent<SelectAllTradesCheckBoxClickedEvent>().Subscribe(GlobalTradesSelectionChangedHandler);
     }
 
     private void OpenTradeImagesWindowHandler(object sender, RoutedEventArgs e) =>
@@ -78,5 +84,33 @@ public partial class TradesListViewItem : Border
     {
         if (!trade_risk_constraint_warning.IsMouseOver)
             trade_risk_constraint_warning.Visibility = Visibility.Hidden;
+    }
+
+    private void GlobalTradesSelectionChangedHandler(bool isChecked)
+    {
+        if (isChecked) trade_checkbox.IsChecked = true;
+        else trade_checkbox.IsChecked = false;
+    }
+
+    private void OnTradeCheckBoxCheckedHandler(object sender, RoutedEventArgs e)
+    {
+        var contextTrade = (Trade)DataContext;
+
+        _eventAggregator.GetEvent<TradeSelectionChangedEvent>().Publish(new()
+        {
+            TradeId = contextTrade.Id,
+            IsSelected = true
+        });
+    }
+
+    private void OnTradeCheckBoxUncheckedHandler(object sender, RoutedEventArgs e)
+    {
+        var contextTrade = (Trade)DataContext;
+
+        _eventAggregator.GetEvent<TradeSelectionChangedEvent>().Publish(new()
+        {
+            TradeId = contextTrade.Id,
+            IsSelected = false
+        });
     }
 }

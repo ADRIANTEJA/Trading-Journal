@@ -309,7 +309,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Symbol"
+                        <TextBlock Text="Filter"
                                    Style="{StaticResource base_textblock_style}"
                                    VerticalAlignment="Center"/>
 

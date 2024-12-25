@@ -11,7 +11,8 @@
         Height="160" 
         d:DesignWidth="1000" 
         MouseEnter="UpdateContextTradeHandler" 
-        Margin="0,0,10,10">
+        Margin="0,0,10,10" 
+        Loaded="OnTradeListViewItemLoadedHandler">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,9 +38,11 @@
         <Border Grid.ColumnSpan="10"
                 Background="{DynamicResource green_brush}"/>
 
-        <CheckBox Style="{StaticResource base_check_box_style}"
+        <CheckBox x:Name="trade_checkbox"
+                  Style="{StaticResource base_checkbox_style}"
                   VerticalAlignment="Center"
-                  HorizontalAlignment="Center"/>
+                  HorizontalAlignment="Center" 
+                  Checked="OnTradeCheckBoxCheckedHandler" Unchecked="OnTradeCheckBoxUncheckedHandler"/>
 
         <TextBlock Grid.Column="1"
                    Text="Status"

@@ -31,4 +31,12 @@ public partial class StrategyListViewItem : Border
         var contextStrategy = (Strategy)DataContext;
         _eventAggregator.GetEvent<SelectedStrategyItemChangedEvent>().Publish(contextStrategy);
     }
+
+    private void DeleteStrategyButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        var contextStrategy = (Strategy)DataContext;
+
+        _eventAggregator.GetEvent<DeleteStrategyClickEvent>().Publish(contextStrategy.Id);
+    }
+        
 }

@@ -78,5 +78,13 @@ public partial class SymbolViewModel : ObservableObject, IViewModel
         _symbolAccess = dataAccess;
         _navigationHelper = navigationHelper;
         _eventAggregator = eventAggregator;
+
+        _eventAggregator.GetEvent<DeleteSymbolClickEvent>().Subscribe(DeleteSymbolClickHandler);
+    }
+
+    private void DeleteSymbolClickHandler(int id)
+    {
+        _symbolAccess.DeleteSymbol(id);
+        LoadSymbols();
     }
 }

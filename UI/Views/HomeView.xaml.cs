@@ -2,6 +2,7 @@
 using LiveCharts;
 using LiveCharts.Wpf;
 using MainModule.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using UI.Events;
 using static MainModule.Common.Enums;
 
 namespace UI.Views;
@@ -17,15 +19,23 @@ namespace UI.Views;
 /// </summary>
 public partial class HomeView : UserControl
 {
+    private readonly IEventAggregator _eventAggregator;
+
     private static Func<ChartPoint, string> _performanceLabelFormatter;
 
-    private static List<Color> existingColors = [];
+    private List<Color> existingColors = [];
 
     private object dataContextRef;
+
+    private List<int> selectedTradesId = [];
 
     public HomeView()
     {
         InitializeComponent();
+
+        _eventAggregator = App.AppHost!.Services.GetRequiredService<IEventAggregator>();
+
+        _eventAggregator.GetEvent<TradeSelectionChangedEvent>().Subscribe(TradeSelectionChangedHandler);
 
         _performanceLabelFormatter = (point) =>
         {
@@ -236,5 +246,32 @@ public partial class HomeView : UserControl
         chartXAxis.MaxValue = double.NaN;
         chartXAxis.MinValue = double.NaN;
         chartXAxis.MaxValue = double.NaN;
+    }
+
+    private void OnSelectAllCheckBoxChecked(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<SelectAllTradesCheckBoxClickedEvent>().Publish(true);
+
+    private void OnSelectAllCheckBoxUnchecked(object sender, RoutedEventArgs e) =>
+        _eventAggregator.GetEvent<SelectAllTradesCheckBoxClickedEvent>().Publish(false);
+
+    private void TradeSelectionChangedHandler(TradeSelectionChangedDataBundle dataBundle)
+    {
+        if (dataBundle.IsSelected) selectedTradesId.Add(dataBundle.TradeId);
+        else selectedTradesId.Remove(dataBundle.TradeId);
+
+        if (selectedTradesId.Count > 0) delete_selected_trades_button.Visibility = Visibility.Visible;
+        else delete_selected_trades_button.Visibility = Visibility.Hidden;
+    }
+
+    private void OnDeleteSelectedTradesClickHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (HomeViewModel)DataContext;
+        
+        foreach(var id in selectedTradesId)
+        {
+            dataContext.DeleteTradeCommand.Execute(id);
+        }
+
+        select_all_checkbox.IsChecked = false;
     }
 }

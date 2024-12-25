@@ -50,8 +50,7 @@ public class TradeAccess
                            WHERE strategyName = @formerStrategyName";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        return connection.Execute(command, new { newStrategyName, formerStrategyName });
-
+        return connection.Execute(command, new { formerStrategyName, newStrategyName });
     }
 
     public int DeleteTrade(int id)

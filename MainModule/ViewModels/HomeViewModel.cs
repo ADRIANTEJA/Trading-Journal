@@ -267,6 +267,17 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         LoadTrades();
     }
 
+    [RelayCommand]
+    private void DeleteTrade(int id)
+    {
+        if (_tradeAccess.DeleteTrade(id) == 1)
+        {
+            var deletedTrade = Trades.Where(x => x.Id == id).FirstOrDefault();
+            
+            Trades.Remove(deletedTrade!);
+        }
+    }
+
     public HomeViewModel(AccountViewModel accountViewModel,
                          SymbolViewModel symbolViewModel,
                          StrategyViewModel strategyViewModel,
@@ -290,10 +301,25 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         _eventAggregator.GetEvent<LoadTradeCostsEvent>().Subscribe(OpenTradeCostsHandler);
         _eventAggregator.GetEvent<EditTradeEvent>().Subscribe(OpenEditTradeWindowHandler);
         _eventAggregator.GetEvent<StrategyDataRquiredIntermediaryEvent>().Subscribe(FireRequiredStrategyUsageDataEventHandler);
-        _eventAggregator.GetEvent<StrategyUpdatedEvent>().Subscribe(UpdateTradesStrategyNameHandler);
+        _eventAggregator.GetEvent<StrategyUpdatedEvent>().Subscribe(UpdateTradesStrategyNameEventHandler);
+        _eventAggregator.GetEvent<SelectedAccountUpdatedEvent>().Subscribe(SelectedAccountUpdatedEventHandler);
+        _eventAggregator.GetEvent<StrategyDeletedEvent>().Subscribe(DeletedStrategyEventHandler);
     }
 
-    private void UpdateTradesStrategyNameHandler() => LoadTrades();
+    private void DeletedStrategyEventHandler(StrategyDeletedDataBundle dataBundle)
+    {
+        var test = _tradeAccess.UpdateTradeStrategyName(dataBundle.FormerStrategyName, string.Empty);
+        StrategyViewModel.DeleteStrategy(dataBundle.StrategyId);
+        LoadTrades();
+    }
+    
+    private void SelectedAccountUpdatedEventHandler() => LoadTrades();
+
+    private void UpdateTradesStrategyNameEventHandler(StrategyUpdateDataBundle dataBundle)
+    {
+        _tradeAccess.UpdateTradeStrategyName(dataBundle.FormerStrategyName, dataBundle.NewStrategyName);
+        LoadTrades();
+    }
 
     private void FireRequiredStrategyUsageDataEventHandler()
     {

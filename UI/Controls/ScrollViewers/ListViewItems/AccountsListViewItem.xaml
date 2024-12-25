@@ -9,7 +9,8 @@
         CornerRadius="3"
         Height="80" 
         d:DesignWidth="800"
-        Margin="0,0,10,10">
+        Margin="0,0,10,10" 
+        Unloaded="OnAccountsListViewItemUnloadedHandler">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -56,5 +57,11 @@
                    Text="{Binding Path=CurrentBalance}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
+
+        <Border x:Name="event_receptor_helper"
+                Grid.ColumnSpan="3"
+                Background="Transparent"
+                Grid.RowSpan="3"
+                Panel.ZIndex="1"/>
     </Grid>
 </Border>

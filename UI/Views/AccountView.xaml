@@ -12,7 +12,8 @@
              d:DesignHeight="1020"
              d:DesignWidth="1916"
              Background="Transparent" 
-             Loaded="OnAccountViewLoadedHandler">
+             Loaded="OnAccountViewLoadedHandler" 
+             Unloaded="OnAccountViewUnloadedHandler">
 
     <UserControl.Resources>
 
@@ -122,12 +123,16 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <accountViewButtons:AddAccountButton Margin="5"
-                                                     Command="{Binding Path=MainNavigationHelper.NavigateToAddAccountCommand}"/>
+                <accountViewButtons:AddAccountButton x:Name="add_account_button"
+                                                     Margin="5"
+                                                     Command="{Binding Path=MainNavigationHelper.NavigateToAddAccountCommand}" 
+                                                     Loaded="OnAddAccountButtonLoadedHandler"/>
                 <accountViewButtons:ChangeAccountButton Grid.Column="1"
-                                                        Margin="5"/>
+                                                        Margin="5" 
+                                                        Click="ChangeAccountButtonClickHandler"/>
                 <accountViewButtons:DeleteAccountButton Grid.Column="2"
-                                                        Margin="5"/>
+                                                        Margin="5" 
+                                                        Click="OnDeleteAccountButtonClickHandler"/>
             </Grid>
         </Border>
 

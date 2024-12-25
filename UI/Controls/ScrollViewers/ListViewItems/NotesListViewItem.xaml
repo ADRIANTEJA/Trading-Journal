@@ -23,6 +23,7 @@
                    VerticalAlignment="Center"/>
 
         <commonButtons:DeleteItemButton Grid.Column="1" 
-                                        Margin="13,0,14,0"/>
+                                        Margin="13,0,14,0" 
+                                        Click="OnDeleteNoteButtonClickHandler"/>
     </Grid>
 </Border>

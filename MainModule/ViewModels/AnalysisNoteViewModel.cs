@@ -1,4 +1,5 @@
 ﻿using API;
+using API.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MainModule.DataAccess;
@@ -9,6 +10,8 @@ namespace MainModule.ViewModels;
 
 public partial class AnalysisNoteViewModel : ObservableObject, IViewModel
 {
+    private readonly IEventAggregator _eventAggregator;
+
     private readonly INavigationHelper _navigationHelper;
 
     public INavigationHelper NavigationHelper => _navigationHelper;
@@ -28,13 +31,11 @@ public partial class AnalysisNoteViewModel : ObservableObject, IViewModel
     public ObservableCollection<AnalysisNote> AnalysisNotes { get; } = [];
 
     [RelayCommand]
-    private void LoadAnalysisNotes(object strategy)
+    private void LoadAnalysisNotes(int id)
     {
         AnalysisNotes.Clear();
 
-        var castedStrategy = (Strategy)strategy;
-
-        var tempDataReckords = _noteAccess.QueryStrategyAnalysisNotesAsync(castedStrategy.Id).Result;
+        var tempDataReckords = _noteAccess.QueryStrategyAnalysisNotesAsync(id).Result;
 
         foreach (var note in tempDataReckords) AnalysisNotes.Add(note);
     }
@@ -53,12 +54,22 @@ public partial class AnalysisNoteViewModel : ObservableObject, IViewModel
         AnalysisNotes.Add(newNote);
     }
 
-    public AnalysisNoteViewModel(INavigationHelper navigationHelper,
+    public AnalysisNoteViewModel(IEventAggregator eventAggregator,
+                                 INavigationHelper navigationHelper,
                                  StrategyViewModel strategyViewModel,
                                  AnalysisNoteAccess noteAccess)
     {
+        _eventAggregator = eventAggregator;
         _navigationHelper = navigationHelper;
         _strategyViewModel = strategyViewModel;
         _noteAccess = noteAccess;
+
+        _eventAggregator.GetEvent<DeleteNoteClickEvent>().Subscribe(OnDeleteNoteClickHandler);
+    }
+
+    private void OnDeleteNoteClickHandler(int id)
+    {
+        _noteAccess.DeleteTradeNote(id);
+        LoadAnalysisNotes(StrategyViewModel.SelectedStrategy.Id);
     }
 }

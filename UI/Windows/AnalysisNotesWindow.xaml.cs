@@ -26,7 +26,7 @@ public partial class AnalysisNotesWindow : Window
     private void OnAnlylisisNotesWindowLoaded(object sender, RoutedEventArgs e)
     {
         var dataContext = (AnalysisNoteViewModel)DataContext;
-        dataContext.LoadAnalysisNotesCommand.Execute(dataContext.StrategyViewModel.SelectedStrategy);
+        dataContext.LoadAnalysisNotesCommand.Execute(dataContext.StrategyViewModel.SelectedStrategy.Id);
     }
 
 }

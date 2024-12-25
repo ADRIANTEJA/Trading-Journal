@@ -41,8 +41,18 @@ public class AccountAccess
                            SET name = @newName
                            WHERE id = @id";
 
-        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_settings"]);
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         return connection.Execute(command, new { id, newName });
+    }
+
+    public int UpdateAccountIsSelectedStatus(int id, int isSelected)
+    {
+        string command = @"UPDATE Account
+                           SET isSelected = @isSelected
+                           WHERE id = @id";
+
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(command, new { id, isSelected });
     }
 
     public int DeleteAccount(int id)

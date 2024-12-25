@@ -117,7 +117,10 @@ public class TradeDataAccessTests
     [Fact]
     public void UpdateTradeStrategyName_shouldUpdate()
     {
-        Assert.True(dataAccess.UpdateTradeStrategyName("test Strategy", "newStrategyName") > 0);
+        int expected = 1;
+        int actual = dataAccess.UpdateTradeStrategyName("test Strategy", string.Empty);
+
+        Assert.Equal(expected, actual);
     }
 
     [Fact]

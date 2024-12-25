@@ -127,6 +127,7 @@
 
         <commonButtons:DeleteItemButton Grid.Column="4"
                                         Grid.Row="1" 
-                                        Margin="34,0,34,0"/>
+                                        Margin="34,0,34,0" 
+                                        Click="DeleteStrategyButtonClickHandler"/>
     </Grid>
 </Border>

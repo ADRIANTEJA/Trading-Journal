@@ -6,6 +6,7 @@
              xmlns:charts="clr-namespace:UI.Controls.Charts.AccountView"
              xmlns:liveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
+             xmlns:commonButtons="clr-namespace:UI.Controls.Buttons.Common"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
@@ -15,7 +16,7 @@
     <UserControl.Resources>
         <Storyboard x:Key="show_symbol_categories_storyboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_category_display_control" Storyboard.TargetProperty="(FrameworkElement.Width)">
-                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="900">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="960">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseInOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
@@ -24,7 +25,7 @@
         </Storyboard>
         <Storyboard x:Key="hide_symbol_categories_storyboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="symbol_category_display_control" Storyboard.TargetProperty="(FrameworkElement.Width)">
-                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="90">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="152">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseInOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
@@ -204,13 +205,22 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <commonButtons:DeleteItemButton x:Name="delete_selected_trades_button"
+                                                Visibility="Hidden"
+                                                Margin="1112,0,10,0" 
+                                                Width="32" 
+                                                Height="32" 
+                                                Click="OnDeleteSelectedTradesClickHandler"/>
+
                 <Grid x:Name="symbol_category_display_control"
+                      Grid.ColumnSpan="2"
                       Grid.RowSpan="2"
                       Panel.ZIndex="1"
-                      Width="100"
+                      Width="152"
                       HorizontalAlignment="Left">
 
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="56"/>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="121"/>
                         <ColumnDefinition Width="121"/>
@@ -226,14 +236,22 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
+                    <CheckBox x:Name="select_all_checkbox"
+                              Style="{StaticResource base_checkbox_style}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center" 
+                              Checked="OnSelectAllCheckBoxChecked" 
+                              Unchecked="OnSelectAllCheckBoxUnchecked"/>
+
                     <Button x:Name="expand_symbol_category_button"
+                            Grid.Column="1"
                             Style="{StaticResource symbol_category_button_expand_style}"
                             Tag="1"
                             Width="90"
                             Click="ShowSymbolCategoryHandler"/>
 
                     <Border x:Name="crypto_expander"
-                            Grid.Column="1"
+                            Grid.Column="2"
                             Grid.RowSpan="2"
                             Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
@@ -282,7 +300,7 @@
                     </Border>
 
                     <Border x:Name="forex_expander"
-                            Grid.Column="2"
+                            Grid.Column="3"
                             Grid.RowSpan="2"
                             Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
@@ -328,7 +346,7 @@
                     </Border>
 
                     <Border x:Name="indices_expander"
-                            Grid.Column="3"
+                            Grid.Column="4"
                             Grid.RowSpan="2"
                             Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
@@ -377,7 +395,7 @@
                     </Border>
 
                     <Border x:Name="etfs_expander"
-                            Grid.Column="4"
+                            Grid.Column="5"
                             Grid.RowSpan="2"
                             Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
@@ -426,7 +444,7 @@
                     </Border>
 
                     <Border x:Name="stocks_expander"
-                            Grid.Column="5"
+                            Grid.Column="6"
                             Grid.RowSpan="2"
                             Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
@@ -475,7 +493,7 @@
                     </Border>
 
                     <Border x:Name="commodities_expander"
-                            Grid.Column="6"
+                            Grid.Column="7"
                             Grid.RowSpan="2"
                             Style="{StaticResource selector_border_style}"
                             Background="{DynamicResource theme_control_wrapper_background_brush}"
