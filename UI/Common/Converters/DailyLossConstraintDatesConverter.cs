@@ -2,7 +2,6 @@
 using MainModule.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
 using UI.Common.Utils;
 
@@ -24,14 +23,14 @@ public class DailyLossConstraintDatesConverter : IValueConverter
         if (contextStrategy != null)
         {
             var trades = (from trade in App.AppHost!.Services.GetRequiredService<HomeViewModel>().Trades
-                          where trade.StrategyName != null
+                          where !string.IsNullOrEmpty(trade.StrategyName)
                           && trade.IsOpen == 0
                           && trade.StrategyName == contextStrategy.Name
                           && !MiscFunctions.IsWonTrade(trade)
                           select new TradeDataBundle
                           {
-                              CloseDateTicks = (long)trade.CloseDate!,
-                              ROI = (double)trade.Roi!
+                              CloseDateTicks = trade.CloseDate!.Value,
+                              ROI = trade.Roi!.Value
                           }).ToList();
 
             var stringDates = trades

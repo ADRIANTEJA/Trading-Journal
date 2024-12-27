@@ -22,4 +22,17 @@ public static class Enums
         Monthly,
         Yearly
     }
+
+    public enum FilterKey
+    {
+        Win,
+        Loss,
+        Open,
+        Short,
+        Long,
+        OpenDate,
+        CloseDate,
+        Symbol,
+    }
+
 }

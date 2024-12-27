@@ -7,6 +7,9 @@
              xmlns:liveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
              xmlns:commonButtons="clr-namespace:UI.Controls.Buttons.Common"
+             xmlns:calculatorButtons="clr-namespace:UI.Controls.Buttons.CalculatorWindow"
+             xmlns:homeViewButtons="clr-namespace:UI.Controls.Buttons.HomeView"
+             xmlns:accountViewButtons="clr-namespace:UI.Controls.Buttons.AccountView"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="1020" 
@@ -140,6 +143,26 @@
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
+        <Style x:Key="expander_option_list_items_style" 
+               TargetType="{x:Type ListView}"
+               BasedOn="{StaticResource base_listview_style}">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Button Content="{Binding Path=Pair}"
+                                            Style="{StaticResource text_buttons_style}" 
+                                            Click="SymbolFilterButtonClickHandler"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid Background="{DynamicResource theme_background_brush}">
@@ -202,6 +225,7 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"/>
+                    <RowDefinition Height="38"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -212,9 +236,72 @@
                                                 Height="32" 
                                                 Click="OnDeleteSelectedTradesClickHandler"/>
 
+                <Grid Grid.Row="1" Margin="18,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105"/>
+                        <ColumnDefinition Width="105"/>
+                        <ColumnDefinition Width="105"/>
+                        <ColumnDefinition Width="105"/>
+                        <ColumnDefinition Width="105"/>
+                        <ColumnDefinition Width="105"/>
+                        <ColumnDefinition Width="37"/>
+                        <ColumnDefinition Width="105"/>
+                        <ColumnDefinition Width="42"/>
+                        <ColumnDefinition Width="37"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <homeViewButtons:WinFilterButton x:Name="win_filter_button"
+                                                     Margin="0,0,5,0" 
+                                                     Click="StatusFilterButtonClickHandler"/>
+                    <homeViewButtons:LossFilterButton x:Name="loss_filter_button"
+                                                      Grid.Column="1"
+                                                      Margin="0,0,5,0"
+                                                      Click="StatusFilterButtonClickHandler"/>
+                    <homeViewButtons:OpenFilterButton x:Name="open_filter_button"
+                                                      Grid.Column="2"
+                                                      Margin="0,0,5,0"
+                                                      Click="StatusFilterButtonClickHandler"/>
+    
+                    <calculatorButtons:LongButton x:Name="long_filter_button"
+                                                  Grid.Column="3"
+                                                  Margin="0,0,5,0"
+                                                  Click="SideFilterButtonClickHandler"/>
+                    <calculatorButtons:ShortButton x:Name="short_filter_button" 
+                                                   Grid.Column="4" 
+                                                   Margin="0,0,5,0"
+                                                   Click="SideFilterButtonClickHandler"/>
+
+                    <TextBlock Grid.Column="5"
+                               Text="Open Date"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"/>
+
+                    <DatePicker x:Name="open_date_filter_picker"
+                                Style="{StaticResource filter_date_picker_style}"
+                                Grid.Column="6" 
+                                SelectedDateChanged="FilterDateChangedHandler"/>
+
+                    <TextBlock Grid.Column="7"
+                               Text="Close Date"
+                               Style="{StaticResource base_textblock_style}"
+                               VerticalAlignment="Center"/>
+
+                    <DatePicker x:Name="close_date_filter_picker"
+                                Style="{StaticResource filter_date_picker_style}"
+                                Grid.Column="8" 
+                                Margin="0,0,5,0"
+                                SelectedDateChanged="FilterDateChangedHandler"/>
+
+                    <accountViewButtons:ResetButton x:Name="reset_filters_button"
+                                                    Grid.Column="9"
+                                                    Margin="0,0,5,0" 
+                                                    Click="ResetFilterButtonClickHandler"/>
+                </Grid>
+
                 <Grid x:Name="symbol_category_display_control"
                       Grid.ColumnSpan="2"
-                      Grid.RowSpan="2"
+                      Grid.RowSpan="3"
                       Panel.ZIndex="1"
                       Width="152"
                       HorizontalAlignment="Left">
@@ -289,12 +376,13 @@
                                       IsSynchronizedWithCurrentItem="True"
                                       Style="{StaticResource expander_option_list_items_style}">
 
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding}"
-                                                Style="{StaticResource text_buttons_style}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                <ListView.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource filter_category_converter}"
+                                                  ConverterParameter="Crypto">
+                                        <Binding Path="SymbolViewModel.Symbols"/>
+                                        <Binding Path="SymbolViewModel.Symbols.Count"/>
+                                    </MultiBinding>
+                                </ListView.ItemsSource>
                             </ListView>
                         </Grid>
                     </Border>
@@ -335,12 +423,13 @@
                                       ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                       Style="{StaticResource expander_option_list_items_style}">
 
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding}"
-                                                Style="{StaticResource text_buttons_style}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                <ListView.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource filter_category_converter}"
+                                                  ConverterParameter="Forex">
+                                        <Binding Path="SymbolViewModel.Symbols"/>
+                                        <Binding Path="SymbolViewModel.Symbols.Count"/>
+                                    </MultiBinding>
+                                </ListView.ItemsSource>
                             </ListView>
                         </Grid>
                     </Border>
@@ -384,12 +473,13 @@
                                       IsSynchronizedWithCurrentItem="True"
                                       Style="{StaticResource expander_option_list_items_style}">
 
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding}"
-                                                Style="{StaticResource text_buttons_style}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                <ListView.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource filter_category_converter}"
+                                                  ConverterParameter="Indices">
+                                        <Binding Path="SymbolViewModel.Symbols"/>
+                                        <Binding Path="SymbolViewModel.Symbols.Count"/>
+                                    </MultiBinding>
+                                </ListView.ItemsSource>
                             </ListView>
                         </Grid>
                     </Border>
@@ -433,12 +523,13 @@
                                       IsSynchronizedWithCurrentItem="True"
                                       Style="{StaticResource expander_option_list_items_style}">
 
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding}"
-                                                Style="{StaticResource text_buttons_style}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                <ListView.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource filter_category_converter}"
+                                                  ConverterParameter="Etf">
+                                        <Binding Path="SymbolViewModel.Symbols"/>
+                                        <Binding Path="SymbolViewModel.Symbols.Count"/>
+                                    </MultiBinding>
+                                </ListView.ItemsSource>
                             </ListView>
                         </Grid>
                     </Border>
@@ -482,12 +573,13 @@
                                       IsSynchronizedWithCurrentItem="True"
                                       Style="{StaticResource expander_option_list_items_style}">
 
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding}"
-                                                Style="{StaticResource text_buttons_style}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                <ListView.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource filter_category_converter}"
+                                                  ConverterParameter="Stock">
+                                        <Binding Path="SymbolViewModel.Symbols"/>
+                                        <Binding Path="SymbolViewModel.Symbols.Count"/>
+                                    </MultiBinding>
+                                </ListView.ItemsSource>
                             </ListView>
                         </Grid>
                     </Border>
@@ -531,19 +623,20 @@
                                       IsSynchronizedWithCurrentItem="True"
                                       Style="{StaticResource expander_option_list_items_style}">
 
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding}"
-                                                Style="{StaticResource text_buttons_style}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                <ListView.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource filter_category_converter}"
+                                                  ConverterParameter="Commodities">
+                                        <Binding Path="SymbolViewModel.Symbols"/>
+                                        <Binding Path="SymbolViewModel.Symbols.Count"/>
+                                    </MultiBinding>
+                                </ListView.ItemsSource>
                             </ListView>
                         </Grid>
                     </Border>
                 </Grid>
 
                 <ListView x:Name="trades_listview"
-                          Grid.Row="1"
+                          Grid.Row="2"
                           Style="{StaticResource base_listview_style}"
                           ItemContainerStyle="{StaticResource trades_listview_item_style}"
                           ItemsSource="{Binding Path=Trades}" 

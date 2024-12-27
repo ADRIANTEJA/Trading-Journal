@@ -64,6 +64,7 @@
     <None Remove="Common\Resources\Assets\Icons\russian_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\spanish_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\warning_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\yellow_warning_icon.png" />
     <None Remove="DataBase.db" />
   </ItemGroup>
 
@@ -145,6 +146,7 @@
     <Resource Include="Common\Resources\Assets\Icons\russian_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\spanish_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\warning_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\yellow_warning_icon.png" />
   </ItemGroup>
 
   <ItemGroup>

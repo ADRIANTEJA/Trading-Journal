@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using UI.Events;
+using UI.Windows;
 
 namespace UI.Controls.ScrollViewers.ListViewItems;
 /// <summary>
@@ -27,6 +28,7 @@ public partial class AccountsListViewItem : Border
 
     private void DeleteAccountClickHandler()
     {
+        event_receptor_helper.MouseDown -= ChangeSelectedAccountClickHandler;
         event_receptor_helper.MouseDown += AccountDeletedClickHandler;
         event_receptor_helper.MouseEnter += OnAccountItemMouseEnterHandler;
         event_receptor_helper.MouseLeave += OnAccountItemMouseLeaveHandler;
@@ -39,11 +41,13 @@ public partial class AccountsListViewItem : Border
     {
         var contextAccount = (Account)DataContext;
 
-        _eventAggregator.GetEvent<AccountDeletedEvent>().Publish(contextAccount.Id);
+        var deleteAccountWarningWindow = new DeleteAccountWarningWindow(contextAccount.Id);
+        deleteAccountWarningWindow.ShowDialog();
     }
 
     private void SelectAccountClickHandler()
     {
+        event_receptor_helper.MouseDown -= AccountDeletedClickHandler;
         event_receptor_helper.MouseDown += ChangeSelectedAccountClickHandler;
         event_receptor_helper.MouseEnter += OnAccountItemMouseEnterHandler;
         event_receptor_helper.MouseLeave += OnAccountItemMouseLeaveHandler;

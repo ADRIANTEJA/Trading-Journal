@@ -1,4 +1,6 @@
 ﻿using MainModule.Common;
+using MainModule.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -167,5 +169,24 @@ public partial class MainWindow : Window
     {
         var dataContext = (MainNavigationHelper)DataContext;
         dataContext.NavigateToHomeCommand.Execute(null);
+    }
+
+    private void NavigateToAddTradeButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (MainNavigationHelper)DataContext;
+
+        try
+        {
+            if(App.AppHost!.Services.GetRequiredService<AccountViewModel>().Accounts.Count == 0)
+            {
+                var noAccountCreatedPromptWindow = new NoAccountCreatedPromptWindow();
+                noAccountCreatedPromptWindow.ShowDialog();
+            }
+            else dataContext.NavigateToAddTradeCommand.Execute(null);
+        }
+        catch (InvalidOperationException ex) when (ex.Message.Contains("No service for type 'AccountViewModel'"))
+        {
+
+        }
     }
 }

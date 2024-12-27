@@ -3,7 +3,9 @@ using MainModule.DataModel;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using UI.Common.Converters;
 using UI.Events;
 
 namespace UI.Controls.ScrollViewers.ListViewItems;
@@ -112,5 +114,26 @@ public partial class TradesListViewItem : Border
             TradeId = contextTrade.Id,
             IsSelected = false
         });
+    }
+
+    private void OnDailyGoalWarningMouseEnterHandler(object sender, MouseEventArgs e)
+    {
+        daily_goal_constraint_warning.Visibility = Visibility.Visible;
+    }
+
+    private void OnDailyGoalWarningMouseLeaveHandler(object sender, MouseEventArgs e)
+    {
+        if (!daily_goal_constraint_warning.IsMouseOver)
+            daily_goal_constraint_warning.Visibility = Visibility.Hidden;
+    }
+
+    private void DailyGoalWarningIconLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        //var binding = new Binding("DataContext")
+        //{
+        //    Converter = new DailyGoalConstraintVisibilityConverter()
+        //};
+        
+        //daily_goal_warning_icon.SetBinding(Image.VisibilityProperty, binding);
     }
 }

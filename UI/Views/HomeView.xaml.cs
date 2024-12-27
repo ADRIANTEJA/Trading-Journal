@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using UI.Common.Helpers;
 using UI.Events;
 using static MainModule.Common.Enums;
 
@@ -273,5 +274,123 @@ public partial class HomeView : UserControl
         }
 
         select_all_checkbox.IsChecked = false;
+    }
+
+    private void StatusFilterButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (HomeViewModel)DataContext;
+        var senderRef = (Button)sender;
+        
+        switch (senderRef.Name)
+        {
+            case "win_filter_button":
+                ResetStatusFilterButtonsBackground();
+                win_filter_button.Background = ResourceAccessHelper.GreenBrushRef;
+                dataContext.FilterTradesCommand.Execute(FilterKey.Win, null);
+                break;
+            case "loss_filter_button":
+                ResetStatusFilterButtonsBackground();
+                loss_filter_button.Background = ResourceAccessHelper.SalmonBrushRef;
+                dataContext.FilterTradesCommand.Execute(FilterKey.Loss, null);
+                break;
+            case "open_filter_button":
+                ResetStatusFilterButtonsBackground();
+                open_filter_button.Background = ResourceAccessHelper.WarningYellowBrush;
+                dataContext.FilterTradesCommand.Execute(FilterKey.Open, null);
+                break;
+        }
+    }
+
+    private void ResetStatusFilterButtonsBackground()
+    {
+        win_filter_button.Background = null;
+        loss_filter_button.Background = null;
+        open_filter_button.Background = null;
+
+        win_filter_button.IsEnabled = false;
+        loss_filter_button.IsEnabled = false;
+        open_filter_button.IsEnabled = false;
+    }
+
+    private void SideFilterButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (HomeViewModel)DataContext;
+        var senderRef = (Button)sender;
+
+        switch (senderRef.Name)
+        {
+            case "long_filter_button":
+                ResetSideFilterButtonsBackground();
+                long_filter_button.Background = ResourceAccessHelper.GreenBrushRef;
+                dataContext.FilterTradesCommand.Execute(FilterKey.Long, null);
+                break;
+            case "short_filter_button":
+                ResetSideFilterButtonsBackground();
+                short_filter_button.Background = ResourceAccessHelper.SalmonBrushRef;
+                dataContext.FilterTradesCommand.Execute(FilterKey.Short, null);
+                break;
+        }
+    }
+
+    private void ResetSideFilterButtonsBackground()
+    {
+        long_filter_button.Background = null;
+        short_filter_button.Background = null;
+
+        long_filter_button.IsEnabled = false;
+        short_filter_button.IsEnabled = false; 
+    }
+
+    private void ResetFilterButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (HomeViewModel)DataContext;
+
+        win_filter_button.Background = null;
+        loss_filter_button.Background = null;
+        open_filter_button.Background = null;
+        long_filter_button.Background = null;
+        short_filter_button.Background = null;
+
+        win_filter_button.IsEnabled = true;
+        loss_filter_button.IsEnabled = true;
+        open_filter_button.IsEnabled = true;
+        long_filter_button.IsEnabled = true;
+        short_filter_button.IsEnabled = true;
+
+        open_date_filter_picker.SelectedDate = null;
+        close_date_filter_picker.SelectedDate = null;
+
+        dataContext.LoadTradesCommand.Execute(null);
+    }
+
+    private void SymbolFilterButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        var senderRef = (Button)sender;
+
+        var dataContext = (HomeViewModel)DataContext;
+        dataContext.FilterTradesCommand.Execute(FilterKey.Symbol ,senderRef.Content);
+    }
+
+    private void FilterDateChangedHandler(object sender, SelectionChangedEventArgs e)
+    {
+        var senderRef = (DatePicker)sender;
+
+        switch(senderRef.Name)
+        {
+            case "open_date_filter_picker":
+                if (open_date_filter_picker.SelectedDate != null)
+                {
+                    var dataContext = (HomeViewModel)DataContext;
+                    dataContext.FilterTradesCommand.Execute(FilterKey.OpenDate, open_date_filter_picker.SelectedDate.Value.Ticks);
+                }
+                break;
+            case "close_date_filter_picker":
+                if (close_date_filter_picker.SelectedDate != null)
+                {
+                    var dataContext = (HomeViewModel)DataContext;
+                    dataContext.FilterTradesCommand.Execute(FilterKey.CloseDate, close_date_filter_picker.SelectedDate.Value.Ticks);
+                }
+                break;
+        }
     }
 }

@@ -2,11 +2,13 @@
 using API.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MainModule.Common.Utils;
 using MainModule.DataAccess;
 using MainModule.DataModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SQLite;
+using static MainModule.Common.Enums;
 
 namespace MainModule.ViewModels;
 
@@ -95,8 +97,9 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
         if (_accountViewModel.SelectedAccount != null)
         {
-            var tempDataReckords =
-                _tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id).Result;
+            var tempDataReckords = _tradeAccess.QueryAccountTradesAsync(_accountViewModel.SelectedAccount.Id)
+                .Result
+                .OrderBy(trade => trade.OpenDate);
 
             foreach (var trade in tempDataReckords) Trades.Add(trade);
 
@@ -238,7 +241,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     {
         if (updatedTrade.IsOpen == 0)
         {
-            _performanceViewModel.DeletePerformanceByDate((long)updatedTrade.CloseDate!);
+            _performanceViewModel.DeletePerformanceByDate(updatedTrade.CloseDate!.Value);
 
             var updatedPerformance = new Performance
             {
@@ -247,7 +250,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                 ROI = CalculateReturnOnInvestment(updatedTrade.IsLong,
                                                   updatedTrade.Volume,
                                                   updatedTrade.OpenPrice,
-                                                  (double)updatedTrade.ClosePrice!,
+                                                  updatedTrade.ClosePrice!.Value,
                                                   updatedTrade.Swap,
                                                   updatedTrade.Spread,
                                                   updatedTrade.Commission,
@@ -275,6 +278,65 @@ public partial class HomeViewModel : ObservableObject, IViewModel
             var deletedTrade = Trades.Where(x => x.Id == id).FirstOrDefault();
             
             Trades.Remove(deletedTrade!);
+        }
+    }
+
+    private IMultiParameterCommand filterTradesCommand;
+
+    public IMultiParameterCommand FilterTradesCommand
+    {
+        get
+        {
+            if (filterTradesCommand == null)
+            {
+                filterTradesCommand = new StrategyUpdateDelegateCommand(FilterTrades);
+            }
+            return filterTradesCommand;
+        }
+    }
+
+    private void FilterTrades(object filterKey, object? filterData)
+    {
+        var key = (FilterKey)filterKey;
+
+        switch (filterKey)
+        {
+            case FilterKey.Win:
+                RemoveLeftOverTrades(Trades.Where(Trade => !IsWonTrade(Trade)).ToList());
+                break;
+            case FilterKey.Loss:
+                RemoveLeftOverTrades(Trades.Where(IsWonTrade).ToList());
+                break;
+            case FilterKey.Open:
+                RemoveLeftOverTrades(Trades.Where(Trade => Trade.IsOpen == 0).ToList());
+                break;
+            case FilterKey.Long:
+                RemoveLeftOverTrades(Trades.Where(Trade => Trade.IsLong == 0).ToList());
+                break;
+            case FilterKey.Short:
+                RemoveLeftOverTrades(Trades.Where(Trade => Trade.IsLong == 1).ToList());
+                break;
+            case FilterKey.OpenDate:
+                if (filterData == null) return;
+
+                RemoveLeftOverTrades(Trades
+                    .Where(Trade => new DateTime(Trade.OpenDate).ToString("dd/MM/yyyy") 
+                                    != new DateTime((long)filterData).ToString("dd/MM/yyyy")).ToList());
+                break;
+            case FilterKey.CloseDate:
+                if (filterData == null) return;
+
+                RemoveLeftOverTrades(Trades
+                    .Where(Trade => Trade.CloseDate != null
+                                    && new DateTime(Trade.CloseDate!.Value).ToString("dd/MM/yyyy")
+                                    != new DateTime((long)filterData).ToString("dd/MM/yyyy")).ToList());
+                break;
+            case FilterKey.Symbol:
+                if (filterData == null) return;
+
+                RemoveLeftOverTrades(Trades
+                    .Where(Trade => Trade.PairTraded != filterData.ToString()).ToList());
+                break;
         }
     }
 
@@ -472,4 +534,21 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
         return false;
     }
+
+    private void RemoveLeftOverTrades(List<Trade> leftOverTrades)
+    {
+        foreach(var trade in leftOverTrades) Trades.Remove(trade);
+    }
+
+    //private int IsDailyGoalAchieved(Trade closedTrade)
+    //{
+    //    var closeDate = new DateTime(closedTrade.CloseDate!.Value).Date.Ticks;
+
+    //    foreach (var trade in Trades)
+    //    {
+    //        var tradeCloseDate = new DateTime(trade.CloseDate!.Value).Date.Ticks;
+
+    //        if (trade.)
+    //    }
+    //}
 }

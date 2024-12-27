@@ -1,0 +1,20 @@
+﻿<Border x:Class="UI.Controls.WarningMessages.DailyGoalConstraintAchieved"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:UI.Controls.WarningMessages"
+        mc:Ignorable="d" 
+        Background="{DynamicResource theme_background_brush}"
+        BorderBrush="{StaticResource theme_font_brush}"
+        BorderThickness="1"
+        Height="70" 
+        Width="250">
+
+    <TextBlock Text="Risk management plan daily goal achieved overtrading is not recommended"
+           TextWrapping="Wrap"
+           Style="{StaticResource base_textblock_style}"
+           Foreground="{StaticResource warning_yellow_brush}"
+           VerticalAlignment="Center"
+           Margin="5"/>
+</Border>

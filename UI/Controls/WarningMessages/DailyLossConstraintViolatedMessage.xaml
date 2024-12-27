@@ -28,5 +28,6 @@
                   Style="{StaticResource daily_loss_violation_dates_listView_style}"
                   Margin="5"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+        
     </Grid>
 </Border>

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using UI.Windows;
 
 namespace UI.Controls.ScrollViewers.ListViewItems;
 /// <summary>
@@ -36,7 +37,8 @@ public partial class StrategyListViewItem : Border
     {
         var contextStrategy = (Strategy)DataContext;
 
-        _eventAggregator.GetEvent<DeleteStrategyClickEvent>().Publish(contextStrategy.Id);
+        var deleteStrategyWarningWindow = new DeleteStrategyWarningWindow(contextStrategy.Id);
+        deleteStrategyWarningWindow.ShowDialog();
     }
         
 }

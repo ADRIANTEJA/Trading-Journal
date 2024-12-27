@@ -105,8 +105,7 @@ public partial class AccountViewModel : ObservableObject, IViewModel
             Accounts.Remove(Accounts.First(account => account.Id == accountId));
             _accountAccess.UpdateAccountIsSelectedStatus(Accounts.First().Id, 1);
         }
-        else  
-            _accountAccess.DeleteAccount(accountId);
+        else _accountAccess.DeleteAccount(accountId);
 
         LoadAccounts();
     }

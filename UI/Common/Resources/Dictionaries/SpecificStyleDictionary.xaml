@@ -3,7 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:listViewItems="clr-namespace:UI.Controls.ScrollViewers.ListViewItems"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
-                    xmlns:liveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf">
+                    xmlns:liveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+                    xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom">
 
     <Style x:Key="dark_theme_button_style" 
            TargetType="{x:Type Button}"
@@ -85,6 +86,82 @@
                             <Setter TargetName="highlight"
                                     Property="Background"
                                     Value="{DynamicResource green_highlight_brush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="loss_filter_button_style"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource base_buttons_style}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="highlight"
+                            Opacity="{TemplateBinding Opacity}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource salmon_brush}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   Style="{StaticResource base_textblock_style}"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource TemplatedParent}}">
+                        </TextBlock>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{StaticResource salmon_highlight_brush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{DynamicResource salmon_highlight_brush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="open_filter_button_style"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource base_buttons_style}">
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="highlight"
+                            Opacity="{TemplateBinding Opacity}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource warning_yellow_brush}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   Style="{StaticResource base_textblock_style}"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource TemplatedParent}}">
+                        </TextBlock>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{StaticResource warning_yellow_highlight_brush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="highlight"
+                                    Property="Background"
+                                    Value="{DynamicResource warning_yellow_highlight_brush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -343,7 +420,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Symbol"
+                        <TextBlock Text="Filter"
                                    Style="{StaticResource base_textblock_style}"
                                    VerticalAlignment="Center"/>
 
@@ -503,5 +580,25 @@
                 <Setter Property="Cursor" Value="Hand"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="asset_expander_option_list_items_style" 
+           TargetType="{x:Type ListView}"
+           BasedOn="{StaticResource base_listview_style}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <customScrollViewers:TextBlockListViewItem x:Name="item_button"
+                                                                           Tag="{Binding}" 
+                                                                           Margin="1,0,1,5"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

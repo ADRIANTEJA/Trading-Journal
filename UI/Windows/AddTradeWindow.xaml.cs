@@ -121,6 +121,14 @@ public partial class AddTradeWindow : Window
             isValid = false;
         }
 
+        var optionsListView = (ListView)symbol_selector.FindName("options_listview");
+
+        if (optionsListView.Items.Count == 0)
+        {
+            input_error_textblock.Text = "No symbols available";
+            isValid = false;
+        }
+
         return isValid;
     }
 

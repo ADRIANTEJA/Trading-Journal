@@ -13,7 +13,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         MinHeight="810"
-        MinWidth="1440"
+        MinWidth="1460"
         ResizeMode="CanResizeWithGrip"
         d:DesignHeight="1080"
         d:DesignWidth="1920"
@@ -178,10 +178,10 @@
                                                     Margin="5,2,5,8" 
                                                     Click="HoldNavButtonHighlightHandler"/>
                 <mainWindowButtons:NavigationButton x:Name="add_trade_button"
-                                                    Command="{Binding Path=NavigateToAddTradeCommand}"
                                                     Content="{DynamicResource main_window_add_trade_button}"
                                                     Grid.Column="3" 
-                                                    Margin="5,2,5,8"/>
+                                                    Margin="5,2,5,8" 
+                                                    Click="NavigateToAddTradeButtonClickHandler"/>
             </Grid>
 
             <Grid x:Name="settings_slide_menu"

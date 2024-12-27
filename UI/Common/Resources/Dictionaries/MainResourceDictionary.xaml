@@ -11,6 +11,7 @@
     <SolidColorBrush x:Key="green_highlight_brush" Color="#FF1E917A"/>
     <SolidColorBrush x:Key="positive_hightlight_brush" Color="#1FFF1F"/>
     <SolidColorBrush x:Key="warning_yellow_brush" Color="#FFC000"/>
+    <SolidColorBrush x:Key="warning_yellow_highlight_brush" Color="#FFD414"/>
     <SolidColorBrush x:Key="error_red_brush" Color="#F41312"/>
     <SolidColorBrush x:Key="salmon_brush" Color="#E2464A"/>
     <SolidColorBrush x:Key="salmon_highlight_brush" Color="#EC5054"/>
@@ -31,6 +32,8 @@
     <converters:TradeRiskConstraintWarningVisibilityConverter x:Key="trade_risk_constraint_warning_visibility_converter"/>
     <converters:DatePickerDateToTicksConverter x:Key="date_picker_date_to_ticks_converter"/>
     <converters:ZeroToEmptyStringConverter x:Key="zero_to_empty_string_converter"/>
+    <converters:DailyGoalConstraintVisibilityConverter x:Key="dail_goal_constraint_visibility_converter"/>
+    <converters:FilterCategoryConverter x:Key="filter_category_converter"/>
 
     <BitmapImage x:Key="application_logo_icon"
                  UriSource="\Common\Resources\Assets\Icons\app_logo_icon.png"/>
@@ -58,6 +61,8 @@
                  UriSource="\Common\Resources\Assets\Icons\reset_button_icon.png"/>
     <BitmapImage x:Key="warning_icon"
                  UriSource="\Common\Resources\Assets\Icons\warning_icon.png"/>
+    <BitmapImage x:Key="yellow_warning_icon"
+                 UriSource="\Common\Resources\Assets\Icons\yellow_warning_icon.png"/>
 
     <Style x:Key="base_text_box_style" TargetType="{x:Type TextBox}">
         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -790,6 +795,74 @@
         </Setter>
     </Style>
 
+    <Style x:Key="filter_date_picker_style"
+           TargetType="{x:Type DatePicker}"
+           BasedOn="{StaticResource base_date_picker_style}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0"
+                                                         To="1"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         Storyboard.TargetName="PART_DisabledVisual"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="PART_Root"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32"/>
+                                <ColumnDefinition Width="32"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PART_Button"
+                                    Grid.Column="0"
+                                    Margin="0"
+                                    Style="{StaticResource icon_buttons_style}">
+
+                                <Image Source="{DynamicResource calendar_icon}"
+                                       Margin="5"/>
+                            </Button>
+                            
+                            <Grid x:Name="PART_DisabledVisual"
+                                  Grid.ColumnSpan="2"
+                                  IsHitTestVisible="False"
+                                  Opacity="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Fill="{DynamicResource theme_control_wrapper_background_brush}"
+                                           RadiusY="1"
+                                           RadiusX="1"/>
+                                <Rectangle Grid.Column="1"
+                                           Fill="{DynamicResource theme_control_wrapper_background_brush}"
+                                           Height="18"
+                                           Margin="3,0,3,0"
+                                           RadiusY="1"
+                                           RadiusX="1"
+                                           Width="19"/>
+                                <Popup x:Name="PART_Popup"
+                                       AllowsTransparency="True"
+                                       Placement="Bottom"
+                                       PlacementTarget="{Binding ElementName=PART_TextBox}"
+                                       StaysOpen="False"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="text_buttons_style" 
            TargetType="{x:Type Button}"
            BasedOn="{StaticResource base_buttons_style}">
@@ -1069,26 +1142,6 @@
         <Setter Property="CornerRadius" Value="3"/>
         <Setter Property="BorderThickness" Value="0.6"/>
         <Setter Property="BorderBrush" Value="{DynamicResource theme_background_inverse_brush}"/>
-    </Style>
-
-    <Style x:Key="expander_option_list_items_style" 
-           TargetType="{x:Type ListView}"
-           BasedOn="{StaticResource base_listview_style}">
-        <Setter Property="ItemContainerStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <customScrollViewers:TextBlockListViewItem x:Name="item_button"
-                                                                           Tag="{Binding}" 
-                                                                           Margin="1,0,1,5"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <Style x:Key="vector_down_icon_style" TargetType="{x:Type Polygon}">

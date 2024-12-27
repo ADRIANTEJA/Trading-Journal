@@ -12,7 +12,7 @@ public class Symbol
     /// </summary>
     public string Pair { get; set; }
     /// <summary>
-    /// represents the asset type of the buyed(long) or selled(short) asset
+    /// represents the asset type of the buyed(long) or selled(short) asset. Starts with uppercase
     /// </summary>
     public string AssetType { get; set;}
 }

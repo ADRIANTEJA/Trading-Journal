@@ -25,7 +25,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="96"/>
             <ColumnDefinition Width="96"/>
-            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="180"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -68,17 +68,17 @@
                     <Binding Path="OtherCosts"/>
                 </MultiBinding>
             </Border.BorderBrush>
-            
+
             <TextBlock x:Name="trade_status_textblock"
                        VerticalAlignment="Center"
                        Style="{StaticResource base_textblock_style}" 
                        Loaded="OnTradeStatusTextBlockLoaded"/>
         </Border>
-        
+
         <Border Grid.Row="2"
                 Grid.ColumnSpan="10"
                 Background="{DynamicResource green_brush}"/>
-        
+
         <TextBlock Grid.Column="1"
                    Grid.Row="2"
                    Text="Side"
@@ -97,7 +97,7 @@
                        Style="{StaticResource base_textblock_style}" 
                        Loaded="OnTradeSideTextBlockLoaded"/>
         </Border>
-        
+
         <TextBlock Grid.Column="2"
                    Text="Open date"
                    VerticalAlignment="Center"
@@ -201,15 +201,13 @@
                 Style="{StaticResource text_buttons_style}" 
                 Margin="20,0,20,0" Click="OpenTradeCostsWindowHandler"/>
 
-        <TextBlock Grid.Column="6"
+        <TextBlock Grid.Column="9"
                    Grid.Row="2"
                    Text="ROI"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <!--Visibility="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext,
-             Converter={StaticResource trade_risk_constraint_warning_visibility_converter}}"-->
-        <Image Grid.Column="6"
+        <Image Grid.Column="9"
                Grid.Row="2"
                Source="{StaticResource warning_icon}"
                Margin="71,11,14,9" 
@@ -219,20 +217,20 @@
                MouseLeave="OnTradeRiskWarningMouseLeaveHandler"/>
 
         <warningMessages:TradeRiskConstraintViolated x:Name="trade_risk_constraint_warning"
-                                                     Grid.Column="6"
-                                                     Grid.ColumnSpan="4"
+                                                     Grid.Column="7"
+                                                     Grid.ColumnSpan="3"
                                                      Grid.Row="2"
                                                      Grid.RowSpan="2"
                                                      Visibility="Hidden"
                                                      Panel.ZIndex="1"
-                                                     Margin="-23,2,14,19"
+                                                     Margin="60,8,49,15"
                                                      MouseLeave="OnTradeRiskWarningMouseLeaveHandler"/>
 
-        <TextBlock Grid.Column="6"
+        <TextBlock Grid.Column="9"
                    Grid.Row="4"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}">
-            
+
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} $ /{1}%">
                     <Binding Path="Roi"/>
@@ -289,6 +287,35 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <Border Grid.Column="9"
+                Background="white"
+                Visibility="{Binding Path=Visibility, ElementName=daily_goal_warning_icon}"
+                Margin="80,11,-63,9" 
+                Width="8" 
+                Height="8"
+                CornerRadius="10"/>
+
+        <Image x:Name="daily_goal_warning_icon"
+               Grid.Column="9"
+               Source="{StaticResource yellow_warning_icon}"
+               Visibility="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=Self},
+                            Converter={StaticResource dail_goal_constraint_visibility_converter}}"
+               Margin="80,11,-63,9"
+               Panel.ZIndex="1"
+               Width="14"
+               Height="14" 
+               MouseEnter="OnDailyGoalWarningMouseEnterHandler" 
+               MouseLeave="OnDailyGoalWarningMouseLeaveHandler" Loaded="DailyGoalWarningIconLoadedHandler"/>
+
+        <warningMessages:DailyGoalConstraintAchieved x:Name="daily_goal_constraint_warning"
+                                                     Grid.Column="8"
+                                                     Grid.ColumnSpan="2"
+                                                     Grid.RowSpan="4"
+                                                     Visibility="Hidden"
+                                                     Panel.ZIndex="1"
+                                                     Margin="16,5,10,71"
+                                                     MouseLeave="OnDailyGoalWarningMouseLeaveHandler"/>
+
         <TextBlock Grid.Column="9"
                    Grid.Row="1"
                    Text="{Binding Path=StrategyName}"
@@ -296,13 +323,13 @@
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Row="2"
-                   Grid.Column="9"
+                   Grid.Column="6"
                    Text="Leverage"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Row="3"
-                   Grid.Column="9"
+                   Grid.Column="6"
                    Text="{Binding Path=Leverage, StringFormat=x{0}, 
                    Converter={StaticResource zero_to_one_value_converter}}"
                    VerticalAlignment="Center"

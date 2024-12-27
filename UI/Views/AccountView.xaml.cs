@@ -14,6 +14,7 @@ using UI.Common.Helpers;
 using UI.Events;
 using static MainModule.Common.Enums;
 
+
 namespace UI.Views;
 /// <summary>
 /// Interaction logic for AccountView.xaml
@@ -179,7 +180,7 @@ public partial class AccountView : UserControl
     private void OnFilterPerformanceControlLoaded(object sender, RoutedEventArgs e)
     {
         var dataContext = (AccountViewModel)dataContextRef;
-        options_list_view.SetBinding(ListView.ItemsSourceProperty, "PerformanceViewModel.AccountPerformance");
+        options_list_view.SetBinding(ListView.ItemsSourceProperty, nameof(dataContext.PerformanceViewModel.AccountPerformance));
     }
 
     private void OnSelectedDateFilterHandler(object sender, MouseButtonEventArgs e)

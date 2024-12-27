@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\Converters\" />
     <Folder Include="Common\Helpers\" />
   </ItemGroup>
 

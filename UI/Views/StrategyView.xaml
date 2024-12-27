@@ -79,7 +79,7 @@
                                                 Margin="40,90,201,90"/>
         </Border>
 
-        
+
 
         <warningMessages:DailyLossConstraintViolatedMessage x:Name="daily_loss_constraint_warning"
                                                             Grid.Column="1"

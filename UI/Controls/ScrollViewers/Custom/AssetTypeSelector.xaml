@@ -36,7 +36,7 @@
                   Grid.ColumnSpan="2"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   IsSynchronizedWithCurrentItem="True"
-                  Style="{StaticResource expander_option_list_items_style}" 
+                  Style="{StaticResource asset_expander_option_list_items_style}" 
                   Loaded="OnOptionsListviewLoaded">
 
             <system:String>Forex</system:String>
