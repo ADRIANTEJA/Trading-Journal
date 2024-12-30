@@ -33,7 +33,7 @@ public partial class StrategyView : UserControl
 
         var listView = (ListView)daily_loss_constraint_warning.FindName("dates_listview");
 
-        var binding = new Binding(nameof(dataContext.SelectedStrategy))
+        var binding = new Binding("SelectedStrategy")
         {
             Converter = new DailyLossConstraintDatesConverter()
         };

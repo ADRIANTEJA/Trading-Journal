@@ -100,17 +100,11 @@ public class Trade
     /// </summary>
     public string? StrategyName {  get; set; }
     /// <summary>
-    /// represents weather the MaxDailyLoss parameter of the strategy this trade is using
-    /// is compromised or not
-    /// </summary>
-    public int? MaxDLCompromised { get; set; }
-    /// <summary>
-    /// represents weather the MaxTradeRiks parameter of the strategy this trade is using
-    /// is compromised or not
-    /// </summary>
-    public int? MaxTRCompromised { get; set; }
-    /// <summary>
     /// represents the amount of leverage used in the trade
     /// </summary>
     public int Leverage { get; set; }
+    /// <summary>
+    /// represents the account balance before the trade
+    /// </summary>
+    public double AccountBalance { get; set; }
 }

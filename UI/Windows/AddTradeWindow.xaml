@@ -146,6 +146,7 @@
                             <textBoxes:PlaceHolderTextBox x:Name="volume_field"
                                                           Text="{Binding Path=VolumeVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Volume"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -153,6 +154,7 @@
                                                           Grid.Row="1"
                                                           Text="{Binding Path=OpenPriceVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Open price"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -160,6 +162,7 @@
                                                           Grid.Row="2"
                                                           Text="{Binding Path=ClosePriceVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Close price"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -167,6 +170,7 @@
                                                           Grid.Row="3"
                                                           Text="{Binding Path=SwapVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Swap"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -174,6 +178,7 @@
                                                           Grid.Row="4"
                                                           Text="{Binding Path=SpreadVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Spread"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -181,6 +186,7 @@
                                                           Grid.Row="5"
                                                           Text="{Binding Path=CommissionVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Commissions"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -188,6 +194,7 @@
                                                           Grid.Row="6"
                                                           Text="{Binding Path=OtherCostsVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Other costs"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -195,6 +202,7 @@
                                                           Grid.Row="7"
                                                           Text="{Binding Path=TakeProfitVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Take profit"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -202,6 +210,7 @@
                                                           Grid.Row="8"
                                                           Text="{Binding Path=StopLossVM, Mode=OneWayToSource}"
                                                           PlaceHolder="Stop loss"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -212,7 +221,8 @@
                                         Tag="Open date"
                                         Style="{StaticResource base_date_picker_style}"
                                         Margin="0,0,5,5" 
-                                        Loaded="OnOpenDateFieldLoaded"/>
+                                        Loaded="OnOpenDateFieldLoaded"
+                                        Unloaded="OpenDateFieldUnloadedHandler"/>
 
                             <DatePicker x:Name="close_date_field"
                                         Grid.Row="10"
@@ -220,7 +230,8 @@
                                         Tag="Close date"
                                         Style="{StaticResource base_date_picker_style}"
                                         Margin="0,0,5,5" 
-                                        Loaded="OnCloseDateFieldLoaded"/>
+                                        Loaded="OnCloseDateFieldLoaded"
+                                        Unloaded="CloseDateFieldUnloadedHandler"/>
                         </Grid>
                     </ScrollViewer>
 
@@ -297,6 +308,7 @@
                                  Grid.Row="5"
                                  Grid.ColumnSpan="2"
                                  Text="{Binding Path=NotesVM, Mode=OneWayToSource}"
+                                 MaxLength="1000"
                                  Style="{StaticResource base_text_box_style}"
                                  KeyDown="JumpToNextFieldHandler"
                                  Margin="5"/>
@@ -311,6 +323,7 @@
                                  Grid.Row="7"
                                  Grid.ColumnSpan="2"
                                  Text="{Binding Path=MistakesVM, Mode=OneWayToSource}"
+                                 MaxLength="1000"
                                  Style="{StaticResource base_text_box_style}"
                                  Margin="5"/>
 

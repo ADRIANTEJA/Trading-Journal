@@ -18,12 +18,10 @@ public class TradeAccess
     {
         string command = @"INSERT INTO Trade (accountId, pairTraded, pairMarket, openDate, closeDate, isLong, volume, isOpen,
                            openPrice, closePrice, tradeCost, swap, spread, commission, otherCosts, takeProfit,
-                           stopLoss, roi, roiPercentage, mistakes, notes, strategyName, maxDLCompromised, maxTRCompromised,
-                           leverage)
+                           stopLoss, roi, roiPercentage, mistakes, notes, strategyName, leverage, accountBalance)
                            VALUES (@AccountId, @PairTraded, @PairMarket, @OpenDate, @CloseDate, @IsLong, @Volume, @IsOpen,
                            @OpenPrice, @ClosePrice, @TradeCost, @Swap, @Spread, @Commission, @OtherCosts, @TakeProfit,
-                           @StopLoss, @Roi, @RoiPercentage, @Mistakes, @Notes, @StrategyName, @MaxDLCompromised, @MaxDLCompromised,
-                           @Leverage)";
+                           @StopLoss, @Roi, @RoiPercentage, @Mistakes, @Notes, @StrategyName, @Leverage, @AccountBalance)";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         return connection.Execute(command, trade);

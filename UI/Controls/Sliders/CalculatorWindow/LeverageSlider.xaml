@@ -1,12 +1,12 @@
 ﻿<Grid x:Class="UI.Controls.Sliders.CalculatorWindow.LeverageSlider"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:UI.Common.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="64" 
-             d:DesignWidth="290">
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:converters="clr-namespace:UI.Common.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="64" 
+      d:DesignWidth="290">
 
     <Grid.Resources>
         <Style x:Key="leverage_slider_style" TargetType="{x:Type Slider}">

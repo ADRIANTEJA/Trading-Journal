@@ -33,6 +33,14 @@ public class AccountDataAccessTests
     }
 
     [Fact]
+    public void UpdateAccountIsBankruptStatus_ShouldUpdate()
+    {
+        int expected = 1;
+        int actual = dataAccess.UpdateAccountIsBankruptStatus(1, 1);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void DeleteAccount_ShouldDelete()
     {
         int expected = 1;

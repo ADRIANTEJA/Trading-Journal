@@ -18,6 +18,7 @@
 
         <liveCharts:Axis x:Name="x_axis"
                          Title="Date"
+                         Foreground="{DynamicResource theme_font_brush}"
                          MaxValue="{Binding Path=PerformanceViewModel.AccountPerformance,
                                     Converter={StaticResource collection_to_last_value_converter}}"
                          ShowLabels="False"

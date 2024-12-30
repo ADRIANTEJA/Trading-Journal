@@ -9,11 +9,12 @@
              x:Name="template">
 
     <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="16"/>
+        <ColumnDefinition Width="32"/>
         <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
     <RadioButton x:Name="radio_button"
+                 Style="{StaticResource base_radio_button_style}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center"
                  GroupName="languages" 
@@ -22,5 +23,6 @@
     <TextBlock x:Name="language_option"
                Grid.Column="1"
                Style="{StaticResource base_textblock_style}"
+                VerticalAlignment="Center"
                Text="{Binding Path=Tag, ElementName=template}"/>
 </Grid>

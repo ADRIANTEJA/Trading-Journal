@@ -12,7 +12,8 @@
         d:DesignWidth="1000" 
         MouseEnter="UpdateContextTradeHandler" 
         Margin="0,0,10,10" 
-        Loaded="OnTradeListViewItemLoadedHandler">
+        Loaded="OnTradeListViewItemLoadedHandler" 
+        Unloaded="TradesListViewItemUnloadedHandler">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -128,7 +129,7 @@
 
         <TextBlock Grid.Column="3"
                    Grid.Row="1"
-                   Text="{Binding Path=OpenPrice}"
+                   Text="{Binding Path=OpenPrice, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -151,7 +152,7 @@
 
         <TextBlock Grid.Column="4"
                    Grid.Row="1"
-                   Text="{Binding Path=TakeProfit}"
+                   Text="{Binding Path=TakeProfit, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -163,7 +164,7 @@
 
         <TextBlock Grid.Column="4"
                    Grid.Row="4"
-                   Text="{Binding Path=StopLoss}"
+                   Text="{Binding Path=StopLoss, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -186,7 +187,7 @@
 
         <TextBlock Grid.Column="5"
                    Grid.Row="4"
-                   Text="{Binding Path=Volume}"
+                   Text="{Binding Path=Volume, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
@@ -229,12 +230,14 @@
         <TextBlock Grid.Column="9"
                    Grid.Row="4"
                    VerticalAlignment="Center"
+                   Visibility="{Binding Path=Text, RelativeSource={RelativeSource Mode=Self},
+                                Converter={StaticResource roi_text_block_visibility_converter}}"
                    Style="{StaticResource base_textblock_style}">
 
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} $ /{1}%">
-                    <Binding Path="Roi"/>
-                    <Binding Path="RoiPercentage"/>
+                    <Binding Path="Roi" Converter="{StaticResource double_to_truncated_double_converter}"/>
+                    <Binding Path="RoiPercentage" Converter="{StaticResource double_to_truncated_double_converter}"/>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>

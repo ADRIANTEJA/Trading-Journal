@@ -8,6 +8,7 @@
         xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
         xmlns:customScrollViewers="clr-namespace:UI.Controls.ScrollViewers.Custom"
         xmlns:customButtons="clr-namespace:UI.Controls.Buttons.Common"
+        xmlns:infoPopuops="clr-namespace:UI.Controls.InfoPopUp"
         mc:Ignorable="d"
         Title="Add strategy"
         WindowStyle="None"
@@ -15,7 +16,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         Effect="{StaticResource window_drop_shadow}"
-        Height="420" 
+        Height="450" 
         Width="500">
 
     <Window.Resources>
@@ -106,7 +107,38 @@
                         <RowDefinition Height="42"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Margin="0,10,0,0">
+                    <infoPopuops:MaxTradeRiskDescription x:Name="max_trade_risk_description"
+                                                         Grid.ColumnSpan="2"
+                                                         Grid.RowSpan="2"
+                                                         Panel.ZIndex="3"
+                                                         Visibility="Hidden"
+                                                         Height="110" 
+                                                         Width="250" 
+                                                         Margin="206,127,10,111"
+                                                         MouseLeave="DescriptionPopupMouseLeaveHandler"/>
+
+                    <infoPopuops:DailyGoalDescription x:Name="daily_goal_description"
+                                                      Grid.ColumnSpan="2"
+                                                      Grid.RowSpan="3"
+                                                      Panel.ZIndex="2"
+                                                      Height="120" 
+                                                      Width="250"
+                                                      Visibility="Hidden" 
+                                                      Margin="206,155,10,85"
+                                                      MouseLeave="DescriptionPopupMouseLeaveHandler"/>
+
+                    <infoPopuops:MaxDailyLossDescription x:Name="max_daily_loss_description"
+                                                         Grid.ColumnSpan="3"
+                                                         Panel.ZIndex="1"
+                                                         Height="110" 
+                                                         Width="250"
+                                                         Visibility="Hidden" 
+                                                         Margin="206,213,10,25" 
+                                                         Grid.RowSpan="2"
+                                                         MouseLeave="DescriptionPopupMouseLeaveHandler"/>
+
+                    <Grid Margin="0,32,0,0" 
+                          Grid.RowSpan="2">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="43"/>
@@ -114,64 +146,111 @@
                             <RowDefinition Height="43"/>
                             <RowDefinition Height="43"/>
                             <RowDefinition Height="43"/>
-                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="21"/>
+                            <RowDefinition Height="32"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
                         <textBoxes:PlaceHolderTextBox x:Name="name_field"
                                                       Text="{Binding Path=NameVM, Mode=OneWayToSource}"
                                                       PlaceHolder="Name"
-                                                      Margin="0,0,10,10" 
+                                                      MaxLength="15"
+                                                      Margin="0,0,30,10" 
                                                       KeyDown="JumpToNextFieldHandler" 
                                                       TextChanged="OnNameFieldChangedHandler"/>
                         <textBoxes:PlaceHolderTextBox x:Name="intermediary_field"
                                                       Grid.Row="1"
                                                       Text="{Binding Path=IntermediaryVM, Mode=OneWayToSource}"
                                                       PlaceHolder="Intermediary"
-                                                      Margin="0,0,10,11"
+                                                      MaxLength="15"
+                                                      Margin="0,0,30,11"
                                                       KeyDown="JumpToNextFieldHandler"/>
-                        <textBoxes:PlaceHolderTextBox x:Name="risk_reward_ratio_field"
-                                                      Grid.Row="2"
-                                                      Text="{Binding Path=RiskRewardRatioVM, Mode=OneWayToSource}"
-                                                      PlaceHolder="Risk reward ratio"
-                                                      Margin="0,0,10,11"
-                                                      TextChanged="ValidateNumericValueHandler"
-                                                      KeyDown="JumpToNextFieldHandler"/>
+
                         <textBoxes:PlaceHolderTextBox x:Name="max_trade_risk_field"
-                                                      Grid.Row="3"
+                                                      Grid.Row="2"
                                                       Text="{Binding Path=MaxTradeRiskVM, Mode=OneWayToSource}"
                                                       PlaceHolder="Max trade risk"
-                                                      Margin="0,0,10,11"
+                                                      MaxLength="{StaticResource max_numeric_input_length}"
+                                                      Margin="0,0,30,11"
                                                       TextChanged="ValidateNumericValueHandler"
                                                       KeyDown="JumpToNextFieldHandler"/>
+
+                        <TextBlock Grid.Row="2"
+                                   Text="%"
+                                   Foreground="{DynamicResource theme_place_holder_brush}"
+                                   Style="{StaticResource base_textblock_style}"
+                                   VerticalAlignment="Top" 
+                                   Margin="175,7,35,0" 
+                                   Height="20"/>
+
+                        <Image x:Name="max_trade_risk_info"
+                               Grid.Row="2"
+                               Source="{DynamicResource info_icon}"
+                               Width="24"
+                               Height="24" 
+                               Margin="206,6,9,16" 
+                               MouseEnter="InfoIconMouseEnterHandler"/>
+
+                        <textBoxes:PlaceHolderTextBox x:Name="daily_goal_field"
+                                                      Grid.Row="3"
+                                                      Text="{Binding Path=DailyGoalVM, Mode=OneWayToSource}"
+                                                      PlaceHolder="Daily goal"
+                                                      MaxLength="{StaticResource max_numeric_input_length}"
+                                                      Margin="0,0,30,11"
+                                                      TextChanged="ValidateNumericValueHandler"
+                                                      KeyDown="JumpToNextFieldHandler"/>
+
                         <TextBlock Grid.Row="3"
                                    Text="%"
                                    Foreground="{DynamicResource theme_place_holder_brush}"
                                    Style="{StaticResource base_textblock_style}"
                                    VerticalAlignment="Top" 
-                                   Margin="190,7,11,0" 
+                                   Margin="175,7,35,0" 
                                    Height="20"/>
-                        <textBoxes:PlaceHolderTextBox x:Name="daily_goal_field"
-                                                      Grid.Row="4"
-                                                      Text="{Binding Path=DailyGoalVM, Mode=OneWayToSource}"
-                                                      PlaceHolder="Daily goal"
-                                                      Margin="0,0,10,11"
-                                                      TextChanged="ValidateNumericValueHandler"
-                                                      KeyDown="JumpToNextFieldHandler"/>
+
+                        <Image x:Name="daily_goal_info"
+                               Grid.Row="3"
+                               Source="{DynamicResource info_icon}"
+                               Width="24"
+                               Height="24" 
+                               Margin="206,6,9,16"
+                               MouseEnter="InfoIconMouseEnterHandler"/>
+
                         <textBoxes:PlaceHolderTextBox x:Name="max_daily_loss_field"
-                                                      Grid.Row="5"
+                                                      Grid.Row="4"
                                                       Text="{Binding Path=MaxDailyLossVM, Mode=OneWayToSource}"
                                                       PlaceHolder="Max daily loss"
-                                                      Margin="0,0,10,11"
+                                                      MaxLength="{StaticResource max_numeric_input_length}"
+                                                      Margin="0,0,30,11"
                                                       TextChanged="ValidateNumericValueHandler"
                                                       KeyDown="JumpToNextFieldHandler"/>
-                        <TextBlock Grid.Row="5"
+                        <TextBlock Grid.Row="4"
                                    Text="%"
                                    Foreground="{DynamicResource theme_place_holder_brush}"
                                    Style="{StaticResource base_textblock_style}"
                                    VerticalAlignment="Top" 
-                                   Margin="190,7,11,0" 
+                                   Margin="175,7,35,0"
                                    Height="20"/>
+
+                        <Image x:Name="max_daily_loss_info"
+                               Grid.Row="4"
+                               Source="{DynamicResource info_icon}"
+                               Width="24"
+                               Height="24" 
+                               Margin="206,6,9,16"
+                               MouseEnter="InfoIconMouseEnterHandler"/>
+
+                        <TextBlock Text="Risk reward ratio"
+                                   Grid.Row="5"
+                                   Style="{StaticResource base_textblock_style}"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Left" 
+                                   Margin="5,0,0,0"/>
+
+                        <textBoxes:NumericUpDownField x:Name="risk_reward_ratio_control"
+                                                      Grid.Row="6"
+                                                      Margin="0,2,140,2"
+                                                      Loaded="RiskRewardRatioControlLoadedHandler"/>
                     </Grid>
 
                     <Grid Grid.Column="1">
@@ -183,25 +262,21 @@
 
                         <Grid.RowDefinitions >
                             <RowDefinition Height="32"/>
-                            <RowDefinition Height="32"/>
-                            <RowDefinition Height="32"/>
                             <RowDefinition Height="180.8"/>
                         </Grid.RowDefinitions>
 
-
-
-                        <TextBlock Grid.Row="2"
-                                   Grid.ColumnSpan="2"
+                        <TextBlock Grid.ColumnSpan="2"
                                    Text="Goal"
                                    VerticalAlignment="Center"
                                    Style="{StaticResource base_textblock_style}"/>
 
                         <TextBox x:Name="goal_field"
                                  Grid.ColumnSpan="2"
-                                 Grid.Row="3"
+                                 Grid.Row="1"
                                  Text="{Binding Path=GoalVM, Mode=OneWayToSource}"
+                                 MaxLength="1000"
                                  Style="{StaticResource base_text_box_style}" 
-                                 Margin="0,0,0,19"/>
+                                 Margin="0,0,0,-86"/>
                     </Grid>
 
                     <TextBlock x:Name="input_error_textblock"

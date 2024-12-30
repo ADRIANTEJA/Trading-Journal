@@ -31,11 +31,11 @@ public partial class AnalysisNoteViewModel : ObservableObject, IViewModel
     public ObservableCollection<AnalysisNote> AnalysisNotes { get; } = [];
 
     [RelayCommand]
-    private void LoadAnalysisNotes(int id)
+    private async Task LoadAnalysisNotes(int id)
     {
         AnalysisNotes.Clear();
 
-        var tempDataReckords = _noteAccess.QueryStrategyAnalysisNotesAsync(id).Result;
+        var tempDataReckords = await _noteAccess.QueryStrategyAnalysisNotesAsync(id);
 
         foreach (var note in tempDataReckords) AnalysisNotes.Add(note);
     }

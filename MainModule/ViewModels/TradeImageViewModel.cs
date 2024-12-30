@@ -25,13 +25,13 @@ public partial class TradeImageViewModel : ObservableObject, IViewModel
     public ObservableCollection<TradeImage> Images { get; } = [];
 
     [RelayCommand]
-    private void LoadTradeImages(object trade)
+    private async Task LoadTradeImages(object trade)
     {
         Images.Clear();
 
         var castedTrade = (Trade)trade;
 
-        var tempDataReckords = _tradeImageAccess.QueryTradeImagesAsync(castedTrade.Id).Result;
+        var tempDataReckords = await _tradeImageAccess.QueryTradeImagesAsync(castedTrade.Id);
 
         foreach (var image in tempDataReckords) Images.Add(image);
     }

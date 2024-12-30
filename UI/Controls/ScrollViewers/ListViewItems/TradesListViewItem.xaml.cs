@@ -127,6 +127,7 @@ public partial class TradesListViewItem : Border
             daily_goal_constraint_warning.Visibility = Visibility.Hidden;
     }
 
+    //check if used
     private void DailyGoalWarningIconLoadedHandler(object sender, RoutedEventArgs e)
     {
         //var binding = new Binding("DataContext")
@@ -135,5 +136,16 @@ public partial class TradesListViewItem : Border
         //};
         
         //daily_goal_warning_icon.SetBinding(Image.VisibilityProperty, binding);
+    }
+
+    private void TradesListViewItemUnloadedHandler(object sender, RoutedEventArgs e)
+    {
+        var contextTrade = (Trade)DataContext;
+
+        _eventAggregator.GetEvent<TradeSelectionChangedEvent>().Publish(new()
+        {
+            TradeId = contextTrade.Id,
+            IsSelected = false
+        });
     }
 }

@@ -8,6 +8,7 @@
         xmlns:commonButtons="clr-namespace:UI.Controls.Buttons.Common"
         xmlns:mainWindowButtons="clr-namespace:UI.Controls.Buttons.MainWindow"
         xmlns:textBoxes="clr-namespace:UI.Controls.TextBoxes"
+        xmlns:sliders="clr-namespace:UI.Controls.Sliders.CalculatorWindow"
         mc:Ignorable="d"
         Title="Edit Trade" 
         WindowStyle="None"
@@ -63,8 +64,9 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="80"/>
                         <RowDefinition Height="32"/>
-                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="32"/>
                     </Grid.RowDefinitions>
 
                     <ScrollViewer Margin="5">
@@ -104,6 +106,7 @@
                                                           Grid.Row="1"
                                                           Text="{Binding Path=SelectedTrade.Volume, Mode=OneWay}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_value}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -118,6 +121,7 @@
                                                           Grid.Row="3"
                                                           Text="{Binding Path=SelectedTrade.OpenPrice, Mode=OneWay}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -133,6 +137,7 @@
                                                           Text="{Binding Path=SelectedTrade.ClosePrice, Mode=OneWay,
                                                                  Converter={StaticResource zero_to_empty_string_converter}}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -148,6 +153,7 @@
                                                           Text="{Binding Path=SelectedTrade.Swap, Mode=OneWay,
                                                                  Converter={StaticResource zero_to_empty_string_converter}}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -163,6 +169,7 @@
                                                           Text="{Binding Path=SelectedTrade.Spread, Mode=OneWay,
                                                                  Converter={StaticResource zero_to_empty_string_converter}}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -178,6 +185,7 @@
                                                           Text="{Binding Path=SelectedTrade.Commission, Mode=OneWay,
                                                                  Converter={StaticResource zero_to_empty_string_converter}}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -193,6 +201,7 @@
                                                           Text="{Binding Path=SelectedTrade.OtherCosts, Mode=OneWay,
                                                                  Converter={StaticResource zero_to_empty_string_converter}}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -208,6 +217,7 @@
                                                           Text="{Binding Path=SelectedTrade.TakeProfit, Mode=OneWay,
                                                                  Converter={StaticResource zero_to_empty_string_converter}}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -223,6 +233,7 @@
                                                           Text="{Binding Path=SelectedTrade.StopLoss, Mode=OneWay,
                                                                  Converter={StaticResource zero_to_empty_string_converter}}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
@@ -241,7 +252,8 @@
                                         Tag=""
                                         Style="{StaticResource base_date_picker_style}"
                                         Margin="0,0,5,5" 
-                                        Loaded="OnOpenDateFieldLoaded"/>
+                                        Loaded="OnOpenDateFieldLoaded"
+                                        Unloaded="OpenDateFiledUnloadedHandler"/>
 
                             <TextBlock Text="Close date"
                                        Grid.Row="20"
@@ -256,7 +268,8 @@
                                         Tag=""
                                         Style="{StaticResource base_date_picker_style}"
                                         Margin="0,0,5,5" 
-                                        Loaded="OnCloseDateFieldLoaded"/>
+                                        Loaded="OnCloseDateFieldLoaded"
+                                        Unloaded="CloseDateFieldUnloadedHandler"/>
                         </Grid>
                     </ScrollViewer>
 
@@ -282,6 +295,7 @@
                                  Grid.Row="1"
                                  Grid.ColumnSpan="2"
                                  Text="{Binding Path=SelectedTrade.Notes, Mode=TwoWay}"
+                                 MaxLength="1000"
                                  Style="{StaticResource base_text_box_style}"
                                  KeyDown="JumpToNextFieldHandler"
                                  Margin="5"/>
@@ -296,6 +310,7 @@
                                  Grid.Row="3"
                                  Grid.ColumnSpan="2"
                                  Text="{Binding Path=SelectedTrade.Mistakes, Mode=TwoWay}"
+                                 MaxLength="1000"
                                  Style="{StaticResource base_text_box_style}"
                                  Margin="5"/>
 
@@ -306,8 +321,13 @@
                                    VerticalAlignment="Center"/>
                     </Grid>
 
+                    <sliders:LeverageSlider x:Name="trade_leverage_slider"
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            Margin="99,10,99,0"/>
+
                     <TextBlock x:Name="input_error_textblock"
-                               Grid.Row="1"
+                               Grid.Row="2"
                                Grid.ColumnSpan="2"
                                VerticalAlignment="Center"
                                Foreground="{StaticResource error_red_brush}"

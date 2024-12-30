@@ -76,8 +76,9 @@
                                Margin="0,0,187,0"/>
 
                     <TextBox x:Name="text_field"
-                             Text="{Binding Path=TextVM}"
                              Grid.Row="3"
+                             Text="{Binding Path=TextVM}"
+                             MaxLength="1000"
                              Style="{StaticResource base_text_box_style}"
                              TextWrapping="Wrap"
                              TextChanged="OnTextFieldChangedHandler"

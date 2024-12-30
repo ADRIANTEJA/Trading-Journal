@@ -1,6 +1,5 @@
 ﻿using MainModule.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Prism.Events;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -190,7 +189,7 @@ public partial class TradeImageWindow : Window
             Height = double.NaN,
             Margin = new Thickness(5),
         };
-        addTradeImageButton.Click += new RoutedEventHandler(AddTradeImageHandler);
+        addTradeImageButton.Click += AddTradeImageHandler;
 
         image_gallery.Children.Add(addTradeImageButton);
 

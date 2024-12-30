@@ -62,7 +62,7 @@
                                           PlaceHolder="Initial Balance"
                                           Text="{Binding Path=InitialBalanceVM, Mode=OneWayToSource}"
                                           Grid.Row="3"
-                                          MaxLength="8"
+                                          MaxLength="{StaticResource max_numeric_input_length}"
                                           Margin="40,10,40,0"
                                           TextChanged="ValidateNumericValueHandler"
                                           KeyDown="JumpToNextFieldHandler"/>

@@ -1,15 +1,17 @@
-﻿using System.Windows.Input;
+﻿
+
+using System.Windows.Input;
 
 namespace MainModule.Common.Utils;
 
-public class StrategyUpdateDelegateCommand : IMultiParameterCommand
+public class MultiparameterDelegateCommand : IMultiParameterCommand
 {
     private readonly Action<object, object> _execute;
     private readonly Func<object, object, bool> _canExecute;
 
-    public StrategyUpdateDelegateCommand(Action<object, object> execute) : this(execute, null) { }
+    public MultiparameterDelegateCommand(Action<object, object> execute) : this(execute, null) { }
 
-    public StrategyUpdateDelegateCommand(Action<object, object> execute, Func<object, object, bool> canExecute)
+    public MultiparameterDelegateCommand(Action<object, object> execute, Func<object, object, bool> canExecute)
     {
         _execute = execute;
         _canExecute = canExecute;

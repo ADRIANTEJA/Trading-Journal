@@ -1,7 +1,9 @@
 ﻿using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using UI.Common.Converters;
 using UI.Common.Helpers;
 using UI.Common.Utils;
 
@@ -45,12 +47,6 @@ public partial class EditStrategyWindow : Window
             isValid = false;
         }
 
-        if (string.IsNullOrEmpty(risk_reward_ratio_field.Text) || double.Parse(risk_reward_ratio_field.Text) == 0)
-        {
-            risk_reward_ratio_field.Tag = ResourceAccessHelper.ErrorRedBrush;
-            isValid = false;
-        }
-
         if (string.IsNullOrEmpty(max_trade_risk_field.Text) || double.Parse(max_trade_risk_field.Text) == 0)
         {
             max_trade_risk_field.Tag = ResourceAccessHelper.ErrorRedBrush;
@@ -76,6 +72,10 @@ public partial class EditStrategyWindow : Window
     {
         var dataContext = (StrategyViewModel)DataContext;
 
+        var divisorFieldRef = (TextBox)risk_reward_ratio_control.FindName("divisor_field");
+
+        var riskRewardRatioValue = divisorFieldRef.Text;
+
         if (!IsInputValid())
         {
             add_strategy_button.Focus();
@@ -92,7 +92,7 @@ public partial class EditStrategyWindow : Window
         if (string.IsNullOrEmpty(goal_field.Text))
             updatedStrategy.Goal = "";
 
-        updatedStrategy.RiskRewardRatio = double.Parse(risk_reward_ratio_field.Text);
+        updatedStrategy.RiskRewardRatio = riskRewardRatioValue;
         updatedStrategy.MaxTradeRisk = double.Parse(max_trade_risk_field.Text);
         updatedStrategy.DailyGoal = double.Parse(daily_goal_field.Text);
         updatedStrategy.MaxDailyLoss = double.Parse(max_daily_loss_field.Text);
@@ -112,9 +112,7 @@ public partial class EditStrategyWindow : Window
                 if (senderRef.Name == "name_field"
                     && !string.IsNullOrEmpty(name_field.Text)) Keyboard.Focus(intermediary_field);
                 if (senderRef.Name == "intermediary_field"
-                    && !string.IsNullOrEmpty(intermediary_field.Text)) Keyboard.Focus(risk_reward_ratio_field);
-                if (senderRef.Name == "risk_reward_ratio_field"
-                    && !string.IsNullOrEmpty(risk_reward_ratio_field.Text)) Keyboard.Focus(max_trade_risk_field);
+                    && !string.IsNullOrEmpty(intermediary_field.Text)) Keyboard.Focus(max_trade_risk_field);
                 if (senderRef.Name == "max_trade_risk_field"
                     && !string.IsNullOrEmpty(max_trade_risk_field.Text)) Keyboard.Focus(daily_goal_field);
                 if (senderRef.Name == "daily_goal_field"
@@ -129,5 +127,20 @@ public partial class EditStrategyWindow : Window
     {
         if (!string.IsNullOrEmpty(name_field.Text))
             name_field.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);
+    }
+
+    private void RiskRewardRatioControlLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        var dataContext = (StrategyViewModel)DataContext;
+
+        var divisorFieldRef = (TextBox)risk_reward_ratio_control.FindName("divisor_field");
+        
+        var binding = new Binding("RiskRewardRatio")
+        {
+            Mode = BindingMode.OneWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+
+        divisorFieldRef.SetBinding(TextBox.TextProperty, binding);
     }
 }

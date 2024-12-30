@@ -62,9 +62,12 @@ public partial class HomeView : UserControl
         dataContext.LoadTradesCommand.Execute(null);
         dataContext.SymbolViewModel.LoadSymbolsCommand.Execute(null);
         dataContext.StrategyViewModel.LoadStrategiesCommand.Execute(null);
-        dataContext.PerformanceViewModel.LoadDailyPerformanceCommand
-            .Execute(dataContext.AccountViewModel.SelectedAccount.Id);
 
+        if (dataContext.AccountViewModel.SelectedAccount != null)
+        {
+            dataContext.PerformanceViewModel.LoadDailyPerformanceCommand.Execute(dataContext.AccountViewModel.SelectedAccount.Id);
+        }
+        
         SetBinding(TagProperty, new Binding("PerformanceViewModel.AccountPerformanceTimeFrame")
         {
             Mode = BindingMode.OneWay
@@ -260,7 +263,7 @@ public partial class HomeView : UserControl
         if (dataBundle.IsSelected) selectedTradesId.Add(dataBundle.TradeId);
         else selectedTradesId.Remove(dataBundle.TradeId);
 
-        if (selectedTradesId.Count > 0) delete_selected_trades_button.Visibility = Visibility.Visible;
+        if (selectedTradesId.Count > 0)  delete_selected_trades_button.Visibility = Visibility.Visible;
         else delete_selected_trades_button.Visibility = Visibility.Hidden;
     }
 

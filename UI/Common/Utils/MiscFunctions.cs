@@ -79,4 +79,85 @@ public static class MiscFunctions
 
         return false;
     }
+
+    public static bool ExportDataBaseFile(string fileName)
+    {
+        var OpenFolderDialog = new OpenFolderDialog();
+
+        if (OpenFolderDialog.ShowDialog() == true)
+        {
+            string sourceFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string destinationFilePath = Path.Combine(OpenFolderDialog.FolderName, fileName);
+
+            if (File.Exists(destinationFilePath))
+            {
+                var result = MessageBox.Show("The file already exists. Do you want to overwrite it?", "Confirm Overwrite", 
+                                             MessageBoxButton.YesNo, 
+                                             MessageBoxImage.Question);
+
+                if (result != MessageBoxResult.Yes)
+                {
+                    return false;
+                }
+            }
+
+            try
+            {
+                File.Copy(sourceFilePath, destinationFilePath, true);
+                MessageBox.Show("File exported successfully!", "Success", 
+                           MessageBoxButton.OK, 
+                           MessageBoxImage.Information);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while exporting the file: {ex.Message}", 
+                                "Error", 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Error);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static bool ImportDataBaseFile(string fileName)
+    {
+        var openFileDialog = new OpenFileDialog
+        {
+            Filter = "Database files (*.db)|*.db",
+            Title = "Select a Database File"
+        };
+
+        if (openFileDialog.ShowDialog() == true)
+        {
+            string sourceFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string selectedFilePath = openFileDialog.FileName;
+
+            try
+            {
+                File.Copy(selectedFilePath, sourceFilePath, true);
+                MessageBox.Show("File imported successfully!", 
+                                "Success", 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Information);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while importing the file: {ex.Message}", 
+                                 "Error", 
+                                 MessageBoxButton.OK, 
+                                 MessageBoxImage.Error);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static double CalculatePercentage(double percentage, double total)
+    {
+        return (percentage / 100) * total;
+    }
 }

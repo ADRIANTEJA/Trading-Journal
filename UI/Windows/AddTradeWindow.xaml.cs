@@ -252,10 +252,22 @@ public partial class AddTradeWindow : Window
         openDateTextBoxRef.TextChanged += OpenDateFieldChangedHandler;
     }
 
+    private void OpenDateFieldUnloadedHandler(object sender, RoutedEventArgs e)
+    {
+        var openDateTextBoxRef = (TextBox)open_date_field.Template.FindName("PART_TextBox", open_date_field);
+        openDateTextBoxRef.TextChanged -= OpenDateFieldChangedHandler;
+    }
+
     private void OnCloseDateFieldLoaded(object sender, RoutedEventArgs e)
     {
         var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
         closeDateTextBoxRef.TextChanged += CloseDateFieldChangedHandler;
+    }
+
+    private void CloseDateFieldUnloadedHandler(object sender, RoutedEventArgs e)
+    {
+        var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
+        closeDateTextBoxRef.TextChanged -= CloseDateFieldChangedHandler;
     }
 
     private void OpenDateFieldChangedHandler(object sender, TextChangedEventArgs e)
@@ -282,6 +294,8 @@ public partial class AddTradeWindow : Window
 
     private void OnLeverageSliderLoaded(object sender, RoutedEventArgs e)
     {
+        var dataContext = (HomeViewModel)DataContext;
+
         var leverageSliderRef = (Slider)trade_leverage_slider.FindName("leverage_slider");
         var binding = new Binding("LeverageVM")
         {
@@ -289,5 +303,11 @@ public partial class AddTradeWindow : Window
         };
 
         leverageSliderRef.SetBinding(Slider.ValueProperty, binding);
+    }
+
+    private void AssetTypeSelectorUndloadedHandler(object sender, RoutedEventArgs e)
+    {
+        var optionsListRef = (ListView)asset_type_selector.FindName("options_listview");
+        optionsListRef.SelectionChanged -= AssetTypeChangedHandler;
     }
 }

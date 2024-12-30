@@ -36,7 +36,7 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
     private string intermediaryVM;
 
     [ObservableProperty]
-    private double riskRewardRatioVM;
+    private string riskRewardRatioVM;
 
     [ObservableProperty]
     private double maxTradeRiskVM;
@@ -61,11 +61,11 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
     public ObservableCollection<StrategyPerformanceDataBundle> StrategyPerformance { get; } = [];
 
     [RelayCommand]
-    private void LoadStrategies()
+    private async Task LoadStrategies()
     {
         Strategies.Clear(); 
 
-        var tempDataReckords = _strategyAccess.QueryStrategiesAsync().Result;
+        var tempDataReckords = await _strategyAccess.QueryStrategiesAsync();
 
         foreach (var strategy in tempDataReckords) Strategies.Add(strategy);
 
@@ -115,7 +115,7 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         {
             if (updateStrategyCommand == null)
             {
-                updateStrategyCommand = new StrategyUpdateDelegateCommand(UpdateStrategy);
+                updateStrategyCommand = new MultiparameterDelegateCommand(UpdateStrategy);
             }
             return updateStrategyCommand;
         }
@@ -163,6 +163,8 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         });
 
         LoadStrategies();
+
+        if (Strategies.Count == 0) SelectedStrategy = new();
     }
 
     public void DeleteStrategy(int strategyId) => _strategyAccess.DeleteStrategy(strategyId);

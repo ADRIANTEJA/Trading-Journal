@@ -34,11 +34,11 @@ public partial class SymbolViewModel : ObservableObject, IViewModel
     public ObservableCollection<Symbol> Symbols { get; } = [];
 
     [RelayCommand]
-    private void LoadSymbols()
+    private async Task LoadSymbols()
     {
         Symbols.Clear();
 
-        var tempDataReckords = _symbolAccess.QuerySymbolsAsync().Result;
+        var tempDataReckords = await _symbolAccess.QuerySymbolsAsync();
 
         foreach (var symbol in tempDataReckords) Symbols.Add(symbol);
     }

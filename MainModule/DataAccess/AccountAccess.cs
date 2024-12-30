@@ -55,6 +55,15 @@ public class AccountAccess
         return connection.Execute(command, new { id, isSelected });
     }
 
+    public int UpdateAccountIsBankruptStatus(int id, int isBankrupt)
+    {
+        string command = @"UPDATE Account
+                           SET isBankrupt = @isBankrupt
+                           WHERE id = @id";
+        using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
+        return connection.Execute(command, new { id, isBankrupt });
+    }
+
     public int DeleteAccount(int id)
     {
         string command = @"DELETE FROM Account 

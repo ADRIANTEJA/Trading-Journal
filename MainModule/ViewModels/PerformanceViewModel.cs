@@ -5,7 +5,6 @@ using MainModule.DataAccess;
 using MainModule.DataModel;
 using static MainModule.Common.Enums;
 using CommunityToolkit.Mvvm.Input;
-using API.Events;
 
 namespace MainModule.ViewModels;
 
@@ -25,11 +24,11 @@ public partial class PerformanceViewModel : ObservableObject, IViewModel
     public ChartValues<ObservablePoint> AccountPerformance { get; } = [];
 
     [RelayCommand]
-    public void LoadDailyPerformance(int accountId)
+    public async Task LoadDailyPerformance(int accountId)
     {
         AccountPerformance.Clear();
 
-        var tempReckordsList = _performanceAccess.QueryPerformanceByAccountIdAsync(accountId).Result;
+        var tempReckordsList = await _performanceAccess.QueryPerformanceByAccountIdAsync(accountId);
 
         List<Performance> performance = [];
 

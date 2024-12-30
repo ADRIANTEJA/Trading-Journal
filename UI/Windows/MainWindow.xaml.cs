@@ -1,6 +1,8 @@
 ﻿using MainModule.Common;
 using MainModule.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -188,5 +190,13 @@ public partial class MainWindow : Window
         {
 
         }
+    }
+
+    private void ExportDataButtonClickHandler(object sender, RoutedEventArgs e) =>
+        MiscFunctions.ExportDataBaseFile("DataBase.db");
+
+    private void ImportDataButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        if (MiscFunctions.ImportDataBaseFile("DataBase.db")) MiscFunctions.RestartApplication();
     }
 }

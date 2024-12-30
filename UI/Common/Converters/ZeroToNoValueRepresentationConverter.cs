@@ -8,7 +8,7 @@ public class ZeroToNoValueRepresentationConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if ((double?)value == 0 || value == null) return "--";
-        else return value;
+        else return Math.Round((double)value);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

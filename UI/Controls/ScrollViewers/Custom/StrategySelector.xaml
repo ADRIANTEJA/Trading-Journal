@@ -10,7 +10,8 @@
         Style="{StaticResource selector_border_style}"
         Height="32" 
         d:DesignWidth="100"
-        Loaded="OnStrategySelectorLoaded">
+        Loaded="OnStrategySelectorLoaded" 
+        Unloaded="StrategySelectorUnloadedHandler">
     
     <Grid>
         <Grid.ColumnDefinitions>

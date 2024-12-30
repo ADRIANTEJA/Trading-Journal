@@ -2,7 +2,9 @@
 using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using UI.Common.Converters;
 using UI.Common.Helpers;
 using UI.Common.Utils;
 
@@ -25,6 +27,19 @@ public partial class AddStrategyWindow : Window
     private void DragMoveHandler(object sender, MouseButtonEventArgs e)
     {
         if (e.ChangedButton == MouseButton.Left) DragMove();
+    }
+
+    private void RiskRewardRatioControlLoadedHandler(object sender, RoutedEventArgs e)
+    {
+        var divisorFieldRef = (TextBox)risk_reward_ratio_control.FindName("divisor_field");
+
+        var binding = new Binding("RiskRewardRatioVM")
+        {
+            Mode = BindingMode.OneWayToSource,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+
+        divisorFieldRef.SetBinding(TextBox.TextProperty, binding);
     }
 
     private void StrategyCreationHandler(bool success)
@@ -50,12 +65,6 @@ public partial class AddStrategyWindow : Window
         if (string.IsNullOrEmpty(name_field.Text))
         {
             name_field.Tag = ResourceAccessHelper.ErrorRedBrush;
-            isValid = false;
-        }
-
-        if (string.IsNullOrEmpty(risk_reward_ratio_field.Text) || double.Parse(risk_reward_ratio_field.Text) == 0)
-        {
-            risk_reward_ratio_field.Tag = ResourceAccessHelper.ErrorRedBrush;
             isValid = false;
         }
 
@@ -101,9 +110,7 @@ public partial class AddStrategyWindow : Window
                 if (senderRef.Name == "name_field"
                     && !string.IsNullOrEmpty(name_field.Text)) Keyboard.Focus(intermediary_field);
                 if (senderRef.Name == "intermediary_field"
-                    && !string.IsNullOrEmpty(intermediary_field.Text)) Keyboard.Focus(risk_reward_ratio_field);
-                if (senderRef.Name == "risk_reward_ratio_field"
-                    && !string.IsNullOrEmpty(risk_reward_ratio_field.Text)) Keyboard.Focus(max_trade_risk_field);
+                    && !string.IsNullOrEmpty(intermediary_field.Text)) Keyboard.Focus(max_trade_risk_field);
                 if (senderRef.Name == "max_trade_risk_field"
                     && !string.IsNullOrEmpty(max_trade_risk_field.Text)) Keyboard.Focus(daily_goal_field);
                 if (senderRef.Name == "daily_goal_field"
@@ -118,5 +125,41 @@ public partial class AddStrategyWindow : Window
     {
         if (!string.IsNullOrEmpty(name_field.Text))
             name_field.SetResourceReference(TagProperty, ResourceAccessHelper.ThemePlaceHolderBrushKey);
+    }
+
+    private void InfoIconMouseEnterHandler(object sender, MouseEventArgs e)
+    {
+        var senderRef = (Image)sender;
+
+        switch(senderRef.Name)
+        {
+            case "max_trade_risk_info":
+                max_trade_risk_description.Visibility = Visibility.Visible;
+                break;
+            case "daily_goal_info":
+                daily_goal_description.Visibility = Visibility.Visible;
+                break;
+            case "max_daily_loss_info":
+                max_daily_loss_description.Visibility = Visibility.Visible;
+                break;
+        }
+    }
+
+    private void DescriptionPopupMouseLeaveHandler(object sender, MouseEventArgs e)
+    {
+        var senderRef = (Border)sender;
+
+        switch(senderRef.Name)
+        {
+            case "max_trade_risk_description":
+                max_trade_risk_description.Visibility = Visibility.Collapsed;
+                break;
+            case "daily_goal_description":
+                daily_goal_description.Visibility = Visibility.Collapsed;
+                break;
+            case "max_daily_loss_description":
+                max_daily_loss_description.Visibility = Visibility.Collapsed;
+                break;
+        }
     }
 }

@@ -83,7 +83,7 @@
                                 <RowDefinition Height="21"/>
                                 <RowDefinition Height="43"/>
                                 <RowDefinition Height="21"/>
-                                <RowDefinition Height="43"/>
+                                <RowDefinition Height="32"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
@@ -95,6 +95,7 @@
                                                           Grid.Row="1"
                                                           Text="{Binding Path=SelectedStrategy.Name, Mode=OneWay}"
                                                           PlaceHolder=""
+                                                          MaxLength="15"
                                                           Margin="0,0,10,10" 
                                                           KeyDown="JumpToNextFieldHandler" 
                                                           TextChanged="OnNameFieldChangedHandler"/>
@@ -108,65 +109,92 @@
                                                           Grid.Row="3"
                                                           Text="{Binding Path=SelectedStrategy.Intermediary, Mode=OneWay}"
                                                           PlaceHolder=""
+                                                          MaxLength="15"
                                                           Margin="0,0,10,11"
                                                           KeyDown="JumpToNextFieldHandler"/>
 
-                            <TextBlock Text="Risk reward ratio"
+                            <TextBlock Text="Max trade risk"
                                        Grid.Row="4"
                                        Style="{StaticResource base_textblock_style}"
                                        VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left"/>
-                            <textBoxes:PlaceHolderTextBox x:Name="risk_reward_ratio_field"
+                            <textBoxes:PlaceHolderTextBox x:Name="max_trade_risk_field"
                                                           Grid.Row="5"
-                                                          Text="{Binding Path=SelectedStrategy.RiskRewardRatio, Mode=OneWay}"
+                                                          Text="{Binding Path=SelectedStrategy.MaxTradeRisk, Mode=OneWay}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,10,11"
                                                           TextChanged="ValidateNumericValueHandler"
                                                           KeyDown="JumpToNextFieldHandler"/>
 
-                            <TextBlock Text="Max trade risk"
+                            <TextBlock Grid.Row="5"
+                                       Text="%"
+                                       Foreground="{DynamicResource theme_place_holder_brush}"
+                                       Style="{StaticResource base_textblock_style}"
+                                       VerticalAlignment="Top" 
+                                       Margin="190,7,11,0" 
+                                       Height="20"/>
+                            
+                            <TextBlock Text="Daily goal"
                                        Grid.Row="6"
                                        Style="{StaticResource base_textblock_style}"
                                        VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left"/>
-                            <textBoxes:PlaceHolderTextBox x:Name="max_trade_risk_field"
+
+                            <textBoxes:PlaceHolderTextBox x:Name="daily_goal_field"
                                                           Grid.Row="7"
-                                                          Text="{Binding Path=SelectedStrategy.MaxTradeRisk, Mode=OneWay}"
+                                                          Text="{Binding Path=SelectedStrategy.DailyGoal, Mode=OneWay}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,10,11"
                                                           TextChanged="ValidateNumericValueHandler"
                                                           KeyDown="JumpToNextFieldHandler"/>
 
-                            <TextBlock Text="Daily goal"
+                            <TextBlock Grid.Row="7"
+                                       Text="%"
+                                       Foreground="{DynamicResource theme_place_holder_brush}"
+                                       Style="{StaticResource base_textblock_style}"
+                                       VerticalAlignment="Top" 
+                                       Margin="190,7,11,0" 
+                                       Height="20"/>
+
+                            <TextBlock Text="Max daily loss"
                                        Grid.Row="8"
                                        Style="{StaticResource base_textblock_style}"
                                        VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left"/>
-                            <textBoxes:PlaceHolderTextBox x:Name="daily_goal_field"
+                            <textBoxes:PlaceHolderTextBox x:Name="max_daily_loss_field"
                                                           Grid.Row="9"
-                                                          Text="{Binding Path=SelectedStrategy.DailyGoal, Mode=OneWay}"
+                                                          Text="{Binding Path=SelectedStrategy.MaxDailyLoss, Mode=OneWay}"
                                                           PlaceHolder=""
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,10,11"
                                                           TextChanged="ValidateNumericValueHandler"
                                                           KeyDown="JumpToNextFieldHandler"/>
 
-                            <TextBlock Text="Max daily loss"
-                                       Grid.Row="10"
+                            <TextBlock Grid.Row="9"
+                                       Text="%"
+                                       Foreground="{DynamicResource theme_place_holder_brush}"
+                                       Style="{StaticResource base_textblock_style}"
+                                       VerticalAlignment="Top" 
+                                       Margin="190,7,11,0" 
+                                       Height="20"/>
+
+                            <TextBlock Grid.Row="10"
+                                       Text="Risk reward ratio"
                                        Style="{StaticResource base_textblock_style}"
                                        VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left"/>
-                            <textBoxes:PlaceHolderTextBox x:Name="max_daily_loss_field"
+
+                            <textBoxes:NumericUpDownField x:Name="risk_reward_ratio_control"
                                                           Grid.Row="11"
-                                                          Text="{Binding Path=SelectedStrategy.MaxDailyLoss, Mode=OneWay}"
-                                                          PlaceHolder=""
-                                                          Margin="0,0,10,11"
-                                                          TextChanged="ValidateNumericValueHandler"
-                                                          KeyDown="JumpToNextFieldHandler"/>
+                                                          Margin="0,2,140,2"
+                                                          Loaded="RiskRewardRatioControlLoadedHandler"/>
                         </Grid>
                     </ScrollViewer>
                     
 
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Margin="0,-1,0,0">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
@@ -175,35 +203,31 @@
 
                         <Grid.RowDefinitions >
                             <RowDefinition Height="32"/>
-                            <RowDefinition Height="32"/>
-                            <RowDefinition Height="32"/>
                             <RowDefinition Height="180.8"/>
                         </Grid.RowDefinitions>
 
-
-
-                        <TextBlock Grid.Row="2"
-                               Grid.ColumnSpan="2"
-                               Text="Goal"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource base_textblock_style}"/>
+                        <TextBlock Grid.ColumnSpan="2"
+                                   Text="Goal"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource base_textblock_style}"/>
 
                         <TextBox x:Name="goal_field"
-                             Grid.ColumnSpan="2"
-                             Grid.Row="3"
-                             Text="{Binding Path=SelectedStrategy.Goal}"
-                             Style="{StaticResource base_text_box_style}" 
-                             Margin="0,0,0,19"/>
+                                 Grid.ColumnSpan="2"
+                                 Grid.Row="1"
+                                 Text="{Binding Path=SelectedStrategy.Goal}"
+                                 MaxLength="1000"
+                                 Style="{StaticResource base_text_box_style}" 
+                                 Margin="0,0,0,19"/>
                     </Grid>
 
                     <TextBlock x:Name="input_error_textblock"
-                           Grid.ColumnSpan="2"
-                           Grid.Row="1"
-                           Text="{StaticResource add_strategy_window_duplicated_strategy_name_error}"
-                           Foreground="{StaticResource error_red_brush}"
-                           VerticalAlignment="Center"
-                           Visibility="Hidden"
-                           Style="{StaticResource base_textblock_style}"/>
+                               Grid.ColumnSpan="2"
+                               Grid.Row="1"
+                               Text="{StaticResource add_strategy_window_duplicated_strategy_name_error}"
+                               Foreground="{StaticResource error_red_brush}"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"
+                               Style="{StaticResource base_textblock_style}"/>
 
                     <customButtons:SaveButton x:Name="add_strategy_button"
                                               Grid.Row="2"

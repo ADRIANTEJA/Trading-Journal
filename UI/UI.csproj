@@ -23,6 +23,7 @@
     <None Remove="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_folder_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_home_button_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\dark_info_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_long_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_mistakes_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\dark_notes_icon.png" />
@@ -48,6 +49,7 @@
     <None Remove="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_folder_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_home_button_icon.png" />
+    <None Remove="Common\Resources\Assets\Icons\light_info_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_long_button_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_mistakes_icon.png" />
     <None Remove="Common\Resources\Assets\Icons\light_notes_icon.png" />
@@ -71,7 +73,7 @@
   <ItemGroup>
     <Content Include="Common\Resources\Assets\Icons\app_taskbar_icon.ico" />
     <Content Include="DataBase.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -81,6 +83,7 @@
     <Resource Include="Common\Resources\Assets\Icons\dark_delete_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_folder_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\dark_info_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_mistakes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_notes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\dark_portfolio_icon.png" />
@@ -91,6 +94,7 @@
     <Resource Include="Common\Resources\Assets\Icons\light_delete_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_edit_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_folder_icon.png" />
+    <Resource Include="Common\Resources\Assets\Icons\light_info_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_mistakes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_notes_icon.png" />
     <Resource Include="Common\Resources\Assets\Icons\light_portfolio_icon.png" />

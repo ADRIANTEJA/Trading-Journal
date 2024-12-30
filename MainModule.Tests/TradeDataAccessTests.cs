@@ -38,9 +38,8 @@ public class TradeDataAccessTests
             Mistakes = "some mistakes",
             Notes = "some notes",
             StrategyName = "test Strategy",
-            MaxDLCompromised = 0,
-            MaxTRCompromised = 0,
-            Leverage = 1
+            Leverage = 1,
+            AccountBalance = 1000,
         };
 
         Trade newPartialTrade = new()
@@ -104,8 +103,7 @@ public class TradeDataAccessTests
             Mistakes = "some mistakes",
             Notes = "some notes",
             StrategyName = "test Strategy",
-            MaxTRCompromised = 0,
-            MaxDLCompromised = 0,
+            AccountBalance = 1000,
         };
 
         if (dataAccess.UpdateTrade(partiallyUpdatedTrade) == 1

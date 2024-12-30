@@ -18,7 +18,7 @@ public class StrategyDataAccessTests
             Name = "testStrategy",
             Goal = "some goal",
             Intermediary = "Bing X",
-            RiskRewardRatio = 10.32,
+            RiskRewardRatio = "1",
             MaxTradeRisk = 3213,
             DailyGoal = 1000,
             MaxDailyLoss = 1000
@@ -37,7 +37,7 @@ public class StrategyDataAccessTests
             Name = "testUpdate",
             Goal = "another goal",
             Intermediary = "Bing Y",
-            RiskRewardRatio = 23.232,
+            RiskRewardRatio = "1",
             MaxTradeRisk = 12.34,
             DailyGoal = 100,
             MaxDailyLoss = 1212

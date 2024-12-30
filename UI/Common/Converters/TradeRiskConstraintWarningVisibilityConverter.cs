@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using UI.Common.Utils;
 
 namespace UI.Common.Converters;
 
@@ -12,18 +13,21 @@ public class TradeRiskConstraintWarningVisibilityConverter : IValueConverter
     // dont delete just uncomment after done with making the UI
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        //var contextTrade = (Trade)value;
-        //var strategyViewModel = App.AppHost!.Services.GetRequiredService<StrategyViewModel>();
+        var contextTrade = (Trade)value;
+        var strategyViewModel = App.AppHost!.Services.GetRequiredService<StrategyViewModel>();
 
-        //var tempList = (from strategy in strategyViewModel.Strategies
-        //                where strategy.Name == contextTrade.NewStrategyName
-        //                select strategy).ToList();
+        if (contextTrade == null) return Visibility.Hidden;
+
+        var tempList = (from strategy in strategyViewModel.Strategies
+                        where strategy.Name == contextTrade.StrategyName
+                        select strategy).ToList();
 
 
-        //if (contextTrade.IsOpen == 0
-        //    && tempList.Count > 0
-        //    && contextTrade.Roi < 0 
-        //    && contextTrade.Roi < tempList[0].MaxTradeRisk * -1) return Visibility.Visible;
+        if (contextTrade.IsOpen == 0
+            && tempList.Count > 0
+            && !MiscFunctions.IsWonTrade(contextTrade) 
+            && contextTrade.Roi < MiscFunctions.CalculatePercentage(tempList[0].MaxTradeRisk,
+                                                                    contextTrade.AccountBalance) * -1) return Visibility.Visible;
 
         return Visibility.Hidden;
     }

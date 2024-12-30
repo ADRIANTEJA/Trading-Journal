@@ -47,4 +47,7 @@
                  UriSource="\Common\Resources\Assets\Icons\light_calendar_icon.png"/>
     <BitmapImage x:Key="portfolio_icon"
                  UriSource="\Common\Resources\Assets\Icons\light_portfolio_icon.png"/>
+    <BitmapImage x:Key="info_icon"
+                 UriSource="\Common\Resources\Assets\Icons\light_info_icon.png"/>
+
 </ResourceDictionary>

@@ -52,6 +52,8 @@ public partial class AddSymbolWindow : Window
 
     private void OnAssetTypeSelectorLoaded(object sender, RoutedEventArgs e)
     {
+        var dataContext = (SymbolViewModel)DataContext;
+
         var optionListRef = (ListView)asset_type_selector.FindName("options_listview");
         optionListRef.SetBinding(ListView.SelectedValueProperty, "AssetTypeVM");
     }

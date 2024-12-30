@@ -103,27 +103,28 @@
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Row="3"
-                   Text="{Binding Path=DailyGoal}"
+                   Text="{Binding Path=DailyGoal, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Column="1"
                    Grid.Row="3"
-                   Text="{Binding Path=MaxDailyLoss}"
+                   Text="{Binding Path=MaxDailyLoss, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Column="2"
                    Grid.Row="3"
-                   Text="{Binding Path=MaxTradeRisk}"
+                   Text="{Binding Path=MaxTradeRisk, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
-        <TextBlock Grid.Column="3"
-                   Grid.Row="3"
-                   Text="{Binding Path=RiskRewardRatio}"
-                   VerticalAlignment="Center"
-                   Style="{StaticResource base_textblock_style}"/>
+        <TextBlock Grid.Column="3"  
+                  Grid.Row="3"  
+                  Text="{Binding Path=RiskRewardRatio, StringFormat='1 - {0:N0}'}"  
+                  VerticalAlignment="Center"  
+                  Style="{StaticResource base_textblock_style}">  
+        </TextBlock>
 
         <commonButtons:DeleteItemButton Grid.Column="4"
                                         Grid.Row="1" 

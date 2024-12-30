@@ -15,10 +15,6 @@ namespace MainModule.ViewModels;
 
 public partial class AccountViewModel : ObservableObject, IViewModel
 {
-    //delete if unused
-    public Func<double, string> TicksToDateConverter { get; } = 
-        (double value) => new DateTime((long)value).ToString("yyyy-MM-dd");
-
     public Func<ChartPoint, string> StrategyUseLabelFormatter { get; } =
         chartPoint => string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
 
@@ -50,11 +46,11 @@ public partial class AccountViewModel : ObservableObject, IViewModel
     public SeriesCollection StrategyUsageSeries { get; } = [];
 
     [RelayCommand]
-    private void LoadAccounts()
+    private async Task LoadAccounts()
     {
         Accounts.Clear();
 
-        var tempDataReckords = _accountAccess.QueryAccountsAsync().Result;
+        var tempDataReckords = await _accountAccess.QueryAccountsAsync();
 
         foreach (var account in tempDataReckords) Accounts.Add(account);
 
@@ -135,6 +131,21 @@ public partial class AccountViewModel : ObservableObject, IViewModel
                 StrokeThickness = 1.5,
                 Values = new ChartValues<ObservableValue> { new(usageData.NumberOfUses) }
             });
+        }
+    }
+
+    public void UpdateAccountBalance(double newBalance)
+    {
+        if (newBalance < 0)
+        {
+            newBalance = 0;
+            _accountAccess.UpdateAccountIsBankruptStatus(SelectedAccount.Id, 1);
+        }
+
+        if (_accountAccess.UpdateAccountBalance(SelectedAccount.Id, newBalance) == 1)
+        {
+            SelectedAccount.CurrentBalance = newBalance;
+            LoadAccounts();
         }
     }
 }

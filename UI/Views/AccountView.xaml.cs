@@ -55,8 +55,9 @@ public partial class AccountView : UserControl
         dataContextRef = DataContext;
 
         var dataContext = (AccountViewModel)dataContextRef;
-        dataContext.PerformanceViewModel.LoadDailyPerformanceCommand
-            .Execute(dataContext.SelectedAccount.Id);
+
+        if (dataContext.SelectedAccount != null) dataContext.PerformanceViewModel.LoadDailyPerformanceCommand
+                                                    .Execute(dataContext.SelectedAccount.Id);
 
         SetBinding(TagProperty, new Binding("PerformanceViewModel.AccountPerformanceTimeFrame")
         {
@@ -180,7 +181,7 @@ public partial class AccountView : UserControl
     private void OnFilterPerformanceControlLoaded(object sender, RoutedEventArgs e)
     {
         var dataContext = (AccountViewModel)dataContextRef;
-        options_list_view.SetBinding(ListView.ItemsSourceProperty, nameof(dataContext.PerformanceViewModel.AccountPerformance));
+        options_list_view.SetBinding(ListView.ItemsSourceProperty, "PerformanceViewModel.AccountPerformance");
     }
 
     private void OnSelectedDateFilterHandler(object sender, MouseButtonEventArgs e)

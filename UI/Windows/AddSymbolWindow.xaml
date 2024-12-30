@@ -100,7 +100,7 @@
                              Text="{Binding Path=SoldAssetVM, Mode=OneWayToSource}"
                              TextWrapping="NoWrap"
                              TextAlignment="Center"
-                             MaxLength="7"
+                             MaxLength="10"
                              Style="{StaticResource base_text_box_style}" 
                              Margin="80,5,5,5" 
                              KeyDown="JumpToNextFieldHandler" 
@@ -111,7 +111,7 @@
                              Text="{Binding Path=BuyedAssetVM, Mode=OneWayToSource}"
                              TextWrapping="NoWrap"
                              TextAlignment="Center"
-                             MaxLength="7"
+                             MaxLength="10"
                              Style="{StaticResource base_text_box_style}" 
                              Margin="5,5,80,5"
                              TextChanged="OnAssetPairChangedHandler"/>

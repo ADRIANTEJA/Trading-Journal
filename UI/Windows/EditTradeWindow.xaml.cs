@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using UI.Common.Helpers;
 using UI.Common.Utils;
-using UI.Controls.Buttons.AccountView;
 
 namespace UI.Windows;
 /// <summary>
@@ -73,10 +72,22 @@ public partial class EditTradeWindow : Window
         openDateTextBoxRef.TextChanged += OpenDateFieldChangedHandler;
     }
 
+    private void OpenDateFiledUnloadedHandler(object sender, RoutedEventArgs e)
+    {
+        var openDateTextBoxRef = (TextBox)open_date_field.Template.FindName("PART_TextBox", open_date_field);
+        openDateTextBoxRef.TextChanged -= OpenDateFieldChangedHandler;
+    }
+
     private void OnCloseDateFieldLoaded(object sender, RoutedEventArgs e)
     {
         var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
         closeDateTextBoxRef.TextChanged += CloseDateFieldChangedHandler;
+    }
+
+    private void CloseDateFieldUnloadedHandler(object sender, RoutedEventArgs e)
+    {
+        var closeDateTextBoxRef = (TextBox)close_date_field.Template.FindName("PART_TextBox", close_date_field);
+        closeDateTextBoxRef.TextChanged -= CloseDateFieldChangedHandler;
     }
 
     private void OpenDateFieldChangedHandler(object sender, TextChangedEventArgs e)
@@ -162,6 +173,13 @@ public partial class EditTradeWindow : Window
     private void EditTradeClickHandler(object sender, RoutedEventArgs e)
     {
         var dataContext = (HomeViewModel)DataContext;
+        var leverageSliderRef = (Slider)trade_leverage_slider.FindName("leverage_slider");
+
+        int failSafeLeverage = 0;
+
+        //this is done because of the slider having defualt value 0
+        if(leverageSliderRef.Value == 0) failSafeLeverage = 1;
+        else failSafeLeverage = (int)leverageSliderRef.Value;
 
         if (!IsInputValid())
         {
@@ -175,10 +193,11 @@ public partial class EditTradeWindow : Window
         }
 
         var updatedTrade = dataContext.SelectedTrade;
+        var tradeClosed = false;
 
-        
         updatedTrade.Volume = double.Parse(volume_field.Text);
         updatedTrade.OpenPrice = double.Parse(open_price_field.Text);
+        updatedTrade.Leverage = failSafeLeverage;
 
         if (!string.IsNullOrEmpty(close_price_field.Text))
             updatedTrade.ClosePrice = double.Parse(close_price_field.Text);
@@ -203,8 +222,10 @@ public partial class EditTradeWindow : Window
         if (updatedTrade.CloseDate != null && updatedTrade.ClosePrice > 0)
             updatedTrade.IsOpen = 0;
 
-        dataContext.UpdateTradeCommand.Execute(updatedTrade);
+        if (dataContext.SelectedTrade.IsOpen == 1 
+            && updatedTrade.IsOpen == 0) tradeClosed = true;
 
+        dataContext.UpdateTradeCommand.Execute(updatedTrade, tradeClosed);
         Close();
     }
 }

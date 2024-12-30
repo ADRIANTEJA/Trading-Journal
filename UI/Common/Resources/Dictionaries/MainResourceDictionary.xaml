@@ -19,6 +19,7 @@
     <DropShadowEffect x:Key="window_drop_shadow" ShadowDepth="5"/>
 
     <system:Double x:Key="font_size">14</system:Double>
+    <system:Int32 x:Key="max_numeric_input_length">10</system:Int32>
     <system:String x:Key="application_name">Asset Ops</system:String>
 
     <converters:LongToDateConverter x:Key="date_to_ticks_converter"/>
@@ -27,13 +28,16 @@
     <converters:ZeroToNoValueRepresentationConverter x:Key="zero_to_no_value_representation_converter"/>
     <converters:ZeroToOneValueConverter x:Key="zero_to_one_value_converter"/>
     <converters:PerformanceDateTimeFrameConverter x:Key="performance_date_timeframe_converter"/>
-    <converters:CollectionToLastValueConverter x:Key="collection_to_last_value_converter"/> <!--check if unused-->
+    <converters:CollectionToLastValueConverter x:Key="collection_to_last_value_converter"/>
     <converters:StrategyPerformanceConverter x:Key="strategy_performance_converter"/>
     <converters:TradeRiskConstraintWarningVisibilityConverter x:Key="trade_risk_constraint_warning_visibility_converter"/>
     <converters:DatePickerDateToTicksConverter x:Key="date_picker_date_to_ticks_converter"/>
     <converters:ZeroToEmptyStringConverter x:Key="zero_to_empty_string_converter"/>
     <converters:DailyGoalConstraintVisibilityConverter x:Key="dail_goal_constraint_visibility_converter"/>
     <converters:FilterCategoryConverter x:Key="filter_category_converter"/>
+    <converters:DoubleToTruncatedDoubleConverter x:Key="double_to_truncated_double_converter"/>
+    <converters:RoiTextBlockVisibilityConverter x:Key="roi_text_block_visibility_converter"/>
+    <converters:AccountInBankruptVisibilityConverter x:Key="account_in_bankrupt_visibility_converter"/>
 
     <BitmapImage x:Key="application_logo_icon"
                  UriSource="\Common\Resources\Assets\Icons\app_logo_icon.png"/>
@@ -187,6 +191,47 @@
                                         Width="12" 
                                         Height="12"
                                         CornerRadius="2"
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center" 
+                                        Visibility="Collapsed"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="checked_rectangle" 
+                                    Property="Visibility" 
+                                    Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="checked_rectangle" 
+                                    Property="Visibility" 
+                                    Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="base_radio_button_style" TargetType="{x:Type RadioButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border Name="Border" 
+                                Background="White"
+                                BorderBrush="White"
+                                BorderThickness="1"
+                                CornerRadius="10">
+
+                            <Grid Width="14" 
+                                  Height="14">
+                                <Border Name="checked_rectangle" 
+                                        Background="#151515" 
+                                        Width="10" 
+                                        Height="10"
+                                        CornerRadius="10"
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center" 
                                         Visibility="Collapsed"/>
@@ -1139,9 +1184,14 @@
 
     <Style x:Key="control_wrapper_border_style" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{DynamicResource theme_control_wrapper_background_brush}"/>
-        <Setter Property="CornerRadius" Value="3"/>
-        <Setter Property="BorderThickness" Value="0.6"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource theme_background_inverse_brush}"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource green_brush}"/>
+    </Style>
+
+    <Style x:Key="vector_up_icon_style" TargetType="{x:Type Polygon}">
+        <Setter Property="Points" Value="1,11,11,11,6,6"/>
+        <Setter Property="Fill" Value="{StaticResource green_brush}"/>
     </Style>
 
     <Style x:Key="vector_down_icon_style" TargetType="{x:Type Polygon}">

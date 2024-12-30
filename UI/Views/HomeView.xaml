@@ -176,6 +176,7 @@
             <RowDefinition Height="52"/>
             <RowDefinition Height="52"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="52"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -217,7 +218,7 @@
         </Border>
 
         <Border Grid.Row="1"
-                Grid.RowSpan="3"
+                Grid.RowSpan="4"
                 Style="{StaticResource control_wrapper_border_style}"
                 Margin="5">
 
@@ -668,11 +669,22 @@
                 Style="{StaticResource control_wrapper_border_style}"
                 Margin="5">
 
+            <TextBlock Text="Strategy Usage"
+                       Style="{StaticResource base_textblock_style}"
+                       VerticalAlignment="Center"
+                       FontSize="18"/>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="4"
+                Style="{StaticResource control_wrapper_border_style}"
+                Margin="5">
+
             <charts:StrategyUsePieChart x:Name="strategy_use_pie_chart"
-                            Series="{Binding Path=AccountViewModel.StrategyUsageSeries, Mode=OneWay}"
-                            Margin="40,40,100,40" 
-                            Loaded="OnStrategyUsePieChartLoadedHandler" 
-                            Unloaded="OnStrategyUsePieChartUnloadedHandler"/>
+                                        Series="{Binding Path=AccountViewModel.StrategyUsageSeries, Mode=OneWay}"
+                                        Margin="40,40,100,40" 
+                                        Loaded="OnStrategyUsePieChartLoadedHandler" 
+                                        Unloaded="OnStrategyUsePieChartUnloadedHandler"/>
         </Border>
     </Grid>
 </UserControl>

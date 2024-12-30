@@ -21,7 +21,7 @@ public class Strategy
     /// <summary>
     /// represents the % of the beneficts against the investment expected in every trade
     /// </summary>
-    public double RiskRewardRatio { get; set; }
+    public string RiskRewardRatio { get; set; }
     /// <summary>
     /// represents the maximun % of capital risked in individual trades
     /// </summary>

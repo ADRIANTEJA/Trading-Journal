@@ -37,7 +37,7 @@
                                       Grid.ColumnSpan="2"
                                       PlaceHolder="{DynamicResource ROI_calculation_view_margin_field}" 
                                       Margin="90,10,90,0"
-                                      MaxLength="7" 
+                                      MaxLength="{StaticResource max_numeric_input_length}" 
                                       TextChanged="ValidateNumericValueHandler" 
                                       KeyDown="JumpToNextFieldHandler"/>
         <textBoxes:PlaceHolderTextBox x:Name="open_price_field"
@@ -45,7 +45,7 @@
                                       Grid.ColumnSpan="2"
                                       PlaceHolder="{DynamicResource ROI_calculation_view_open_price_field}" 
                                       Margin="90,10,90,0"
-                                      MaxLength="7"
+                                      MaxLength="{StaticResource max_numeric_input_length}"
                                       TextChanged="ValidateNumericValueHandler" 
                                       KeyDown="JumpToNextFieldHandler"/>
         <textBoxes:PlaceHolderTextBox x:Name="close_price_field"
@@ -53,7 +53,7 @@
                                       Grid.ColumnSpan="2"
                                       PlaceHolder="{DynamicResource ROI_calculation_view_close_price_field}" 
                                       Margin="90,10,90,0"
-                                      MaxLength="7"
+                                      MaxLength="{StaticResource max_numeric_input_length}"
                                       TextChanged="ValidateNumericValueHandler" 
                                       KeyUp="JumpToNextFieldHandler"/>
 

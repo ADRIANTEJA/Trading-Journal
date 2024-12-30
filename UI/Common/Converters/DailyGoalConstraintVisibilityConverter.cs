@@ -14,7 +14,7 @@ public class DailyGoalConstraintVisibilityConverter : IValueConverter
     {
         var contextTrade = (Trade)value;
 
-        if (contextTrade == null) return Visibility.Hidden;
+        if (contextTrade == null || contextTrade.IsOpen == 1) return Visibility.Hidden;
 
         string tradeDate = new DateTime(contextTrade.CloseDate!.Value).ToString("dd/MM/yyyy");
 
@@ -32,9 +32,16 @@ public class DailyGoalConstraintVisibilityConverter : IValueConverter
                       && tradeDate == new DateTime(trade.CloseDate!.Value).ToString("dd/MM/yyyy")
                       select trade).ToList();
 
+        if (trades.Count == 0) return Visibility.Hidden;
+
+        var dayFirstTrade = trades
+            .OrderBy(trade => trade.CloseDate!.Value)
+            .FirstOrDefault();
+
         double totalROI = trades.Sum(x => x.Roi!.Value);
 
-        if (totalROI >= tradeStrategy[0].DailyGoal) return Visibility.Visible;
+        if (totalROI >= MiscFunctions.CalculatePercentage(tradeStrategy[0].DailyGoal,
+                                                          dayFirstTrade!.AccountBalance)) return Visibility.Visible;
         else return Visibility.Hidden;
     }
 

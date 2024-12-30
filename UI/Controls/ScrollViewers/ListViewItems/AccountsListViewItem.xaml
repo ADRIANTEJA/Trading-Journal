@@ -41,6 +41,16 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
+        <TextBlock Grid.Column="2"
+                   Text="Broke"
+                   Visibility="{Binding Path=IsBankrupt, Mode=OneWay,
+                                Converter={StaticResource account_in_bankrupt_visibility_converter}}"
+                   Style="{StaticResource base_textblock_style}"
+                   Foreground="{StaticResource salmon_brush}"
+                   VerticalAlignment="Center" 
+                   Margin="153,0,0,0"/>
+
+
         <TextBlock Grid.Row="1"
                    Text="{Binding Path=Name}"
                    VerticalAlignment="Center"
@@ -48,13 +58,13 @@
 
         <TextBlock Grid.Column="1"
                    Grid.Row="1"
-                   Text="{Binding Path=InitialBalance}"
+                   Text="{Binding Path=InitialBalance, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
         <TextBlock Grid.Column="2"
                    Grid.Row="1"
-                   Text="{Binding Path=CurrentBalance}"
+                   Text="{Binding Path=CurrentBalance, Converter={StaticResource double_to_truncated_double_converter}}"
                    VerticalAlignment="Center"
                    Style="{StaticResource base_textblock_style}"/>
 
