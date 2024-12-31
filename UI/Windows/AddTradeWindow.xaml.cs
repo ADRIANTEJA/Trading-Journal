@@ -1,5 +1,7 @@
 ﻿using API.Events;
 using MainModule.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,12 +11,13 @@ using UI.Common.Helpers;
 using UI.Common.Utils;
 using UI.Events;
 using UI.Settings;
+using static MainModule.Common.Enums;
 
 namespace UI.Windows;
 
 public partial class AddTradeWindow : Window
 {
-    private int isLongTrade = 1;
+    private TradeSide isLongTrade = TradeSide.Long;
 
     public AddTradeWindow(IEventAggregator eventAggregator)
     {
@@ -169,14 +172,14 @@ public partial class AddTradeWindow : Window
     {
         long_button.Background = ResourceAccessHelper.GreenBrushRef;
         short_button.Background = null;
-        isLongTrade = 1;
+        isLongTrade = TradeSide.Long;
     }
 
     private void ShortOperationSelectionHandler(object sender, RoutedEventArgs e)
     {
         short_button.Background = ResourceAccessHelper.SalmonBrushRef;
         long_button.Background = null;
-        isLongTrade = 0;
+        isLongTrade = TradeSide.Short;
     }
 
     private bool AreDatesValid()
@@ -202,8 +205,11 @@ public partial class AddTradeWindow : Window
         if (!string.IsNullOrEmpty(closeDateTextBoxRef.Text))
         {
             try { long closeDate = DateTime.ParseExact(closeDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
-            catch (FormatException) 
+            catch (FormatException ex) 
             {
+                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 215 class {nameof(AddTradeWindow)}");
+
                 closeDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
                 areValid = false;
             }
@@ -230,9 +236,9 @@ public partial class AddTradeWindow : Window
 
         if (string.IsNullOrEmpty(closeDateTextBoxRef.Text) || string.IsNullOrEmpty(close_price_field.Text))
         {
-            dataContext.AddOpenTradeCommand.Execute(isLongTrade);
+            dataContext.AddTradeCommand.Execute(isLongTrade, TradeStatus.Open);
         }
-        else { dataContext.AddClosedTradeCommand.Execute(isLongTrade); }
+        else { dataContext.AddTradeCommand.Execute(isLongTrade, TradeStatus.Closed); }
     }
 
     private void TradeCreationHandler(bool success)

@@ -70,6 +70,6 @@ public partial class AnalysisNoteViewModel : ObservableObject, IViewModel
     private void OnDeleteNoteClickHandler(int id)
     {
         _noteAccess.DeleteTradeNote(id);
-        LoadAnalysisNotes(StrategyViewModel.SelectedStrategy.Id);
+        _ = LoadAnalysisNotes(StrategyViewModel.SelectedStrategy.Id);
     }
 }

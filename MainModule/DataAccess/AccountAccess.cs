@@ -2,6 +2,7 @@
 using MainModule.DataModel;
 using MainModule.Services;
 using System.Data.SQLite;
+using static MainModule.Common.Enums;
 
 namespace MainModule.DataAccess;
 /// <summary>
@@ -18,8 +19,8 @@ public class AccountAccess
 
     public int InsertAccount(Account account)
     {
-        string command = @"INSERT INTO Account (name, initialBalance, currentBalance, isSelected)
-                           VALUES (@Name, @InitialBalance, @CurrentBalance, @IsSelected)";
+        string command = @"INSERT INTO Account (name, initialBalance, currentBalance, selectionStatus)
+                           VALUES (@Name, @InitialBalance, @CurrentBalance, @SelectionStatus)";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
         return connection.Execute(command, account);
@@ -45,23 +46,23 @@ public class AccountAccess
         return connection.Execute(command, new { id, newName });
     }
 
-    public int UpdateAccountIsSelectedStatus(int id, int isSelected)
+    public int UpdateAccountIsSelectedStatus(int id, AccountSelectionStatus selectionStatus)
     {
         string command = @"UPDATE Account
-                           SET isSelected = @isSelected
+                           SET selectionStatus = @selectionStatus
                            WHERE id = @id";
 
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        return connection.Execute(command, new { id, isSelected });
+        return connection.Execute(command, new { id, selectionStatus });
     }
 
-    public int UpdateAccountIsBankruptStatus(int id, int isBankrupt)
+    public int UpdateAccountBankruptcyStatus(int id, AccountBankruptcyStatus bankruptcyStatus)
     {
         string command = @"UPDATE Account
-                           SET isBankrupt = @isBankrupt
+                           SET bankruptcyStatus = @bankruptcyStatus
                            WHERE id = @id";
         using var connection = new SQLiteConnection(_dataAccessConfig.GetConfiguration()["connection_string"]);
-        return connection.Execute(command, new { id, isBankrupt });
+        return connection.Execute(command, new { id, bankruptcyStatus });
     }
 
     public int DeleteAccount(int id)

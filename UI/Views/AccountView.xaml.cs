@@ -145,37 +145,12 @@ public partial class AccountView : UserControl
        
         dataContext.PerformanceViewModel.AccountPerformance.CollectionChanged += OnAccountPerformanceChangedHandler;
 
-        //var chartAxis = (Axis)account_performance_line_chart.FindName("x_axis");
-        //if (dataContext.PerformanceViewModel.AccountPerformance.Any())
-        //{
-        //    chartAxis.MaxValue = dataContext.PerformanceViewModel.AccountPerformance.Max(point => point.X);
-        //}
-
         performanceLineSeries.SetBinding(LineSeries.ValuesProperty, "PerformanceViewModel.AccountPerformance");
-
-        //var maxValueBinding = new Binding("PerformanceViewModel.AccountPerformance")
-        //{
-        //    Mode = BindingMode.OneWay,
-        //    Converter = new CollectionToLastValueConverter()
-        //};
-
-        //chartAxis.SetBinding(Axis.MaxRangeProperty, maxValueBinding);
-
-
-        //chartAxis.MaxValue = 662688000000000000;
     }
 
     private void OnAccountPerformanceChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
         ResetPerformanceXAxisView();
-
-        //var dataContext = (AccountViewModel)dataContextRef;
-        //var chartAxis = (Axis)account_performance_line_chart.FindName("x_axis");
-
-        //if (dataContext.PerformanceViewModel.AccountPerformance.Any() && e.Action == NotifyCollectionChangedAction.Add)
-        //{
-        //    chartAxis.MaxValue = dataContext.PerformanceViewModel.AccountPerformance.Max(point => point.X +1);
-        //}
     }
 
     private void OnFilterPerformanceControlLoaded(object sender, RoutedEventArgs e)
@@ -262,8 +237,7 @@ public partial class AccountView : UserControl
     private void ResetPerformanceChartButtonHandler(object sender, RoutedEventArgs e)
     {
         var dataContext = (AccountViewModel)dataContextRef;
-        dataContext.PerformanceViewModel.
-            LoadDailyPerformanceCommand.Execute(dataContext.SelectedAccount.Id);
+        dataContext.PerformanceViewModel.LoadDailyPerformanceCommand.Execute(dataContext.SelectedAccount.Id);
 
         ResetPerformanceXAxisView();
     }

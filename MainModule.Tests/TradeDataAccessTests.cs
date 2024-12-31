@@ -1,6 +1,7 @@
 ﻿using MainModule.DataAccess;
 using MainModule.DataModel;
 using MainModule.Services;
+using static MainModule.Common.Enums;
 
 namespace MainModule.Tests;
 public class TradeDataAccessTests
@@ -21,9 +22,9 @@ public class TradeDataAccessTests
             PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
             CloseDate = DateTime.Now.Ticks,
-            IsLong = 1,
+            Side = TradeSide.Long,
             Volume = 50.0,
-            IsOpen = 1,
+            Status = TradeStatus.Open,
             OpenPrice = 1.3,
             ClosePrice = 1.5,
             TradeCost = 65.0,
@@ -48,8 +49,8 @@ public class TradeDataAccessTests
             PairTraded = "USD/EUR",
             PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
-            IsLong = 1,
-            IsOpen = 1,
+            Side = TradeSide.Long,
+            Status = TradeStatus.Open,
             OpenPrice = 1.3,
             TradeCost = 65.0,
             StopLoss = 0.96,
@@ -72,8 +73,8 @@ public class TradeDataAccessTests
             PairTraded = "USD/EUR",
             PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
-            IsLong = 1,
-            IsOpen = 1,
+            Side = TradeSide.Long,
+            Status = TradeStatus.Open,
             OpenPrice = 1.3,
             TradeCost = 65,
             StopLoss = 0.96,
@@ -86,9 +87,9 @@ public class TradeDataAccessTests
             PairMarket = "Forex",
             OpenDate = DateTime.Now.Ticks,
             CloseDate = DateTime.Now.Ticks,
-            IsLong = 1,
+            Side = TradeSide.Long,
             Volume = 50,
-            IsOpen = 1,
+            Status = TradeStatus.Open,
             OpenPrice = 1.3,
             ClosePrice = 1.5,
             TradeCost = 65,

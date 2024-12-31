@@ -1,9 +1,12 @@
 ﻿using MainModule.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using UI.Common.Helpers;
 using UI.Common.Utils;
+using static MainModule.Common.Enums;
 
 namespace UI.Windows;
 /// <summary>
@@ -126,8 +129,11 @@ public partial class EditTradeWindow : Window
         }
 
         try { long openDate = DateTime.ParseExact(openDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
-        catch (FormatException)
+        catch (FormatException ex)
         {
+            var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+            logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 140 class {nameof(EditTradeWindow)}");
+
             openDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
             areValid = false;
         }
@@ -135,8 +141,11 @@ public partial class EditTradeWindow : Window
         if (!string.IsNullOrEmpty(closeDateTextBoxRef.Text))
         {
             try { long closeDate = DateTime.ParseExact(closeDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 152 class {nameof(EditTradeWindow)}");
+
                 closeDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
                 areValid = false;
             }
@@ -220,10 +229,10 @@ public partial class EditTradeWindow : Window
             updatedTrade.CloseDate = close_date_field.SelectedDate.Value.Ticks;
 
         if (updatedTrade.CloseDate != null && updatedTrade.ClosePrice > 0)
-            updatedTrade.IsOpen = 0;
+            updatedTrade.Status = TradeStatus.Closed;
 
-        if (dataContext.SelectedTrade.IsOpen == 1 
-            && updatedTrade.IsOpen == 0) tradeClosed = true;
+        if (dataContext.SelectedTrade.Status == TradeStatus.Open 
+            && updatedTrade.Status == TradeStatus.Closed) tradeClosed = true;
 
         dataContext.UpdateTradeCommand.Execute(updatedTrade, tradeClosed);
         Close();

@@ -1,11 +1,10 @@
-﻿using LiveCharts;
-using MainModule.DataModel;
+﻿using MainModule.DataModel;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static MainModule.Common.Enums;
 
@@ -28,7 +27,10 @@ public static class MiscFunctions
             double.Parse(content);
             return true;
         }
-        catch (FormatException) { return false; }
+        catch (FormatException) 
+        {
+            return false; 
+        }
     }
 
     public static BitmapSource ByteArrayToBitmapSource(byte[] buffer)
@@ -61,15 +63,15 @@ public static class MiscFunctions
 
     public static bool IsWonTrade(Trade trade)
     {
-        switch (trade.IsLong)
+        switch (trade.Side)
         {
-            case 1:
+            case TradeSide.Long:
                 if (trade.Volume * trade.ClosePrice >= (trade.Volume * trade.OpenPrice)
                     + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
                     return true;
 
                 else return false;
-            case 2:
+            case TradeSide.Short:
                 if (trade.Volume * trade.ClosePrice <= (trade.Volume * trade.OpenPrice)
                     + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
                     return true;
@@ -111,6 +113,9 @@ public static class MiscFunctions
             }
             catch (Exception ex)
             {
+                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 119 class {nameof(MiscFunctions)}");
+
                 MessageBox.Show($"An error occurred while exporting the file: {ex.Message}", 
                                 "Error", 
                                 MessageBoxButton.OK, 
@@ -146,6 +151,9 @@ public static class MiscFunctions
             }
             catch (Exception ex)
             {
+                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 157 class {nameof(MiscFunctions)}");
+
                 MessageBox.Show($"An error occurred while importing the file: {ex.Message}", 
                                  "Error", 
                                  MessageBoxButton.OK, 

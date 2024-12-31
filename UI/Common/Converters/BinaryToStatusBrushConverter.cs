@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 using UI.Common.Helpers;
+using static MainModule.Common.Enums;
 
 namespace UI.Common.Converters;
 
@@ -8,27 +9,27 @@ public class BinaryToStatusBrushConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        int IsOpen = (int)values[0];
-        double OpenPrice = (double)values[1];
-        double? ClosePrice = values[2] as double?;
-        int IsLong = (int)values[3];
+        TradeStatus status = (TradeStatus)values[0];
+        double openPrice = (double)values[1];
+        double? closePrice = values[2] as double?;
+        TradeSide side = (TradeSide)values[3];
         double volume = (double)values[4];
         double swap = (double)values[5];
         double spread = (double)values[6];
         double commission = (double)values[7];
         double otherCosts = (double)values[8];
 
-        if (IsOpen == 1) return ResourceAccessHelper.WarningYellowBrush;
+        if (status == TradeStatus.Open) return ResourceAccessHelper.WarningYellowBrush;
         else
         {
-            switch (IsLong)
+            switch (side)
             {
-                case 1:
-                    if (volume * ClosePrice >= (volume * OpenPrice) + swap + spread + commission + otherCosts) 
+                case TradeSide.Long:
+                    if (volume * closePrice >= (volume * openPrice) + swap + spread + commission + otherCosts) 
                         return ResourceAccessHelper.GreenBrushRef;
                     else return ResourceAccessHelper.SalmonBrushRef;
-                case 0:
-                    if (volume * ClosePrice <= (volume * OpenPrice) + swap + spread + commission + otherCosts) 
+                case TradeSide.Short:
+                    if (volume * closePrice <= (volume * openPrice) + swap + spread + commission + otherCosts) 
                         return ResourceAccessHelper.GreenBrushRef;
                     else return ResourceAccessHelper.SalmonBrushRef;
             }

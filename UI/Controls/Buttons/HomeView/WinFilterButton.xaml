@@ -9,5 +9,4 @@
         Style="{StaticResource navigation_button_style}"
         d:DesignHeight="32" 
         d:DesignWidth="100">
-    
 </Button>

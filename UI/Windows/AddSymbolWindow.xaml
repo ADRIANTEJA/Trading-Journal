@@ -14,7 +14,7 @@
         WindowStyle="None"
         Background="Transparent"
         ResizeMode="CanMinimize"
-        Height="250" 
+        Height="260" 
         Width="300">
 
     <Window.Resources>
@@ -87,7 +87,7 @@
                         <RowDefinition Height="42"/>
                         <RowDefinition Height="42"/>
                         <RowDefinition Height="42"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="43"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.ColumnSpan="3"
@@ -146,7 +146,7 @@
                     <portfolioWindowButtons:AddSymbolButton x:Name="add_symbol_button"
                                                             Grid.ColumnSpan="3"
                                                             Grid.Row="4"
-                                                            Margin="90,5,90,0" 
+                                                            Margin="90,5,90,5" 
                                                             Click="AddSymbolClickHandler"/>
                 </Grid>
             </Border>

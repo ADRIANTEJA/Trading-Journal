@@ -1,5 +1,4 @@
-﻿
-namespace MainModule.DataModel;
+﻿namespace MainModule.DataModel;
 
 public class AnalysisNote
 {

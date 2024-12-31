@@ -16,10 +16,10 @@ public class TradeAccess
 
     public int InsertTrade(Trade trade)
     {
-        string command = @"INSERT INTO Trade (accountId, pairTraded, pairMarket, openDate, closeDate, isLong, volume, isOpen,
+        string command = @"INSERT INTO Trade (accountId, pairTraded, pairMarket, openDate, closeDate, side, volume, status,
                            openPrice, closePrice, tradeCost, swap, spread, commission, otherCosts, takeProfit,
                            stopLoss, roi, roiPercentage, mistakes, notes, strategyName, leverage, accountBalance)
-                           VALUES (@AccountId, @PairTraded, @PairMarket, @OpenDate, @CloseDate, @IsLong, @Volume, @IsOpen,
+                           VALUES (@AccountId, @PairTraded, @PairMarket, @OpenDate, @CloseDate, @Side, @Volume, @Status,
                            @OpenPrice, @ClosePrice, @TradeCost, @Swap, @Spread, @Commission, @OtherCosts, @TakeProfit,
                            @StopLoss, @Roi, @RoiPercentage, @Mistakes, @Notes, @StrategyName, @Leverage, @AccountBalance)";
 
@@ -31,7 +31,7 @@ public class TradeAccess
     {
         string command = @"UPDATE Trade 
                            SET openDate = @OpenDate, closeDate = @CloseDate, 
-                           volume = @Volume, isOpen = @IsOpen, openPrice = @OpenPrice, closePrice = @ClosePrice,
+                           volume = @Volume, status = @Status, openPrice = @OpenPrice, closePrice = @ClosePrice,
                            tradeCost = @TradeCost, swap = @Swap, spread = @Spread, commission = @Commission,
                            otherCosts = @OtherCosts, takeProfit = @TakeProfit, stopLoss = @StopLoss,
                            roi = @Roi, roiPercentage = @RoiPercentage, mistakes = @Mistakes, notes = @Notes

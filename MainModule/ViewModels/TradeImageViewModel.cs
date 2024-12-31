@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MainModule.DataAccess;
 using MainModule.DataModel;
-using Prism.Events;
 using System.Collections.ObjectModel;
 
 namespace MainModule.ViewModels;
@@ -19,8 +18,6 @@ public partial class TradeImageViewModel : ObservableObject, IViewModel
     private readonly INavigationHelper _mainNavigationHelper;
 
     public INavigationHelper MainNavigationHelper => _mainNavigationHelper;
-
-    private readonly IEventAggregator _eventAggregator;
 
     public ObservableCollection<TradeImage> Images { get; } = [];
 
@@ -60,12 +57,10 @@ public partial class TradeImageViewModel : ObservableObject, IViewModel
 
     public TradeImageViewModel(HomeViewModel homeViewModel,
                                TradeImageAccess tradeImageAccess,
-                               INavigationHelper mainNavigationHelper,
-                               IEventAggregator eventAggregator)
+                               INavigationHelper mainNavigationHelper)
     {
         _homeViewModel = homeViewModel;
         _mainNavigationHelper = mainNavigationHelper;
-        _eventAggregator = eventAggregator;
         _tradeImageAccess = tradeImageAccess;
     }
 }

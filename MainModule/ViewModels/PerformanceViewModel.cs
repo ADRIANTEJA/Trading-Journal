@@ -12,9 +12,6 @@ public partial class PerformanceViewModel : ObservableObject, IViewModel
 {
     private PerformanceAccess _performanceAccess;
 
-    //Remenber to delete if unused
-    private IEventAggregator _eventAggregator;
-
     [ObservableProperty]
     private ROIFormat roiFormat = ROIFormat.Value;
 
@@ -94,11 +91,9 @@ public partial class PerformanceViewModel : ObservableObject, IViewModel
         AccountPerformance.Add(performancePoint);
     }
 
-    public PerformanceViewModel(PerformanceAccess performanceAccess,
-                                IEventAggregator eventAggregator)
+    public PerformanceViewModel(PerformanceAccess performanceAccess)
     {
         _performanceAccess = performanceAccess;
-        _eventAggregator = eventAggregator;
     }
 
     public void DeletePerformanceByDate(long dateTicks)

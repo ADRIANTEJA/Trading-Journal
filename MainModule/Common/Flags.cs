@@ -1,5 +1,4 @@
-﻿
-namespace MainModule.Common;
+﻿namespace MainModule.Common;
 
 public class Flags
 {

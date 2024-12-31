@@ -10,6 +10,7 @@ using MainModule.DataModel;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Windows.Media;
+using static MainModule.Common.Enums;
 
 namespace MainModule.ViewModels;
 
@@ -54,7 +55,8 @@ public partial class AccountViewModel : ObservableObject, IViewModel
 
         foreach (var account in tempDataReckords) Accounts.Add(account);
 
-        if (Accounts.Count > 0) SelectedAccount = Accounts.First(account => account.IsSelected == 1);
+        if (Accounts.Count > 0) 
+            SelectedAccount = Accounts.First(account => account.SelectionStatus == AccountSelectionStatus.IsSelected);
     }
 
     [RelayCommand]
@@ -64,18 +66,24 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         {
             Name = NameVM,
             InitialBalance = InitialBalanceVM,
-            CurrentBalance = InitialBalanceVM,
+            CurrentBalance = InitialBalanceVM
         };
 
-        if (Accounts.Count == 0) newAccount.IsSelected = 1;
+        if (Accounts.Count == 0) 
+            newAccount.SelectionStatus = AccountSelectionStatus.IsSelected;
+
+        var test = newAccount.SelectionStatus;
 
         try 
         {
             _accountAccess.InsertAccount(newAccount);
-            LoadAccounts();
+            _ = LoadAccounts();
             _eventAggregator.GetEvent<CreateAccountEvent>().Publish(true);
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<CreateAccountEvent>().Publish(false); }   
+        catch (SQLiteException) 
+        {
+            _eventAggregator.GetEvent<CreateAccountEvent>().Publish(false); 
+        }   
     }
 
     public AccountViewModel(AccountAccess accountAccess,
@@ -99,18 +107,18 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         {
             _accountAccess.DeleteAccount(accountId);
             Accounts.Remove(Accounts.First(account => account.Id == accountId));
-            _accountAccess.UpdateAccountIsSelectedStatus(Accounts.First().Id, 1);
+            _accountAccess.UpdateAccountIsSelectedStatus(Accounts.First().Id, AccountSelectionStatus.IsSelected);
         }
         else _accountAccess.DeleteAccount(accountId);
 
-        LoadAccounts();
+        _ = LoadAccounts();
     }
 
     private void UpdateSelectedAccountHandler(int accountId)
     {
-        if (_accountAccess.UpdateAccountIsSelectedStatus(SelectedAccount.Id, 0) == 1
-            && _accountAccess.UpdateAccountIsSelectedStatus(accountId, 1) == 1)
-        LoadAccounts();
+        if (_accountAccess.UpdateAccountIsSelectedStatus(SelectedAccount.Id, AccountSelectionStatus.IsNotSelected) == 1
+            && _accountAccess.UpdateAccountIsSelectedStatus(accountId, AccountSelectionStatus.IsSelected) == 1)
+        _ = LoadAccounts();
     }
 
     private void OnRequestedTradesRecievedHandler(List<StrategyUsageDataBundle>? strategyUsageData)
@@ -139,13 +147,13 @@ public partial class AccountViewModel : ObservableObject, IViewModel
         if (newBalance < 0)
         {
             newBalance = 0;
-            _accountAccess.UpdateAccountIsBankruptStatus(SelectedAccount.Id, 1);
+            _accountAccess.UpdateAccountBankruptcyStatus(SelectedAccount.Id, AccountBankruptcyStatus.Bankrupt);
         }
 
         if (_accountAccess.UpdateAccountBalance(SelectedAccount.Id, newBalance) == 1)
         {
             SelectedAccount.CurrentBalance = newBalance;
-            LoadAccounts();
+            _ = LoadAccounts();
         }
     }
 }

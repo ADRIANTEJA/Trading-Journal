@@ -1,5 +1,4 @@
-﻿
-namespace MainModule.Common.Utils;
+﻿namespace MainModule.Common.Utils;
 
 public interface IMultiParameterCommand
 {

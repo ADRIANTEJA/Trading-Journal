@@ -1,5 +1,4 @@
-﻿
-namespace MainModule.Common;
+﻿namespace MainModule.Common;
 
 public static class Enums
 {
@@ -35,4 +34,27 @@ public static class Enums
         Symbol,
     }
 
+    public enum AccountSelectionStatus
+    {
+        IsNotSelected,
+        IsSelected
+    }
+
+    public enum AccountBankruptcyStatus
+    {
+        NotBankrupt,
+        Bankrupt
+    }
+
+    public enum TradeStatus
+    {
+        Closed,
+        Open
+    }
+
+    public enum TradeSide
+    {
+        Short,
+        Long
+    }
 }

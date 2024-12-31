@@ -1,5 +1,4 @@
-﻿using API;
-using MainModule.ViewModels;
+﻿using MainModule.ViewModels;
 using System.Windows;
 using System.Windows.Input;
 

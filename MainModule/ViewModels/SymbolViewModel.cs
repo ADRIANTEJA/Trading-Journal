@@ -68,7 +68,10 @@ public partial class SymbolViewModel : ObservableObject, IViewModel
             Symbols.Add(newSymbol);
             _eventAggregator.GetEvent<CreateSymbolEvent>().Publish(true);
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<CreateSymbolEvent>().Publish(false); }
+        catch (SQLiteException ex) 
+        {
+            _eventAggregator.GetEvent<CreateSymbolEvent>().Publish(false); 
+        }
     }
 
     public SymbolViewModel(SymbolAccess dataAccess, 
@@ -85,6 +88,6 @@ public partial class SymbolViewModel : ObservableObject, IViewModel
     private void DeleteSymbolClickHandler(int id)
     {
         _symbolAccess.DeleteSymbol(id);
-        LoadSymbols();
+        _ = LoadSymbols();
     }
 }

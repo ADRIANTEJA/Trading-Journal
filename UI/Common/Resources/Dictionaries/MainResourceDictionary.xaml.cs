@@ -2,7 +2,6 @@
 using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using System.Windows;
-using System.Windows.Media;
 using UI.Common.Helpers;
 
 namespace UI.Common.Resources.Dictionaries;

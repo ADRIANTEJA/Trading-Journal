@@ -89,22 +89,25 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
         try
         {
             _strategyAccess.InsertStrategy(newStrategy);
-            LoadStrategies();
+            _ = LoadStrategies();
             _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(true);
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(false); }
+        catch (SQLiteException ex) 
+        {
+            _eventAggregator.GetEvent<CreateStrategyEvent>().Publish(false); 
+        }
     }
 
     [RelayCommand]
     private void UpdateStrategyWonTrades(string strategyName)
     {
-        if (_strategyAccess.UpdateStrategyWonTrades(strategyName) > 0) LoadStrategies();
+        if (_strategyAccess.UpdateStrategyWonTrades(strategyName) > 0) _ = LoadStrategies();
     }
 
     [RelayCommand]
     private void UpdateStrategyLostTrades(string strategyName)
     {
-        if (_strategyAccess.UpdateStrategyLostTrades(strategyName) > 0) LoadStrategies();
+        if (_strategyAccess.UpdateStrategyLostTrades(strategyName) > 0) _ = LoadStrategies();
     }
 
     private IMultiParameterCommand updateStrategyCommand;
@@ -134,7 +137,7 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
             FormerStrategyName = formerStrategyName
         });
 
-        LoadStrategies();
+        _ = LoadStrategies();
     }
 
     public StrategyViewModel(IEventAggregator eventAggregator,
@@ -162,7 +165,7 @@ public partial class StrategyViewModel : ObservableObject, IViewModel
             FormerStrategyName = deletedStrategy.Name
         });
 
-        LoadStrategies();
+        _ = LoadStrategies();
 
         if (Strategies.Count == 0) SelectedStrategy = new();
     }

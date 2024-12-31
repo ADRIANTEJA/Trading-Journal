@@ -1,4 +1,4 @@
-﻿
+﻿using static MainModule.Common.Enums;
 
 namespace MainModule.DataModel;
 
@@ -23,9 +23,9 @@ public class Account
     /// <summary>
     /// represents whether or not the account is selected as the current analysis subject
     /// </summary>
-    public int IsSelected { get; set; }
+    public AccountSelectionStatus SelectionStatus { get; set; }
     /// <summary>
     /// represents whether or not the account's balance has reached zero
     /// </summary>
-    public int IsBankrupt { get; set; }
+    public AccountBankruptcyStatus BankruptcyStatus { get; set; }
 }

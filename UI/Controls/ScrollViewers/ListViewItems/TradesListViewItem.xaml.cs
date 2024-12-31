@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using UI.Common.Converters;
 using UI.Events;
+using static MainModule.Common.Enums;
 
 namespace UI.Controls.ScrollViewers.ListViewItems;
 /// <summary>
@@ -52,16 +53,16 @@ public partial class TradesListViewItem : Border
     {
         var contextTrade = (Trade)DataContext;
 
-        if (contextTrade.IsOpen == 1) trade_status_textblock.Text = "OPEN";
+        if (contextTrade.Status == TradeStatus.Open) trade_status_textblock.Text = "OPEN";
         else
         {
-            switch (contextTrade.IsLong)
+            switch (contextTrade.Side)
             {
-                case 1:
+                case TradeSide.Long:
                     if (contextTrade.ClosePrice >= contextTrade.OpenPrice) trade_status_textblock.Text = "WIN";
                     else trade_status_textblock.Text = "LOSS";
                     break;
-                case 0:
+                case TradeSide.Short:
                     if (contextTrade.ClosePrice <= contextTrade.OpenPrice) trade_status_textblock.Text = "WIN";
                     else trade_status_textblock.Text = "LOSS";
                     break;
@@ -73,7 +74,7 @@ public partial class TradesListViewItem : Border
     {
         var contextTrade = (Trade)DataContext;
 
-        if (contextTrade.IsLong == 1) trade_side_textblock.Text = "LONG";
+        if (contextTrade.Side == TradeSide.Long) trade_side_textblock.Text = "LONG";
         else trade_side_textblock.Text = "SHORT";
     }
 
@@ -125,17 +126,6 @@ public partial class TradesListViewItem : Border
     {
         if (!daily_goal_constraint_warning.IsMouseOver)
             daily_goal_constraint_warning.Visibility = Visibility.Hidden;
-    }
-
-    //check if used
-    private void DailyGoalWarningIconLoadedHandler(object sender, RoutedEventArgs e)
-    {
-        //var binding = new Binding("DataContext")
-        //{
-        //    Converter = new DailyGoalConstraintVisibilityConverter()
-        //};
-        
-        //daily_goal_warning_icon.SetBinding(Image.VisibilityProperty, binding);
     }
 
     private void TradesListViewItemUnloadedHandler(object sender, RoutedEventArgs e)

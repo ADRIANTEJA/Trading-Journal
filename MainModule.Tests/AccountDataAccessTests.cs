@@ -1,5 +1,6 @@
 ﻿using MainModule.DataAccess;
 using MainModule.Services;
+using static MainModule.Common.Enums;
 
 namespace MainModule.Tests;
 
@@ -17,7 +18,7 @@ public class AccountDataAccessTests
             Name = "Testo",
             InitialBalance = 100,
             CurrentBalance = 100,
-            IsSelected = 1,
+            SelectionStatus = AccountSelectionStatus.IsSelected,
         });
 
         Assert.Equal(expected, actual);
@@ -36,7 +37,7 @@ public class AccountDataAccessTests
     public void UpdateAccountIsBankruptStatus_ShouldUpdate()
     {
         int expected = 1;
-        int actual = dataAccess.UpdateAccountIsBankruptStatus(1, 1);
+        int actual = dataAccess.UpdateAccountBankruptcyStatus(1, AccountBankruptcyStatus.Bankrupt);
         Assert.Equal(expected, actual);
     }
 

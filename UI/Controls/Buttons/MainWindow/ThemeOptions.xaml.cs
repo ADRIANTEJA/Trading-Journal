@@ -1,5 +1,7 @@
 ﻿using MainModule.Common;
 using MainModule.Common.Utils;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -49,6 +51,9 @@ public partial class ThemeOptions : Grid
 
             JsonFileUtils.SerializeJsonFile(settings, Constants.UIUserSettingsFilePath);
         }
-        catch { ErrorHandlers.HandleUISettingsFileError(); }
+        catch
+        {
+            ErrorHandlers.HandleUISettingsFileError(); 
+        }
     }
 }

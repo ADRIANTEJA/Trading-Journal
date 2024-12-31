@@ -11,6 +11,8 @@ using MainModule.Services;
 using System.IO;
 using MainModule.Common;
 using API;
+using Microsoft.Extensions.Logging;
+using MainModule.Common.Utils;
 
 namespace UI;
 
@@ -42,7 +44,7 @@ public partial class App : Application
 
         base.OnExit(e);
     }
-
+    //fix logger issue
     private void ConfigureServices()
     {
         AppHost = Host.CreateDefaultBuilder()
@@ -145,8 +147,7 @@ public partial class App : Application
                                                                       provider.GetRequiredService<INavigationHelper>(),
                                                                       provider.GetRequiredService<IEventAggregator>()));
 
-                services.AddSingleton(provider => new PerformanceViewModel(provider.GetRequiredService<PerformanceAccess>(),
-                                                                           provider.GetRequiredService<IEventAggregator>()));
+                services.AddSingleton(provider => new PerformanceViewModel(provider.GetRequiredService<PerformanceAccess>()));
 
                 services.AddSingleton(provider => new AnalysisNoteViewModel(provider.GetRequiredService<IEventAggregator>(),
                                                                             provider.GetRequiredService<INavigationHelper>(),
@@ -163,8 +164,7 @@ public partial class App : Application
 
                 services.AddSingleton(provider => new TradeImageViewModel(provider.GetRequiredService<HomeViewModel>(),
                                                                           provider.GetRequiredService<TradeImageAccess>(),
-                                                                          provider.GetRequiredService<INavigationHelper>(),
-                                                                          provider.GetRequiredService<IEventAggregator>()));
+                                                                          provider.GetRequiredService<INavigationHelper>()));
 
                 services.AddSingleton(provider => new AccountViewModel(provider.GetRequiredService<AccountAccess>(),
                                                                        provider.GetRequiredService<PerformanceViewModel>(),

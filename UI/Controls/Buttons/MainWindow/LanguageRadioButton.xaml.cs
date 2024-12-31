@@ -2,7 +2,6 @@
 using MainModule.Common.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
 using UI.Common.Utils;
@@ -78,6 +77,9 @@ public partial class LanguageRadioButton : Grid
             uiSettings.Language = language;
             JsonFileUtils.SerializeJsonFile(uiSettings, Constants.UIUserSettingsFilePath);
         }
-        catch { ErrorHandlers.HandleUISettingsFileError(); }
+        catch (Exception)
+        {
+            ErrorHandlers.HandleUISettingsFileError(); 
+        }
     }
 }

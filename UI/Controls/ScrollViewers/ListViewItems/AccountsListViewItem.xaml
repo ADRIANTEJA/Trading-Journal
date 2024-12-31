@@ -43,7 +43,7 @@
 
         <TextBlock Grid.Column="2"
                    Text="Broke"
-                   Visibility="{Binding Path=IsBankrupt, Mode=OneWay,
+                   Visibility="{Binding Path=BankruptcyStatus, Mode=OneWay,
                                 Converter={StaticResource account_in_bankrupt_visibility_converter}}"
                    Style="{StaticResource base_textblock_style}"
                    Foreground="{StaticResource salmon_brush}"

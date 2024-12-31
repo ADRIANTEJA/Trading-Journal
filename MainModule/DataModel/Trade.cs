@@ -1,4 +1,6 @@
-﻿namespace MainModule.DataModel;
+﻿using static MainModule.Common.Enums;
+
+namespace MainModule.DataModel;
 
 public class Trade
 {
@@ -27,10 +29,9 @@ public class Trade
     /// </summary>
     public long? CloseDate { get; set; }
     /// <summary>
-    /// represents on what side of the market the position(trade) was opened; 1 = long and 0 = short
-    /// only 0 or 1 values accepted
+    /// represents on what side of the market the position(trade) was opened long or short
     /// </summary>
-    public int IsLong { get; set; }
+    public TradeSide Side { get; set; }
     /// <summary>
     /// represents the volume of the asset operated e.g 100 BTC
     /// </summary>
@@ -38,7 +39,7 @@ public class Trade
     /// <summary>
     /// represents wether position(trade) is open or closed
     /// </summary>
-    public int IsOpen { get; set; }
+    public TradeStatus Status { get; set; }
     /// <summary>
     /// represents the price the traded symbol had when the position(trade) was opened
     /// only 0 or 1 values accepted
@@ -106,5 +107,5 @@ public class Trade
     /// <summary>
     /// represents the account balance before the trade
     /// </summary>
-    public double AccountBalance { get; set; }
+    public double? AccountBalance { get; set; }
 }

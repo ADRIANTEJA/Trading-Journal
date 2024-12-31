@@ -1,6 +1,4 @@
-﻿
-
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace MainModule.Common.Utils;
 

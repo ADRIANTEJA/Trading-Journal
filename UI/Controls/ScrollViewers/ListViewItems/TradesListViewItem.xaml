@@ -58,10 +58,10 @@
 
             <Border.BorderBrush>
                 <MultiBinding Converter="{StaticResource binary_to_status_brush_converter}">
-                    <Binding Path="IsOpen"/>
+                    <Binding Path="Status"/>
                     <Binding Path="OpenPrice"/>
                     <Binding Path="ClosePrice"/>
-                    <Binding Path="IsLong"/>
+                    <Binding Path="Side"/>
                     <Binding Path="Volume"/>
                     <Binding Path="Swap"/>
                     <Binding Path="Spread"/>
@@ -88,7 +88,7 @@
 
         <Border Grid.Column="1"
                 Grid.Row="4"
-                BorderBrush="{Binding Path=IsLong, Converter={StaticResource binary_to_side_brush_converter}}"
+                BorderBrush="{Binding Path=Side, Converter={StaticResource binary_to_side_brush_converter}}"
                 BorderThickness="2"
                 CornerRadius="3"
                 Margin="15,10,15,10">
@@ -211,7 +211,9 @@
         <Image Grid.Column="9"
                Grid.Row="2"
                Source="{StaticResource warning_icon}"
-               Margin="71,11,14,9" 
+               Margin="71,11,14,9"
+               Visibility="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=Self},
+                            Converter={StaticResource trade_risk_constraint_warning_visibility_converter}}"
                Width="12" 
                Height="12" 
                MouseEnter="OnTradeRiskWarningMouseEnterHandler" 
@@ -308,7 +310,7 @@
                Width="14"
                Height="14" 
                MouseEnter="OnDailyGoalWarningMouseEnterHandler" 
-               MouseLeave="OnDailyGoalWarningMouseLeaveHandler" Loaded="DailyGoalWarningIconLoadedHandler"/>
+               MouseLeave="OnDailyGoalWarningMouseLeaveHandler"/>
 
         <warningMessages:DailyGoalConstraintAchieved x:Name="daily_goal_constraint_warning"
                                                      Grid.Column="8"

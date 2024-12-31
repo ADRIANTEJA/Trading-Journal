@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
 using System.Windows.Data;
 using UI.Common.Utils;
+using static MainModule.Common.Enums;
 
 namespace UI.Common.Converters;
 
@@ -27,14 +28,14 @@ public class DailyLossConstraintDatesConverter : IValueConverter
         {
             var trades = (from trade in vmTrades
                           where !string.IsNullOrEmpty(trade.StrategyName)
-                          && trade.IsOpen == 0
+                          && trade.Status == TradeStatus.Closed
                           && trade.StrategyName == contextStrategy.Name
                           && !MiscFunctions.IsWonTrade(trade)
                           select new TradeDataBundle
                           {
                               CloseDateTicks = trade.CloseDate!.Value,
                               ROI = trade.Roi!.Value,
-                              accountBalance = trade.AccountBalance
+                              accountBalance = trade.AccountBalance!.Value
                           }).ToList();
 
             if (trades.Count == 0) return new List<string>();

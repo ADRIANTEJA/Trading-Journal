@@ -16,6 +16,8 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 {
     private readonly INavigationHelper _mainNavigationHelper;
 
+    private readonly INavigationHelper _navigationHelper;
+
     private readonly IEventAggregator _eventAggregator;
 
     public IEventAggregator EventAggregator => _eventAggregator;
@@ -101,87 +103,39 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         }
     }
 
-    [RelayCommand]
-    private void AddOpenTrade(int isLongTrade)
+    private IMultiParameterCommand addTradeCommand;
+
+    public IMultiParameterCommand AddTradeCommand
     {
-        string strategyName;
-
-        if (StrategyViewModel.SelectedStrategyVM == null
-            || StrategyViewModel.SelectedStrategyVM.Name.Length < 0) strategyName = null;
-        else strategyName = StrategyViewModel.SelectedStrategyVM.Name;
-
-        //I make this here because the leverage can have a bug in wpf
-        //where the leverage slider value starts at 0
-        int failSafeLeverage = 0;
-
-        if (LeverageVM == 0) failSafeLeverage = 1;
-        else failSafeLeverage = LeverageVM;
-
-        var openTrade = new Trade
+        get
         {
-            AccountId = _accountViewModel.SelectedAccount.Id,
-            PairTraded = SymbolViewModel.SelectedSymbolVM.Pair,
-            PairMarket = SymbolViewModel.SelectedSymbolVM.AssetType,
-            OpenDate = OpenDateVM.Ticks,
-            IsLong = isLongTrade,
-            Volume = VolumeVM,
-            IsOpen = 1,
-            OpenPrice = OpenPriceVM,
-            TradeCost = OpenPriceVM * VolumeVM,
-            Swap = SwapVM,
-            Spread = SpreadVM,
-            Commission = CommissionVM,
-            OtherCosts = OtherCostsVM,
-            TakeProfit = TakeProfitVM,
-            StopLoss = StopLossVM,
-            Mistakes = MistakesVM,
-            Notes = NotesVM,
-            StrategyName = strategyName,
-            Leverage = failSafeLeverage
-        };
-
-        try
-        {
-            _tradeAccess.InsertTrade(openTrade);
-            LoadTrades();
-            _eventAggregator.GetEvent<CreateTradeEvent>().Publish(true);
-            AccountViewModel.UpdateAccountBalance(CalculateNewAccountBalance(openTrade));
-
-            if (openTrade.StrategyName != null)
-                _eventAggregator.GetEvent<StrategyDataRquiredIntermediaryEvent>().Publish();
-            CleanVMData();
+            if (addTradeCommand == null)
+            {
+                addTradeCommand = new MultiparameterDelegateCommand(AddTrade);
+            }
+            return addTradeCommand;
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<CreateTradeEvent>().Publish(false); }
     }
 
-    [RelayCommand]
-    private void AddClosedTrade(int isLongTrade)
+    private void AddTrade(object parameter1, object parameter2)
     {
-        string strategyName;
+        var tradeSide = (TradeSide)parameter1;
+        var tradeStatus = (TradeStatus)parameter2;
 
-        if (StrategyViewModel.SelectedStrategyVM == null
-            || StrategyViewModel.SelectedStrategyVM.Name.Length < 0) strategyName = null;
-        else strategyName = StrategyViewModel.SelectedStrategyVM.Name;
-
-        //I make this here because the leverage can have a bug in wpf
-        //where the leverage slider value starts at 0
-        int failSafeLeverage = 0;
-
-        if (LeverageVM == 0) failSafeLeverage = 1;
-        else failSafeLeverage = LeverageVM;
-
-        var closedTrade = new Trade()
+        //The leverage is conditional because the leverage slider can have a bug in wpf
+        //where it starts at 0 value
+        var trade = new Trade()
         {
             AccountId = _accountViewModel.SelectedAccount.Id,
             PairTraded = SymbolViewModel.SelectedSymbolVM.Pair,
             PairMarket = SymbolViewModel.SelectedSymbolVM.AssetType,
             OpenDate = CloseDateVM.Ticks,
-            CloseDate = CloseDateVM.Ticks,
-            IsLong = isLongTrade,
+            CloseDate = tradeStatus == TradeStatus.Closed ? CloseDateVM.Ticks : null,
+            Side = tradeSide,
             Volume = VolumeVM,
-            IsOpen = 0,
+            Status = tradeStatus,
             OpenPrice = OpenPriceVM,
-            ClosePrice = ClosePriceVM,
+            ClosePrice = tradeStatus == TradeStatus.Closed ? ClosePriceVM : null,
             TradeCost = VolumeVM * OpenPriceVM,
             Swap = SwapVM,
             Spread = SpreadVM,
@@ -191,46 +145,56 @@ public partial class HomeViewModel : ObservableObject, IViewModel
             StopLoss = StopLossVM,
             Mistakes = MistakesVM,
             Notes = NotesVM,
-            Roi = CalculateReturnOnInvestment(isLongTrade,
-                                              VolumeVM,
-                                              OpenPriceVM,
-                                              ClosePriceVM,
-                                              SwapVM,
-                                              SpreadVM,
-                                              CommissionVM,
-                                              OtherCostsVM,
-                                              failSafeLeverage)[0],
-            RoiPercentage = CalculateReturnOnInvestment(isLongTrade,
-                                              VolumeVM,
-                                              OpenPriceVM,
-                                              ClosePriceVM,
-                                              SwapVM,
-                                              SpreadVM,
-                                              CommissionVM,
-                                              OtherCostsVM,
-                                              failSafeLeverage)[1],
-            StrategyName = strategyName,
-            Leverage = failSafeLeverage,
-            AccountBalance = AccountViewModel.SelectedAccount.CurrentBalance
+            Roi = tradeStatus == TradeStatus.Closed ? CalculateReturnOnInvestment(tradeSide,
+                                                                                  VolumeVM,
+                                                                                  OpenPriceVM,
+                                                                                  ClosePriceVM,
+                                                                                  SwapVM,
+                                                                                  SpreadVM,
+                                                                                  CommissionVM,
+                                                                                  OtherCostsVM,
+                                                                                  LeverageVM == 0 ? 1 : LeverageVM)[0] : null,
+
+            RoiPercentage = tradeStatus == TradeStatus.Closed ? CalculateReturnOnInvestment(tradeSide,
+                                                                                            VolumeVM,
+                                                                                            OpenPriceVM,
+                                                                                            ClosePriceVM,
+                                                                                            SwapVM,
+                                                                                            SpreadVM,
+                                                                                            CommissionVM,
+                                                                                            OtherCostsVM,
+                                                                                            LeverageVM == 0 ? 1 : LeverageVM)[1] : null,
+
+            StrategyName = StrategyViewModel.SelectedStrategyVM == null
+                           || StrategyViewModel.SelectedStrategyVM.Name.Length < 0 ? null : StrategyViewModel.SelectedStrategyVM.Name,
+
+            Leverage = LeverageVM == 0 ? 1 : LeverageVM,
+            AccountBalance = tradeStatus == TradeStatus.Closed ? AccountViewModel.SelectedAccount.CurrentBalance : null
         };
 
         try
         {
-            _tradeAccess.InsertTrade(closedTrade);
-            LoadTrades();
+            _tradeAccess.InsertTrade(trade);
+            _ = LoadTrades();
 
-            if (closedTrade.StrategyName != null && IsWonTrade(closedTrade))
-                _strategyViewModel.UpdateStrategyWonTradesCommand.Execute(closedTrade.StrategyName);
-            else if (closedTrade.StrategyName != null)
-                _strategyViewModel.UpdateStrategyLostTradesCommand.Execute(closedTrade.StrategyName);
+            var performance = new Performance();
+
+            if (trade.StrategyName != null 
+                && IsWonTrade(trade)
+                && tradeStatus == TradeStatus.Closed) _strategyViewModel.UpdateStrategyWonTradesCommand.Execute(trade.StrategyName);
+
+            else if (trade.StrategyName != null
+                     && tradeStatus == TradeStatus.Closed) _strategyViewModel.UpdateStrategyLostTradesCommand.Execute(trade.StrategyName);
 
             _eventAggregator.GetEvent<CreateTradeEvent>().Publish(true);
 
-            var performance = new Performance
+            if (trade.Status == TradeStatus.Closed)
             {
-                AccountId = AccountViewModel.SelectedAccount.Id,
-                Date = CloseDateVM.Ticks,
-                ROI = CalculateReturnOnInvestment(isLongTrade,
+                performance = new Performance
+                {
+                    AccountId = AccountViewModel.SelectedAccount.Id,
+                    Date = CloseDateVM.Ticks,
+                    ROI = CalculateReturnOnInvestment(tradeSide,
                                                   VolumeVM,
                                                   OpenPriceVM,
                                                   ClosePriceVM,
@@ -238,22 +202,25 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                                                   SpreadVM,
                                                   CommissionVM,
                                                   OtherCostsVM,
-                                                  failSafeLeverage)[0],
-                Cost = (VolumeVM * OpenPriceVM) + SwapVM + SpreadVM + CommissionVM + OtherCostsVM
-            };
+                                                  LeverageVM == 0 ? 1 : LeverageVM)[0],
 
+                    Cost = (VolumeVM * OpenPriceVM) + SwapVM + SpreadVM + CommissionVM + OtherCostsVM
+                };
 
-            _performanceViewModel.AddAccountPerformanceRecord(performance);
-            _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
-     
-            AccountViewModel.UpdateAccountBalance(AccountViewModel.SelectedAccount.CurrentBalance
-                                                  + closedTrade.Roi.Value);
+                _performanceViewModel.AddAccountPerformanceRecord(performance);
+                _ = _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
+            }
 
-            if (closedTrade.StrategyName != null)
+            AccountViewModel.UpdateAccountBalance(CalculateNewAccountBalance(trade));
+
+            if (trade.StrategyName != null)
                 _eventAggregator.GetEvent<StrategyDataRquiredIntermediaryEvent>().Publish();
             CleanVMData();
         }
-        catch (SQLiteException) { _eventAggregator.GetEvent<CreateTradeEvent>().Publish(false); }
+        catch (SQLiteException ex) 
+        {
+            _eventAggregator.GetEvent<CreateTradeEvent>().Publish(false); 
+        }
     }
 
     private IMultiParameterCommand updateTradeCommand;
@@ -275,7 +242,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         var updatedTrade = (Trade)parameter1;
         var tradeClosed = (bool)parameter2;
 
-        if (updatedTrade.IsOpen == 0)
+        if (updatedTrade.Status == TradeStatus.Closed)
         {
             _performanceViewModel.DeletePerformanceByDate(updatedTrade.CloseDate!.Value);
 
@@ -283,7 +250,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
             {
                 AccountId = _accountViewModel.SelectedAccount.Id,
                 Date = (long)updatedTrade.CloseDate,
-                ROI = CalculateReturnOnInvestment(updatedTrade.IsLong,
+                ROI = CalculateReturnOnInvestment(updatedTrade.Side,
                                                   updatedTrade.Volume,
                                                   updatedTrade.OpenPrice,
                                                   updatedTrade.ClosePrice!.Value,
@@ -296,7 +263,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                 + updatedTrade.Swap + updatedTrade.Spread + updatedTrade.Commission + updatedTrade.OtherCosts
             };
 
-            updatedTrade.Roi = CalculateReturnOnInvestment(updatedTrade.IsLong,
+            updatedTrade.Roi = CalculateReturnOnInvestment(updatedTrade.Side,
                                                            updatedTrade.Volume,
                                                            updatedTrade.OpenPrice,
                                                            updatedTrade.ClosePrice!.Value,
@@ -306,7 +273,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                                                            updatedTrade.OtherCosts,
                                                            updatedTrade.Leverage)[0];
 
-            updatedTrade.RoiPercentage = CalculateReturnOnInvestment(updatedTrade.IsLong,
+            updatedTrade.RoiPercentage = CalculateReturnOnInvestment(updatedTrade.Side,
                                                                      updatedTrade.Volume,
                                                                      updatedTrade.OpenPrice,
                                                                      updatedTrade.ClosePrice!.Value,
@@ -317,16 +284,16 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                                                                      updatedTrade.Leverage)[1];
 
             _performanceViewModel.AddAccountPerformanceRecord(updatedPerformance);
-            _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
+            _ = _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
 
             if (tradeClosed) updatedTrade.AccountBalance = AccountViewModel.SelectedAccount.CurrentBalance;
 
             _tradeAccess.UpdateTrade(updatedTrade);
-            LoadTrades();
+            _ = LoadTrades();
         }
 
         _tradeAccess.UpdateTrade(updatedTrade);
-        LoadTrades();
+        _ = LoadTrades();
     }
 
     [RelayCommand]
@@ -344,7 +311,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
             if (deletedTrade!.CloseDate != null)
             {
                 _performanceViewModel.DeletePerformanceByDate(deletedTrade.CloseDate!.Value);
-                _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
+                _ = _performanceViewModel.LoadDailyPerformance(_accountViewModel.SelectedAccount.Id);
             }
         }
     }
@@ -376,13 +343,13 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                 RemoveLeftOverTrades(Trades.Where(IsWonTrade).ToList());
                 break;
             case FilterKey.Open:
-                RemoveLeftOverTrades(Trades.Where(Trade => Trade.IsOpen == 0).ToList());
+                RemoveLeftOverTrades(Trades.Where(Trade => Trade.Status == TradeStatus.Closed).ToList());
                 break;
             case FilterKey.Long:
-                RemoveLeftOverTrades(Trades.Where(Trade => Trade.IsLong == 0).ToList());
+                RemoveLeftOverTrades(Trades.Where(Trade => Trade.Side == TradeSide.Short).ToList());
                 break;
             case FilterKey.Short:
-                RemoveLeftOverTrades(Trades.Where(Trade => Trade.IsLong == 1).ToList());
+                RemoveLeftOverTrades(Trades.Where(Trade => Trade.Side == TradeSide.Long).ToList());
                 break;
             case FilterKey.OpenDate:
                 if (filterData == null) return;
@@ -440,15 +407,15 @@ public partial class HomeViewModel : ObservableObject, IViewModel
     {
         var test = _tradeAccess.UpdateTradeStrategyName(dataBundle.FormerStrategyName, string.Empty);
         StrategyViewModel.DeleteStrategy(dataBundle.StrategyId);
-        LoadTrades();
+        _ = LoadTrades();
     }
     
-    private void SelectedAccountUpdatedEventHandler() => LoadTrades();
+    private void SelectedAccountUpdatedEventHandler() => _ = LoadTrades();
 
     private void UpdateTradesStrategyNameEventHandler(StrategyUpdateDataBundle dataBundle)
     {
         _tradeAccess.UpdateTradeStrategyName(dataBundle.FormerStrategyName, dataBundle.NewStrategyName);
-        LoadTrades();
+        _ = LoadTrades();
     }
 
     private void FireRequiredStrategyUsageDataEventHandler()
@@ -492,7 +459,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         navHelperRef.NavigateToEditTradeCommand.Execute(null);
     }
 
-    private double[] CalculateReturnOnInvestment(int isLongTrade,
+    private double[] CalculateReturnOnInvestment(TradeSide tradeSide,
                                                  double volume,
                                                  double openPrice,
                                                  double closePrice,
@@ -506,7 +473,7 @@ public partial class HomeViewModel : ObservableObject, IViewModel
         double profit = TradeCost / openPrice * (closePrice - openPrice) - swap - spread - commission - otherCosts;
         double ROI = profit / TradeCost * 100;
 
-        if (isLongTrade == 0)
+        if (tradeSide == 0)
         {
             ROI *= -1;
             profit *= -1;
@@ -567,8 +534,8 @@ public partial class HomeViewModel : ObservableObject, IViewModel
                 .Select(x => new StrategyPerformanceDataBundle
                 {
                     StrategyName = x.StrategyName,
-                    IsLong = x.IsLong,
-                    IsOpen = x.IsOpen,
+                    IsLong = (int)x.Side,
+                    IsOpen = (int)x.Side,
                     OpenPrice = x.OpenPrice,
                     ClosePrice = x.ClosePrice,
                     Swap = x.Swap,
@@ -580,15 +547,15 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
     private bool IsWonTrade(Trade trade)
     {
-        switch (trade.IsLong)
+        switch (trade.Side)
         {
-            case 1:
+            case TradeSide.Long:
                 if (trade.Volume * trade.ClosePrice >= (trade.Volume * trade.OpenPrice)
                     + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
                     return true;
 
                 else return false;
-            case 2:
+            case TradeSide.Short:
                 if (trade.Volume * trade.ClosePrice <= (trade.Volume * trade.OpenPrice)
                     + trade.Swap + trade.Spread + trade.Commission + trade.OtherCosts)
                     return true;
@@ -606,10 +573,17 @@ public partial class HomeViewModel : ObservableObject, IViewModel
 
     private double CalculateNewAccountBalance(Trade addedTrade)
     {
-        return AccountViewModel.SelectedAccount.CurrentBalance - addedTrade.TradeCost
-                                                               - addedTrade.Swap
-                                                               - addedTrade.Spread
-                                                               - addedTrade.Commission
-                                                               - addedTrade.OtherCosts;
+        return addedTrade.Status == TradeStatus.Open ? 
+            AccountViewModel.SelectedAccount.CurrentBalance - addedTrade.TradeCost
+                                                            - addedTrade.Swap
+                                                            - addedTrade.Spread
+                                                            - addedTrade.Commission
+                                                            - addedTrade.OtherCosts : // here the coalescing operator
+            AccountViewModel.SelectedAccount.CurrentBalance - addedTrade.TradeCost
+                                                            - addedTrade.Swap
+                                                            - addedTrade.Spread
+                                                            - addedTrade.Commission
+                                                            - addedTrade.OtherCosts 
+                                                            + addedTrade.Roi!.Value;
     }
 }

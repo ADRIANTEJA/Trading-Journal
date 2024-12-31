@@ -5,6 +5,7 @@ using System.Windows.Data;
 using UI.Common.Utils;
 using MainModule.DataModel;
 using System.Windows;
+using static MainModule.Common.Enums;
 
 namespace UI.Common.Converters;
 
@@ -14,7 +15,7 @@ public class DailyGoalConstraintVisibilityConverter : IValueConverter
     {
         var contextTrade = (Trade)value;
 
-        if (contextTrade == null || contextTrade.IsOpen == 1) return Visibility.Hidden;
+        if (contextTrade == null || contextTrade.Status == TradeStatus.Open) return Visibility.Hidden;
 
         string tradeDate = new DateTime(contextTrade.CloseDate!.Value).ToString("dd/MM/yyyy");
 
@@ -26,7 +27,7 @@ public class DailyGoalConstraintVisibilityConverter : IValueConverter
 
         var trades = (from trade in App.AppHost!.Services.GetRequiredService<HomeViewModel>().Trades
                       where !string.IsNullOrEmpty(trade.StrategyName)
-                      && trade.IsOpen == 0
+                      && trade.Status == TradeStatus.Closed
                       && trade.StrategyName == tradeStrategy[0].Name
                       && MiscFunctions.IsWonTrade(trade)
                       && tradeDate == new DateTime(trade.CloseDate!.Value).ToString("dd/MM/yyyy")
@@ -41,7 +42,7 @@ public class DailyGoalConstraintVisibilityConverter : IValueConverter
         double totalROI = trades.Sum(x => x.Roi!.Value);
 
         if (totalROI >= MiscFunctions.CalculatePercentage(tradeStrategy[0].DailyGoal,
-                                                          dayFirstTrade!.AccountBalance)) return Visibility.Visible;
+                                                          dayFirstTrade!.AccountBalance!.Value)) return Visibility.Visible;
         else return Visibility.Hidden;
     }
 

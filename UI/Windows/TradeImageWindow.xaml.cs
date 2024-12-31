@@ -66,7 +66,7 @@ public partial class TradeImageWindow : Window
             imageControlRef.Source = MiscFunctions.ByteArrayToBitmapSource(imageBytes);
         }
         catch (ArgumentException) 
-        { 
+        {
             ErrorHandlers.HandleImageConvertionError();
             return;
         }

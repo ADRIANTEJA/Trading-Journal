@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using UI.Common.Converters;
 using UI.Common.Helpers;
 using UI.Common.Utils;
 

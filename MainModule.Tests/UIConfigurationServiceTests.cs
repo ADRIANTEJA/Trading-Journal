@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using UI.Services;
-using UI.Settings;
 
 namespace MainModule.Tests;
 

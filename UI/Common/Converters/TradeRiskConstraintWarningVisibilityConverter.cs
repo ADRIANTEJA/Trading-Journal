@@ -5,12 +5,12 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using UI.Common.Utils;
+using static MainModule.Common.Enums;
 
 namespace UI.Common.Converters;
 
 public class TradeRiskConstraintWarningVisibilityConverter : IValueConverter
 {
-    // dont delete just uncomment after done with making the UI
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var contextTrade = (Trade)value;
@@ -23,11 +23,11 @@ public class TradeRiskConstraintWarningVisibilityConverter : IValueConverter
                         select strategy).ToList();
 
 
-        if (contextTrade.IsOpen == 0
+        if (contextTrade.Status == TradeStatus.Closed
             && tempList.Count > 0
             && !MiscFunctions.IsWonTrade(contextTrade) 
             && contextTrade.Roi < MiscFunctions.CalculatePercentage(tempList[0].MaxTradeRisk,
-                                                                    contextTrade.AccountBalance) * -1) return Visibility.Visible;
+                                                                    contextTrade.AccountBalance!.Value) * -1) return Visibility.Visible;
 
         return Visibility.Hidden;
     }

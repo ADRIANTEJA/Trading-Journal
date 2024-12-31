@@ -16,7 +16,7 @@
         Background="Transparent"
         ResizeMode="NoResize"
         Effect="{StaticResource window_drop_shadow}"
-        Height="625" 
+        Height="630" 
         Width="500">
 
     <Border Background="{DynamicResource theme_background_brush}"
@@ -66,7 +66,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="80"/>
                         <RowDefinition Height="32"/>
-                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="43"/>
                     </Grid.RowDefinitions>
 
                     <ScrollViewer Margin="5">
@@ -106,7 +106,7 @@
                                                           Grid.Row="1"
                                                           Text="{Binding Path=SelectedTrade.Volume, Mode=OneWay}"
                                                           PlaceHolder=""
-                                                          MaxLength="{StaticResource max_numeric_input_value}"
+                                                          MaxLength="{StaticResource max_numeric_input_length}"
                                                           Margin="0,0,5,11"
                                                           KeyDown="JumpToNextFieldHandler"
                                                           TextChanged="ValidateNumericValueHandler"/>
