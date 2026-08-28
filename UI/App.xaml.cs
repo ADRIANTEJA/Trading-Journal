@@ -44,7 +44,7 @@ public partial class App : Application
 
         base.OnExit(e);
     }
-    //fix logger issue
+
     private void ConfigureServices()
     {
         AppHost = Host.CreateDefaultBuilder()

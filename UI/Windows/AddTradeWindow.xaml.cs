@@ -207,8 +207,8 @@ public partial class AddTradeWindow : Window
             try { long closeDate = DateTime.ParseExact(closeDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
             catch (FormatException ex) 
             {
-                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
-                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 215 class {nameof(AddTradeWindow)}");
+                //var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                //logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 215 class {nameof(AddTradeWindow)}");
 
                 closeDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
                 areValid = false;

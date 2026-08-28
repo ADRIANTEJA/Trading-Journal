@@ -113,8 +113,8 @@ public static class MiscFunctions
             }
             catch (Exception ex)
             {
-                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
-                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 119 class {nameof(MiscFunctions)}");
+                //var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                //logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 119 class {nameof(MiscFunctions)}");
 
                 MessageBox.Show($"An error occurred while exporting the file: {ex.Message}", 
                                 "Error", 
@@ -151,8 +151,8 @@ public static class MiscFunctions
             }
             catch (Exception ex)
             {
-                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
-                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 157 class {nameof(MiscFunctions)}");
+                //var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                //logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 157 class {nameof(MiscFunctions)}");
 
                 MessageBox.Show($"An error occurred while importing the file: {ex.Message}", 
                                  "Error", 

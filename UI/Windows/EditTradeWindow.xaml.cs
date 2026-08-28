@@ -131,8 +131,8 @@ public partial class EditTradeWindow : Window
         try { long openDate = DateTime.ParseExact(openDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
         catch (FormatException ex)
         {
-            var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
-            logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 140 class {nameof(EditTradeWindow)}");
+            //var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+            //logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 140 class {nameof(EditTradeWindow)}");
 
             openDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
             areValid = false;
@@ -143,8 +143,8 @@ public partial class EditTradeWindow : Window
             try { long closeDate = DateTime.ParseExact(closeDateTextBoxRef.Text, "dd/MM/yyyy hh.mm tt", null).Ticks; }
             catch (FormatException ex)
             {
-                var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
-                logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 152 class {nameof(EditTradeWindow)}");
+                //var logger = App.AppHost!.Services.GetRequiredService<ILogger>();
+                //logger.LogError(ex, "{Message} {Timestamp} {Context}", ex.Message, DateTime.Now.ToString(), $"Thrown on line 152 class {nameof(EditTradeWindow)}");
 
                 closeDateTextBoxRef.Tag = ResourceAccessHelper.ErrorRedBrush;
                 areValid = false;
